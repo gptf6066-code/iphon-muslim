@@ -1,6 +1,5 @@
 package tj.bikhon.iphonmuslim
 
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -26,6 +25,7 @@ import android.os.Looper
 import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.WindowManager
+import androidx.core.app.NotificationCompat
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.face.FaceDetection
 import com.google.mlkit.vision.face.FaceDetector
@@ -78,7 +78,7 @@ class ScreenFilterService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        wm = getSystemService(WindowManager::class.java)
+        wm = getSystemService(Context.WINDOW_SERVICE) as WindowManager
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -96,7 +96,7 @@ class ScreenFilterService : Service() {
                     intent.getParcelableExtra(EXTRA_DATA, Intent::class.java)
                 else @Suppress("DEPRECATION") intent.getParcelableExtra(EXTRA_DATA)
                 if (data == null) { stopSelf(); return START_NOT_STICKY }
-                val mpm = getSystemService(MediaProjectionManager::class.java)
+                val mpm = getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
                 val p = mpm.getMediaProjection(code, data)
                 if (p == null) { stopSelf(); return START_NOT_STICKY }
                 projection = p
@@ -112,7 +112,7 @@ class ScreenFilterService : Service() {
     }
 
     private fun startAsForeground() {
-        val nm = getSystemService(NotificationManager::class.java)
+        val nm = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= 26) {
             nm.createNotificationChannel(
                 NotificationChannel(CHANNEL, "iPhon Muslim", NotificationManager.IMPORTANCE_LOW)
@@ -127,12 +127,12 @@ class ScreenFilterService : Service() {
             this, 2, Intent(this, MainActivity::class.java),
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
-        val n: Notification = Notification.Builder(this, CHANNEL)
+        val n = NotificationCompat.Builder(this, CHANNEL)
             .setSmallIcon(R.drawable.ic_launcher)
             .setContentTitle("iPhon Muslim фаъол аст")
             .setContentText("Экран муҳофизат мешавад")
             .setContentIntent(openPi)
-            .addAction(Notification.Action.Builder(null, "Хомӯш кардан", stopPi).build())
+            .addAction(0, "Хомӯш кардан", stopPi)
             .setOngoing(true)
             .build()
         if (Build.VERSION.SDK_INT >= 29) {
@@ -373,6 +373,7 @@ class ScreenFilterService : Service() {
         work = null
         synchronized(boxes) { boxes.clear() }
         if (Build.VERSION.SDK_INT >= 24) stopForeground(STOP_FOREGROUND_REMOVE)
+        else @Suppress("DEPRECATION") stopForeground(true)
     }
 
     override fun onDestroy() {

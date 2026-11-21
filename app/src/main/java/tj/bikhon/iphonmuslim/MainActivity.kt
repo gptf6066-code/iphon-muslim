@@ -137,14 +137,14 @@ class MainActivity : AppCompatActivity() {
             statusText.postDelayed({ refresh() }, 400)
             return
         }
-        if (!Settings.canDrawOverlays(this)) {
+        if (Build.VERSION.SDK_INT >= 23 && !Settings.canDrawOverlays(this)) {
             Toast.makeText(this, "Иҷозати «Нишон додан болои дигар аппҳо»-ро диҳед", Toast.LENGTH_LONG).show()
             startActivity(
                 Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName"))
             )
             return
         }
-        val mpm = getSystemService(MediaProjectionManager::class.java)
+        val mpm = getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
         val intent = if (Build.VERSION.SDK_INT >= 34) {
             // Тамоми экран — на танҳо як апп
             mpm.createScreenCaptureIntent(
