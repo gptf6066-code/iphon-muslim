@@ -38,10 +38,14 @@ class Wrapped(nn.Module):
         return self.net((x - self.mean) / self.std)
 
 
-def build(pretrained=True):
+def build(pretrained=True, arch="small"):
     import torchvision
-    w = torchvision.models.MobileNet_V3_Small_Weights.IMAGENET1K_V1 if pretrained else None
-    net = torchvision.models.mobilenet_v3_small(weights=w)
+    if arch == "large":
+        w = torchvision.models.MobileNet_V3_Large_Weights.IMAGENET1K_V2 if pretrained else None
+        net = torchvision.models.mobilenet_v3_large(weights=w)
+    else:
+        w = torchvision.models.MobileNet_V3_Small_Weights.IMAGENET1K_V1 if pretrained else None
+        net = torchvision.models.mobilenet_v3_small(weights=w)
     net.classifier[3] = nn.Linear(net.classifier[3].in_features, 2)
     return net
 
@@ -120,13 +124,15 @@ def main():
     ap.add_argument("--batch", type=int, default=128)
     ap.add_argument("--hours", type=float, default=4.3, help="ҳадди вақт")
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--arch", default="small", choices=["small", "large"])
+    ap.add_argument("--lr", type=float, default=1.5e-3)
     a = ap.parse_args()
     t0 = time.time()
     torch.set_num_threads(max(1, os.cpu_count() or 1))
 
     if a.dry_run:
         tr, va = FakeData(512, True), FakeData(128, False)
-        model = Wrapped(build(pretrained=False)); a.epochs = 1
+        model = Wrapped(build(pretrained=False, arch=a.arch)); a.epochs = 1
     else:
         from datasets import load_dataset
         ds = load_dataset("HuggingFaceM4/FairFace", "0.25")
@@ -135,15 +141,15 @@ def main():
         print("gender feature:", feat)
         fl = names.index("Female") if names else 1
         tr, va = HFData(ds["train"], True, fl), HFData(ds["validation"], False, fl)
-        model = Wrapped(build(pretrained=True))
+        model = Wrapped(build(pretrained=True, arch=a.arch))
     print(f"train={len(tr)} val={len(va)}", flush=True)
 
     dl = torch.utils.data.DataLoader(tr, batch_size=a.batch, shuffle=True, num_workers=4, drop_last=True,
                                      persistent_workers=True)
     dv = torch.utils.data.DataLoader(va, batch_size=256, shuffle=False, num_workers=4)
-    opt = torch.optim.AdamW(model.parameters(), lr=1.5e-3, weight_decay=0.02)
+    opt = torch.optim.AdamW(model.parameters(), lr=a.lr, weight_decay=0.03)
     steps = a.epochs * len(dl)
-    sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=1.5e-3, total_steps=max(1, steps), pct_start=0.1)
+    sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=a.lr, total_steps=max(1, steps), pct_start=0.1)
     best = 0.0
     model.train()
     for ep in range(a.epochs):
@@ -167,7 +173,7 @@ def main():
     torch.onnx.export(model, torch.zeros(1, 3, SIZE, SIZE), a.out, input_names=["input"], output_names=["logits"],
                       opset_version=13, dynamo=False)
     with open(a.out + ".txt", "w") as f:
-        f.write(f"FairFace(0.25) validation accuracy: {best:.4f}\nepochs: {a.epochs}\n")
+        f.write(f"FairFace(0.25) validation accuracy: {best:.4f}\nepochs: {a.epochs}\narch: {a.arch}\n")
     print("best val acc", best)
 
 

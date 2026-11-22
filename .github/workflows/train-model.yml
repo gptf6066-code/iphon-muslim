@@ -1,5 +1,11 @@
 name: Train gender model (FairFace, CC BY 4.0)
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      arch:
+        default: "large"
+      epochs:
+        default: "10"
 permissions:
   contents: write
 jobs:
@@ -17,12 +23,12 @@ jobs:
           pip install -q datasets onnx onnxruntime pillow numpy
           nproc; free -g
       - name: Train
-        run: python training/train_gender.py --out gender_ff.onnx --epochs 6 --hours 4.6
+        run: python training/train_gender.py --out gender_ff.onnx --arch ${{ inputs.arch }} --epochs ${{ inputs.epochs }} --lr 1e-3 --hours 5.1
       - name: Publish model
         if: always()
         run: |
           mkdir -p out && cp gender_ff.onnx* out/ 2>/dev/null || true
           ls -la out
-          cd out && git init -q && git checkout -q -b gender-model && git add . && \
+          cd out && git init -q && git checkout -q -b gender-model-${{ inputs.arch }} && git add . && \
           git -c user.name=ci -c user.email=ci@example.com commit -qm "FairFace gender model" && \
-          git push -f https://x-access-token:${{ github.token }}@github.com/${{ github.repository }} gender-model
+          git push -f https://x-access-token:${{ github.token }}@github.com/${{ github.repository }} gender-model-${{ inputs.arch }}
