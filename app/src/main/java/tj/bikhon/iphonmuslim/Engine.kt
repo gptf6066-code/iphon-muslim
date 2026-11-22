@@ -49,6 +49,9 @@ object Engine {
     private val tracks = mutableListOf<Track>()
 
     private var lastKey = ""
+    private var prevLum: IntArray? = null
+    private var prevW = 0
+    private var prevH = 0
 
     @Synchronized
     fun init(ctx: Context) {
@@ -79,7 +82,7 @@ object Engine {
     }
 
     @Synchronized
-    fun reset() { tracks.clear(); memos.clear() }
+    fun reset() { tracks.clear(); memos.clear(); prevLum = null }
 
     /** Экран (апп ё саҳифа) иваз шуд — пардаҳои кӯҳнаро, ки бо атрофашон санҷида намешаванд, хориҷ мекунем */
     @Synchronized
@@ -132,15 +135,29 @@ object Engine {
             if (p >= FEMALE_THRESHOLD) womenFaces.add(f.boundingBox)
         }
 
-        // --- 2) пардаҳои кӯҳна ---
+        // --- 2) пардаҳои кӯҳна: ҳаракати лентаро пайгирӣ мекунем ---
+        val W = bmp.width; val H = bmp.height
+        val lum = lumOf(bmp)
+        val drawn = tracks.map { RectF(it.region) }      // ҷое, ки пардаҳо ҳоло кашида шудаанд
+        val pl = prevLum
+        if (pl != null && prevW == W && prevH == H) {
+            for (tr in tracks) {
+                val dy = estimateDy(pl, lum, W, H, tr.region, if (clean) emptyList() else drawn)
+                if (dy != 0) {
+                    tr.region.offset(0f, -dy.toFloat())
+                    tr.cover = Cover(RectF(tr.cover.rect).apply { offset(0f, -dy * toScreen) }, tr.cover.bitmap)
+                }
+            }
+        }
+        prevLum = lum; prevW = W; prevH = H
+        tracks.removeAll { it.region.bottom <= 2f || it.region.top >= H - 2f }
         if (clean) {
             tracks.removeAll { now - it.seen > HOLD_MS }
         } else {
-            // пардаҳо дар кадр ҳастанд → атрофи онҳоро месанҷем (скролл, иваз шудани экран)
+            // мундариҷаи атроф тамоман иваз шуд (саҳифаи нав) → парда хориҷ
             tracks.removeAll {
                 val r = it.ring
-                val ch = if (r == null) null else ringChanged(r, ringSignature(bmp, it.region))
-                ch == true
+                r != null && ringChanged(r, ringSignature(lum, W, H, it.region, drawn)) == true
             }
         }
 
@@ -148,19 +165,27 @@ object Engine {
         for (fb in womenFaces) {
             val photo = photoRegion(full, fb, up, bmp)
             val region = if (wholePhoto) photo else bodyRegion(bmp, fb).also { it.intersect(photo) }
-            val existing = tracks.firstOrNull { overlap(it.region, region) > 0.6f }
+            val existing = tracks.firstOrNull { overlap(it.region, region) > 0.5f } ?: tracks.firstOrNull {
+                it.region.contains(fb.exactCenterX(), fb.exactCenterY())
+            }
             if (existing != null) {
                 existing.seen = now
-                if (clean && wholePhoto) {   // кадр тоза аст → тасвири хираро нав мекунем (видео «зинда» менамояд)
-                    existing.region = region
-                    makeCover(bmp, region, toScreen, offX, offY)?.let { existing.cover = it }
+                if (clean) {   // кадр тоза аст → ҷой ва тасвирро нав мекунем (видео «зинда» менамояд)
+                    val moved = abs(existing.region.top - region.top) + abs(existing.region.left - region.left) +
+                        abs(existing.region.bottom - region.bottom) + abs(existing.region.right - region.right)
+                    if (wholePhoto) {
+                        existing.region = region
+                        makeCover(bmp, region, toScreen, offX, offY)?.let { existing.cover = it }
+                    } else if (moved > 6f) {
+                        existing.region = region
+                        makePersonCover(bmp, region, fb, toScreen, offX, offY)?.let { existing.cover = it }
+                    }
                 }
                 continue
             }
-            if (!clean && tracks.any { it.region.contains(fb.exactCenterX(), fb.exactCenterY()) }) continue
             val cover = (if (wholePhoto) makeCover(bmp, region, toScreen, offX, offY)
                          else makePersonCover(bmp, region, fb, toScreen, offX, offY)) ?: continue
-            tracks.add(Track(region, cover, now, if (clean) null else ringSignature(bmp, region)))
+            tracks.add(Track(region, cover, now, if (clean) null else ringSignature(lum, W, H, region, emptyList())))
         }
         Log.i(TAG, "frame ${bmp.width}x${bmp.height} faces=${found.size} women=${womenFaces.size} " +
             "covers=${tracks.size} clean=$clean ${SystemClock.uptimeMillis() - t0}ms")
@@ -389,16 +414,26 @@ object Engine {
 
     private const val RING_N = 14
 
-    private fun ringSignature(bmp: Bitmap, r: RectF): IntArray {
+    private fun lumOf(bmp: Bitmap): IntArray {
+        val w = bmp.width; val h = bmp.height
+        val px = IntArray(w * h)
+        bmp.getPixels(px, 0, w, 0, 0, w, h)
+        for (i in px.indices) {
+            val c = px[i]
+            px[i] = ((c shr 16 and 0xFF) * 3 + (c shr 8 and 0xFF) * 6 + (c and 0xFF)) / 10
+        }
+        return px
+    }
+
+    /** Нуқтаҳои атрофи минтақа; нуқтаҳое, ки зери пардаҳои кашидашуда ҳастанд, ҳисоб намешаванд (-1) */
+    private fun ringSignature(lum: IntArray, w: Int, h: Int, r: RectF, skip: List<RectF>): IntArray {
         val m = 4f
         val out = IntArray(RING_N * 4)
         var k = 0
         fun sample(x: Float, y: Float) {
             val xi = x.toInt(); val yi = y.toInt()
-            out[k++] = if (xi < 0 || yi < 0 || xi >= bmp.width || yi >= bmp.height) -1 else {
-                val c = bmp.getPixel(xi, yi)
-                ((c shr 16 and 0xFF) * 3 + (c shr 8 and 0xFF) * 6 + (c and 0xFF)) / 10
-            }
+            out[k++] = if (xi < 0 || yi < 0 || xi >= w || yi >= h || skip.any { it.contains(x, y) }) -1
+            else lum[yi * w + xi]
         }
         for (i in 0 until RING_N) {
             val f = (i + 0.5f) / RING_N
@@ -408,6 +443,50 @@ object Engine {
             sample(r.right + m, r.top + f * r.height())
         }
         return out
+    }
+
+    /**
+     * Чанд пиксел мундариҷа дар сутунҳои минтақа ба боло/поён ҳаракат кард (скролли лента).
+     * Профили равшании сатрҳоро байни кадри пешина ва ҳозира муқоиса мекунем.
+     * Сатрҳое, ки зери пардаҳо ҳастанд, ба ҳисоб гирифта намешаванд.
+     * Мусбат — мундариҷа ба боло рафт.
+     */
+    private fun estimateDy(prev: IntArray, cur: IntArray, w: Int, h: Int, reg: RectF, drawn: List<RectF>): Int {
+        val l = reg.left.toInt().coerceIn(0, w - 1)
+        val r = reg.right.toInt().coerceIn(l + 1, w)
+        val step = max(1, (r - l) / 48)
+        val pp = FloatArray(h); val cp = FloatArray(h)
+        for (y in 0 until h) {
+            var a = 0; var b = 0; var n = 0
+            var x = l
+            while (x < r) { a += prev[y * w + x]; b += cur[y * w + x]; n++; x += step }
+            pp[y] = a.toFloat() / n; cp[y] = b.toFloat() / n
+        }
+        val ex = BooleanArray(h)
+        for (d in drawn) if (d.right > l && d.left < r) {
+            for (y in max(0, d.top.toInt() - 2) until min(h, d.bottom.toInt() + 3)) ex[y] = true
+        }
+        fun cost(s: Int): Float {
+            var sum = 0f; var n = 0
+            var y = 0
+            while (y < h) {
+                val y2 = y + s
+                if (y2 in 0 until h && !ex[y] && !ex[y2]) { sum += abs(cp[y] - pp[y2]); n++ }
+                y += 2
+            }
+            return if (n < 24) Float.MAX_VALUE else sum / n
+        }
+        val c0 = cost(0)
+        if (c0 < 1.5f) return 0                 // ҳеҷ чиз ҳаракат накард
+        var best = 0; var bestC = c0
+        val maxS = h / 2
+        var s = -maxS
+        while (s <= maxS) {
+            val c = cost(s)
+            if (c < bestC) { bestC = c; best = s }
+            s += 1
+        }
+        return if (best != 0 && bestC < c0 * 0.5f && bestC < 7f) best else 0
     }
 
     /** true — иваз шуд, false — не, null — маълум нест */

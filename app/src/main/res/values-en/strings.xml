@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tagline">Everywhere — YouTube, Instagram, Google, Gallery — blurs photos and videos that show a woman.</string>
+    <string name="status_off">⛔ Off</string>
+    <string name="btn_enable">Turn on</string>
+    <string name="help_enable">Once: on the page that opens, find “iPhon Muslim” and turn it on (Accessibility → Installed services → iPhon Muslim → On).</string>
+    <string name="help_restricted">If it won\'t turn on and says “Restricted setting”: tap the button below → ⋮ (top) → “Allow restricted settings”, then try again.</string>
+    <string name="btn_restricted">Open app settings</string>
+    <string name="status_paused">⏸ Paused</string>
+    <string name="btn_resume">Resume</string>
+    <string name="status_on">✅ On</string>
+    <string name="status_on_fast">✅ On — fast mode ⚡</string>
+    <string name="btn_pause">Pause</string>
+    <string name="btn_fast_off">Turn off fast mode</string>
+    <string name="btn_fast_on">⚡ Turn on fast mode</string>
+    <string name="status_last_step">Last step: start</string>
+    <string name="btn_stop">Turn off</string>
+    <string name="btn_start">Start</string>
+    <string name="mode_title">Blur style:</string>
+    <string name="mode_photo">The whole photo or video that shows a woman</string>
+    <string name="mode_person">Only the woman herself (head and body)</string>
+    <string name="note">Everything runs on the phone; no internet is needed and nothing is sent. The app recognizes a woman by her face and can sometimes be wrong.</string>
+    <string name="toast_enable">Turn on “iPhon Muslim”</string>
+    <string name="lang_title">Language:</string>
+    <string name="notif_title">iPhon Muslim — fast mode</string>
+    <string name="notif_text">Screen is protected</string>
+    <string name="a11y_desc">iPhon Muslim: blurs photos and videos that show a woman. No data is collected or sent.</string>
+    <string name="fast_hint">Fast mode is needed for scrolling and video. After each phone restart, tap “Start now” once.</string>
+</resources>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tagline">Везде — YouTube, Instagram, Google, Галерея — размывает фото и видео, на которых есть женщина.</string>
+    <string name="status_off">⛔ Выключено</string>
+    <string name="btn_enable">Включить</string>
+    <string name="help_enable">Один раз: на открывшейся странице найдите «iPhon Muslim» и включите (Специальные возможности → Скачанные службы → iPhon Muslim → Вкл).</string>
+    <string name="help_restricted">Если не включается и написано «Ограниченная настройка»: нажмите кнопку ниже → ⋮ (вверху) → «Разрешить ограниченные настройки», затем снова.</string>
+    <string name="btn_restricted">Открыть настройки приложения</string>
+    <string name="status_paused">⏸ Пауза</string>
+    <string name="btn_resume">Продолжить</string>
+    <string name="status_on">✅ Включено</string>
+    <string name="status_on_fast">✅ Включено — быстрый режим ⚡</string>
+    <string name="btn_pause">Пауза</string>
+    <string name="btn_fast_off">Выключить быстрый режим</string>
+    <string name="btn_fast_on">⚡ Включить быстрый режим</string>
+    <string name="status_last_step">Последний шаг: старт</string>
+    <string name="btn_stop">Выключить</string>
+    <string name="btn_start">Старт</string>
+    <string name="mode_title">Тип размытия:</string>
+    <string name="mode_photo">Всё фото или видео, где есть женщина</string>
+    <string name="mode_person">Только сама женщина (голова и тело)</string>
+    <string name="note">Всё работает на телефоне, интернет не нужен и ничего не отправляется. Приложение распознаёт женщину по лицу и иногда может ошибаться.</string>
+    <string name="toast_enable">Включите «iPhon Muslim»</string>
+    <string name="lang_title">Язык:</string>
+    <string name="notif_title">iPhon Muslim — быстрый режим</string>
+    <string name="notif_text">Экран защищён</string>
+    <string name="a11y_desc">iPhon Muslim: размывает фото и видео, на которых есть женщина. Никакие данные не собираются и не отправляются.</string>
+    <string name="fast_hint">Быстрый режим нужен для прокрутки и видео. После каждого включения телефона один раз нажмите «Начать».</string>
+</resources>

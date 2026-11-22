@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tagline">Дар ҳама ҷо — YouTube, Instagram, Google, Галерея — сурат ва видеоеро, ки дар он зан ҳаст, хира мекунад.</string>
+    <string name="status_off">⛔ Хомӯш аст</string>
+    <string name="btn_enable">Фаъол кардан</string>
+    <string name="help_enable">Як бор: дар саҳифае, ки кушода мешавад, «iPhon Muslim»-ро ёбед ва фаъол кунед (Специальные возможности → Скачанные службы → iPhon Muslim → Вкл).</string>
+    <string name="help_restricted">Агар фаъол нашуд ва навишт «Ограниченная настройка»: тугмаи поёнро пахш кунед → ⋮ (дар боло) → «Разрешить ограниченные настройки», баъд аз нав.</string>
+    <string name="btn_restricted">Кушодани танзимоти апп</string>
+    <string name="status_paused">⏸ Таваққуф</string>
+    <string name="btn_resume">Идома додан</string>
+    <string name="status_on">✅ Фаъол аст</string>
+    <string name="status_on_fast">✅ Фаъол — ҳолати тез ⚡</string>
+    <string name="btn_pause">Таваққуф</string>
+    <string name="btn_fast_off">Ҳолати тезро хомӯш кардан</string>
+    <string name="btn_fast_on">⚡ Ҳолати тезро фаъол кардан</string>
+    <string name="status_last_step">Қадами охир: оғоз</string>
+    <string name="btn_stop">Хомӯш кардан</string>
+    <string name="btn_start">Оғоз</string>
+    <string name="mode_title">Намуди хира кардан:</string>
+    <string name="mode_photo">Тамоми сурат ё видео, ки дар он зан ҳаст</string>
+    <string name="mode_person">Танҳо ҷои худи зан (сар ва бадан)</string>
+    <string name="note">Ҳамааш дар худи телефон кор мекунад, интернет лозим нест ва ҳеҷ чиз фиристода намешавад. Апп занро аз рӯяш мешиносад; гоҳе хато шуданаш мумкин аст.</string>
+    <string name="toast_enable">«iPhon Muslim»-ро фаъол кунед</string>
+    <string name="lang_title">Забон:</string>
+    <string name="notif_title">iPhon Muslim — ҳолати тез</string>
+    <string name="notif_text">Экран муҳофизат мешавад</string>
+    <string name="a11y_desc">iPhon Muslim: болои сурат ва видеоҳое, ки дар онҳо зан ҳаст, пардаи хира мекашад. Ҳеҷ маълумот ҷамъ ё фиристода намешавад.</string>
+    <string name="fast_hint">Ҳолати тез барои скролл ва видео лозим аст. Баъд аз ҳар фурӯзон кардани телефон як бор «Начать»-ро пахш кунед.</string>
+</resources>

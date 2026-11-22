@@ -40,7 +40,7 @@ class ScreenFilterService : Service() {
         const val EXTRA_DATA = "data"
         private const val CHANNEL = "filter"
         private const val NOTIF_ID = 7
-        private const val SCALE = 0.75f
+        private const val SCALE = 0.6f
         @Volatile var running = false
     }
 
@@ -102,12 +102,13 @@ class ScreenFilterService : Service() {
             this, 2, Intent(this, MainActivity::class.java),
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
+        val lc = L10n.ctx(this)
         val n = NotificationCompat.Builder(this, CHANNEL)
             .setSmallIcon(R.drawable.ic_launcher)
-            .setContentTitle("iPhon Muslim — ҳолати тез")
-            .setContentText("Экран муҳофизат мешавад")
+            .setContentTitle(lc.getString(R.string.notif_title))
+            .setContentText(lc.getString(R.string.notif_text))
             .setContentIntent(openPi)
-            .addAction(0, "Хомӯш кардан", stopPi)
+            .addAction(0, lc.getString(R.string.btn_stop), stopPi)
             .setOngoing(true)
             .build()
         if (Build.VERSION.SDK_INT >= 29) {

@@ -83,6 +83,11 @@ class FilterAccessibilityService : AccessibilityService() {
         val v = OverlayView(this)
         try { wm.addView(v, lp); overlay = v } catch (e: Exception) { Log.e(TAG, "overlay", e) }
         Log.i(TAG, "accessibility connected")
+        // ҳолати тез асосӣ аст: баъд аз фурӯзон шудани телефон худкор тасдиқро мепурсем
+        val prefs = getSharedPreferences(Prefs.NAME, Context.MODE_PRIVATE)
+        if (prefs.getBoolean(Prefs.FAST, true) && !ScreenFilterService.running && !isPaused(this)) {
+            main.postDelayed({ try { CaptureActivity.start(this) } catch (e: Exception) { Log.e(TAG, "capture", e) } }, 1500)
+        }
         if (Build.VERSION.SDK_INT >= 30) {
             looping = true
             schedule(0)

@@ -1,4 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">iPhon Muslim</string>
-    <string name="a11y_desc">iPhon Muslim: пардаҳои пӯшонандаро болои экран мекашад, то суратҳои одамон намоён нашаванд. Ҳеҷ маълумот ҷамъ ё фиристода намешавад.</string>
+    <string name="app_name" translatable="false">iPhon Muslim</string>
+    <string name="tagline">در همه‌جا — یوتیوب، اینستاگرام، گوگل، گالری — عکس و ویدیویی را که در آن زن هست، تار می‌کند.</string>
+    <string name="status_off">⛔ خاموش است</string>
+    <string name="btn_enable">فعال کردن</string>
+    <string name="help_enable">فقط یک بار: در صفحه‌ای که باز می‌شود «iPhon Muslim» را پیدا و روشن کنید (دسترس‌پذیری ← سرویس‌های نصب‌شده ← iPhon Muslim ← روشن).</string>
+    <string name="help_restricted">اگر روشن نشد و نوشت «تنظیم محدود»: دکمهٔ پایین را بزنید ← ⋮ (بالا) ← «اجازهٔ تنظیمات محدود»، سپس دوباره امتحان کنید.</string>
+    <string name="btn_restricted">باز کردن تنظیمات برنامه</string>
+    <string name="status_paused">⏸ متوقف است</string>
+    <string name="btn_resume">ادامه</string>
+    <string name="status_on">✅ فعال است</string>
+    <string name="status_on_fast">✅ فعال — حالت سریع ⚡</string>
+    <string name="btn_pause">توقف</string>
+    <string name="btn_fast_off">خاموش کردن حالت سریع</string>
+    <string name="btn_fast_on">⚡ روشن کردن حالت سریع</string>
+    <string name="status_last_step">گام آخر: شروع</string>
+    <string name="btn_stop">خاموش کردن</string>
+    <string name="btn_start">شروع</string>
+    <string name="mode_title">نوع تار کردن:</string>
+    <string name="mode_photo">کل عکس یا ویدیویی که در آن زن هست</string>
+    <string name="mode_person">فقط جای خود زن (سر و بدن)</string>
+    <string name="note">همه‌چیز در خود گوشی انجام می‌شود؛ اینترنت لازم نیست و چیزی فرستاده نمی‌شود. برنامه زن را از چهره‌اش تشخیص می‌دهد و گاهی ممکن است اشتباه کند.</string>
+    <string name="toast_enable">«iPhon Muslim» را روشن کنید</string>
+    <string name="lang_title">زبان:</string>
+    <string name="notif_title">iPhon Muslim — حالت سریع</string>
+    <string name="notif_text">صفحه محافظت می‌شود</string>
+    <string name="a11y_desc">iPhon Muslim: روی عکس‌ها و ویدیوهایی که در آن زن هست، پوششی تار می‌کشد. هیچ اطلاعاتی جمع‌آوری یا فرستاده نمی‌شود.</string>
+    <string name="fast_hint">حالت سریع برای اسکرول و ویدیو لازم است. بعد از هر بار روشن شدن گوشی یک بار «شروع» را بزنید.</string>
 </resources>
