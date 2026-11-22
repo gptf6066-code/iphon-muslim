@@ -117,7 +117,7 @@ class FilterAccessibilityService : AccessibilityService() {
         if (since < MIN_INTERVAL) { schedule(MIN_INTERVAL - since); return }
         inFlight = true
         lastShot = SystemClock.uptimeMillis()
-        if (Build.VERSION.SDK_INT >= 34 && windowShotFails < 3 && shootWindow()) return
+        if (Build.VERSION.SDK_INT >= 34 && shootWindow()) return
         try {
             takeScreenshot(Display.DEFAULT_DISPLAY, exec, object : TakeScreenshotCallback {
                 override fun onSuccess(result: ScreenshotResult) {
@@ -147,7 +147,8 @@ class FilterAccessibilityService : AccessibilityService() {
         }
     }
 
-    private var windowShotFails = 0
+    /** Равзанаҳое, ки акси алоҳидаашон намешавад (масалан видео/SurfaceView) */
+    private val badWindows = HashSet<Int>()
 
     /**
      * Android 14+: акси танҳо равзанаи апп (бе пардаҳои мо) — ҳар кадр аз нав
@@ -160,6 +161,7 @@ class FilterAccessibilityService : AccessibilityService() {
             ws.firstOrNull { it.type == AccessibilityWindowInfo.TYPE_APPLICATION && (it.isActive || it.isFocused) }
                 ?: ws.firstOrNull { it.type == AccessibilityWindowInfo.TYPE_APPLICATION }
         } catch (e: Throwable) { null } ?: return false
+        if (target.id in badWindows) return false
         val b = Rect()
         target.getBoundsInScreen(b)
         return try {
@@ -172,7 +174,6 @@ class FilterAccessibilityService : AccessibilityService() {
                         if (hw != null) {
                             val sw = hw.copy(Bitmap.Config.ARGB_8888, false)
                             hw.recycle()
-                            windowShotFails = 0
                             if (!ScreenFilterService.running) {
                                 showCovers(Engine.process(sw, 1f, b.left, b.top, clean = true))
                             }
@@ -184,7 +185,8 @@ class FilterAccessibilityService : AccessibilityService() {
 
                 override fun onFailure(errorCode: Int) {
                     Log.w(TAG, "window screenshot failed $errorCode")
-                    windowShotFails++
+                    if (badWindows.size > 50) badWindows.clear()
+                    badWindows.add(target.id)
                     inFlight = false
                     schedule(MIN_INTERVAL)
                 }
@@ -192,7 +194,7 @@ class FilterAccessibilityService : AccessibilityService() {
             true
         } catch (e: Throwable) {
             Log.e(TAG, "takeScreenshotOfWindow", e)
-            windowShotFails++
+            badWindows.add(target.id)
             false
         }
     }
