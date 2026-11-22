@@ -145,7 +145,10 @@ class MainActivity : AppCompatActivity() {
         })
         setContentView(ScrollView(this).apply { addView(root); Insets.pad(this) })
 
-        if (!prefs.getBoolean(Prefs.ABOUT_SEEN, false)) startActivity(Intent(this, AboutActivity::class.java))
+        if (!prefs.getBoolean(Prefs.ABOUT_SEEN, false) && !aboutOpened) {
+            aboutOpened = true   // ҳангоми иваз шудани забон экран аз нав сохта мешавад — як бор кифоя
+            startActivity(Intent(this, AboutActivity::class.java))
+        }
 
         if (Build.VERSION.SDK_INT >= 33 &&
             ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
@@ -272,6 +275,8 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, getString(R.string.toast_enable), Toast.LENGTH_LONG).show()
     }
 }
+
+private var aboutOpened = false
 
 object Prefs {
     const val NAME = "settings"
