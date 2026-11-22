@@ -326,7 +326,7 @@ class ScreenFilterService : Service() {
             val w = r.width().toInt().coerceIn(1, bmp.width - l)
             val h = r.height().toInt().coerceIn(1, bmp.height - t)
             val crop = Bitmap.createBitmap(bmp, l, t, w, h)
-            val tw = max(2, w / 22); val th = max(2, h / 22)
+            val tw = max(2, w / 45); val th = max(2, h / 45)
             val tiny = Bitmap.createScaledBitmap(crop, tw, th, true)
             val mid = Bitmap.createScaledBitmap(tiny, max(4, w / 4), max(4, h / 4), true)
             val tiny2 = Bitmap.createScaledBitmap(mid, tw, th, true)
