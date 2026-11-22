@@ -2,20 +2,33 @@ package tj.bikhon.iphonmuslim
 
 import android.accessibilityservice.AccessibilityService
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.PixelFormat
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
+import android.os.SystemClock
 import android.provider.Settings
+import android.util.Log
+import android.view.Display
 import android.view.Gravity
 import android.view.WindowManager
 import android.view.accessibility.AccessibilityEvent
+import androidx.annotation.RequiresApi
+import java.util.concurrent.Executors
 
 /**
- * Пардаҳо тавассути Accessibility кашида мешаванд — Android ба онҳо
- * иҷозат медиҳад, ки пурра торик бошанд (пардаи оддӣ ҳамеша нимшаффоф мешавад).
+ * Хизмати асосӣ. Танҳо ҳамин як иҷозат лозим аст:
+ *  • пардаҳоро пурра торик мекашад (Android ба пардаҳои оддӣ иҷозат намедиҳад);
+ *  • дар Android 11+ худаш экранро мебинад — бе саволи «сабти экран» ва
+ *    баъд аз хомӯш/фурӯзон кардани телефон худкор боз кор мекунад.
  */
 class FilterAccessibilityService : AccessibilityService() {
 
     companion object {
+        private const val TAG = "IphonMuslim"
+        private const val SCALE = 0.5f
+        private const val MIN_INTERVAL = 340L   // маҳдудияти Android барои скриншот
         @Volatile var instance: FilterAccessibilityService? = null
 
         fun isEnabled(ctx: Context): Boolean {
@@ -26,13 +39,29 @@ class FilterAccessibilityService : AccessibilityService() {
             return list.contains(ctx.packageName + "/", ignoreCase = true) &&
                 list.contains("FilterAccessibilityService", ignoreCase = true)
         }
+
+        fun isPaused(ctx: Context) =
+            ctx.getSharedPreferences(Prefs.NAME, Context.MODE_PRIVATE).getBoolean(Prefs.PAUSED, false)
     }
 
     var overlay: OverlayView? = null
         private set
+    private val main = Handler(Looper.getMainLooper())
+    private val exec = Executors.newSingleThreadExecutor()
+    @Volatile private var looping = false
+    @Volatile private var inFlight = false
+    private var lastShot = 0L
+    private val shootR = Runnable { if (Build.VERSION.SDK_INT >= 30) shoot() }
+
+    private fun schedule(delay: Long) {
+        main.removeCallbacks(shootR)
+        main.postDelayed(shootR, delay.coerceAtLeast(0))
+    }
 
     override fun onServiceConnected() {
         super.onServiceConnected()
+        instance = this
+        Engine.init(this)
         val wm = getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val lp = WindowManager.LayoutParams(
             WindowManager.LayoutParams.MATCH_PARENT,
@@ -51,22 +80,82 @@ class FilterAccessibilityService : AccessibilityService() {
             lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
         }
         val v = OverlayView(this)
-        try {
-            wm.addView(v, lp)
-            overlay = v
-        } catch (_: Exception) {}
-        instance = this
+        try { wm.addView(v, lp); overlay = v } catch (e: Exception) { Log.e(TAG, "overlay", e) }
+        Log.i(TAG, "accessibility connected")
+        if (Build.VERSION.SDK_INT >= 30) {
+            looping = true
+            schedule(0)
+        }
     }
 
-    override fun onAccessibilityEvent(event: AccessibilityEvent?) {}
+    /** Ҳангоми скролл ё ивазшавии экран — фавран кадри нав */
+    override fun onAccessibilityEvent(event: AccessibilityEvent?) {
+        if (Build.VERSION.SDK_INT >= 30 && looping && !inFlight) {
+            schedule(MIN_INTERVAL - (SystemClock.uptimeMillis() - lastShot))
+        }
+    }
+
+    fun showCovers(list: List<Cover>) {
+        main.post { overlay?.setCovers(list) }
+    }
+
+    @RequiresApi(30)
+    private fun shoot() {
+        if (!looping || inFlight) return
+        if (ScreenFilterService.running || isPaused(this)) {
+            if (!ScreenFilterService.running) showCovers(emptyList())
+            schedule(1000)
+            return
+        }
+        val since = SystemClock.uptimeMillis() - lastShot
+        if (since < MIN_INTERVAL) { schedule(MIN_INTERVAL - since); return }
+        inFlight = true
+        lastShot = SystemClock.uptimeMillis()
+        try {
+            takeScreenshot(Display.DEFAULT_DISPLAY, exec, object : TakeScreenshotCallback {
+                override fun onSuccess(result: ScreenshotResult) {
+                    try {
+                        val hb = result.hardwareBuffer
+                        val hw = Bitmap.wrapHardwareBuffer(hb, result.colorSpace)
+                        hb.close()
+                        if (hw != null) {
+                            val sw = hw.copy(Bitmap.Config.ARGB_8888, false)
+                            hw.recycle()
+                            val small = Bitmap.createScaledBitmap(
+                                sw, (sw.width * SCALE).toInt(), (sw.height * SCALE).toInt(), true
+                            )
+                            if (!ScreenFilterService.running) {
+                                showCovers(Engine.process(small, sw.width.toFloat() / small.width))
+                            }
+                        }
+                    } catch (e: Throwable) { Log.e(TAG, "shot", e) }
+                    inFlight = false
+                    schedule(0)
+                }
+
+                override fun onFailure(errorCode: Int) {
+                    inFlight = false
+                    schedule(MIN_INTERVAL)
+                }
+            })
+        } catch (e: Throwable) {
+            Log.e(TAG, "takeScreenshot", e)
+            inFlight = false
+            schedule(1000)
+        }
+    }
+
     override fun onInterrupt() {}
 
     override fun onDestroy() {
+        looping = false
         instance = null
+        main.removeCallbacksAndMessages(null)
         overlay?.let {
             try { (getSystemService(Context.WINDOW_SERVICE) as WindowManager).removeView(it) } catch (_: Exception) {}
         }
         overlay = null
+        exec.shutdown()
         super.onDestroy()
     }
 }

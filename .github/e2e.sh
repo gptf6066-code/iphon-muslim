@@ -20,24 +20,29 @@ PY
   echo "tap $1 -> $B"; [ -n "$B" ] && adb shell input tap $B
 }
 adb install -r iphon-muslim.apk
+adb shell wm size 720x1440; adb shell wm density 320
 adb shell pm grant $P android.permission.POST_NOTIFICATIONS
-adb shell settings put secure enabled_accessibility_services $P/$P.FilterAccessibilityService; adb shell settings put secure accessibility_enabled 1; sleep 3
-adb shell appops set $P PROJECT_MEDIA allow
-adb push face1.jpg /sdcard/Pictures/face1.jpg
-adb push face2.jpg /sdcard/Pictures/face2.jpg
-adb shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file:///sdcard/Pictures/face1.jpg
+adb push face1.jpg /sdcard/Pictures/woman1.jpg
+adb push .github/astronaut.png /sdcard/Pictures/woman2.png
+adb push face2.jpg /sdcard/Pictures/man1.jpg
 adb logcat -c
-adb shell am start -n $P/.MainActivity; sleep 4; shot 01_app
-tap_text "Фаъол кардан" a; sleep 3; shot 02_after_tap
-tap_text "^ ?(Start|Start now|Начать|Оғоз)" b; sleep 3; shot 03_after_consent
-tap_text "^ ?(Start|Start now|Начать)" c; sleep 2
-adb shell am start -n $P/.MainActivity; sleep 2; shot 04_status
-# show test image in a viewer
-adb shell am start -a android.intent.action.VIEW -d file:///sdcard/Pictures/face1.jpg -t image/jpeg; sleep 5; shot 05_view_file
-adb shell am start -a android.intent.action.VIEW -d https://raw.githubusercontent.com/opencv/opencv/4.x/samples/data/lena.jpg; sleep 8; shot 06_view_web
-tap_text "(Accept|No thanks|Use without)" d; sleep 3; tap_text "(No thanks|No, thanks)" e; sleep 5; shot 07_view_web2
-adb shell pm list packages | sort > results/packages.txt
+# --- A: танҳо Специальные возможности (бе сабти экран) ---
+adb shell settings put secure enabled_accessibility_services $P/$P.FilterAccessibilityService
+adb shell settings put secure accessibility_enabled 1
+sleep 4
+adb shell am start -n $P/.MainActivity; sleep 3; shot 01_app
+view() { adb shell am start -a android.intent.action.VIEW -d file:///sdcard/Pictures/$1 -t image/$2; }
+view woman1.jpg jpeg; sleep 5; shot 02_woman1
+view man1.jpg jpeg; sleep 5; shot 03_man1
+view woman2.png png; sleep 5; shot 04_woman2
+# --- B: ҳолати тез ---
+adb shell appops set $P PROJECT_MEDIA allow
+adb shell am start -n $P/.MainActivity; sleep 3
+tap_text "Ҳолати тез" a; sleep 3; shot 05_consent
+tap_text "^ ?(Start|Start now|Начать)" b; sleep 3
+adb shell am start -n $P/.MainActivity; sleep 2; shot 06_fast_status
+view woman1.jpg jpeg; sleep 4; shot 07_fast_woman1
+view man1.jpg jpeg; sleep 4; shot 08_fast_man1
 adb logcat -d -s IphonMuslim:* > results/applog.txt
 adb logcat -d -b crash > results/crash.txt
-adb logcat -d | grep -i -E "iphonmuslim|MediaProjection" | tail -200 > results/related.txt
 true
