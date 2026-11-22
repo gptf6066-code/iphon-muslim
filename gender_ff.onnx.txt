@@ -1,0 +1,3 @@
+FairFace(0.25) validation accuracy: 0.9327
+epochs: 10
+arch: large
