@@ -103,7 +103,7 @@ class FilterAccessibilityService : AccessibilityService() {
             requestFollow()
         }
         if (et == AccessibilityEvent.TYPE_VIEW_SCROLLED && event?.packageName?.toString() != packageName) {
-            onScrolling(event)
+            onScrolling(event!!)
         }
         if (event?.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED &&
             event.packageName?.toString() != packageName) {
