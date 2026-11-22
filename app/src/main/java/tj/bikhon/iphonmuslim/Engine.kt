@@ -194,7 +194,7 @@ object Engine {
         minR.intersect(0f, 0f, w.toFloat(), h.toFloat())
         val out = RectF(l.toFloat(), t.toFloat(), (r + 1).toFloat(), (b + 1).toFloat())
         // агар ҳудуди сурат хеле наздик ба рӯй ёфт шавад (минтақаи якранг дар худи сурат) — ҳадди ақал
-        if (out.height() < fh * 3f || out.width() < fw * 2.2f) out.union(minR)
+        if (out.height() < fh * 1.8f || out.width() < fw * 1.8f) out.union(minR)
         return out
     }
 
