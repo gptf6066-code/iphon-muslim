@@ -23,6 +23,7 @@ import android.os.HandlerThread
 import android.os.IBinder
 import android.os.Looper
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.Gravity
 import android.view.WindowManager
 import androidx.core.app.NotificationCompat
@@ -142,6 +143,7 @@ class ScreenFilterService : Service() {
 
     private fun begin() {
         running = true
+        Log.i("IphonMuslim", "service started")
         val prefs = getSharedPreferences(Prefs.NAME, Context.MODE_PRIVATE)
         val opts = FaceDetectorOptions.Builder()
             .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_FAST)
@@ -255,12 +257,13 @@ class ScreenFilterService : Service() {
                 val coverBody = getSharedPreferences(Prefs.NAME, Context.MODE_PRIVATE)
                     .getBoolean(Prefs.COVER_BODY, true)
                 val found = faces.map { toCoverRect(it.boundingBox, bmp, coverBody) }
+                Log.i("IphonMuslim", "frame ${bmp.width}x${bmp.height} faces=${faces.size} boxes=${boxes.size}")
                 work?.post {
                     updateBoxes(bmp, found)
                     busy = false
                 }
             }
-            .addOnFailureListener { busy = false }
+            .addOnFailureListener { e -> Log.e("IphonMuslim", "detect failed", e); busy = false }
     }
 
     /** Аз чорчӯбаи рӯй минтақаи пӯшониданро месозад (сар + мӯй, ихтиёрӣ бадан) */

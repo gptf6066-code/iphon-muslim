@@ -1,5 +1,7 @@
 name: Emulator test
 on: workflow_dispatch
+permissions:
+  contents: write
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -9,23 +11,26 @@ jobs:
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
           sudo udevadm control --reload-rules && sudo udevadm trigger --name-match=kvm
-      - name: Download APK
+      - name: Get APK and test images
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release download latest -p iphon-muslim.apk
+        run: |
+          gh release download latest -p iphon-muslim.apk
+          curl -sL -o face1.jpg https://raw.githubusercontent.com/opencv/opencv/4.x/samples/data/lena.jpg
+          curl -sL -o face2.jpg https://raw.githubusercontent.com/opencv/opencv/4.x/samples/data/messi5.jpg
+          ls -la
       - uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 24
+          api-level: 34
           arch: x86_64
           target: google_apis
           disable-animations: true
-          script: |
-            adb install -r iphon-muslim.apk && echo INSTALL_OK
-            adb logcat -c
-            adb shell am start -W -n tj.bikhon.iphonmuslim/.MainActivity
-            sleep 8
-            adb shell pidof tj.bikhon.iphonmuslim || echo NOT_RUNNING
-            adb logcat -d -b crash > crash.txt || true
-            adb logcat -d '*:E' > errors.txt || true
-            cat crash.txt
-            grep -i -A30 "FATAL\|iphonmuslim" errors.txt | head -150 || true
+          script: bash .github/e2e.sh
+      - name: Save results
+        if: always()
+        run: |
+          git config user.name ci; git config user.email ci@example.com
+          git checkout --orphan test-results
+          git rm -rfq --cached . || true
+          git add -f results/
+          git commit -qm "results" && git push -f origin test-results
