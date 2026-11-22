@@ -47,7 +47,7 @@ class AboutActivity : AppCompatActivity() {
             root.addView(ImageView(this).apply {
                 setImageResource(logoId)
                 adjustViewBounds = true
-                layoutParams = LinearLayout.LayoutParams((160 * d).toInt(), LinearLayout.LayoutParams.WRAP_CONTENT)
+                layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
                     .apply { topMargin = pad }
             })
         } else {
