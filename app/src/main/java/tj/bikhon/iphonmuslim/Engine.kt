@@ -180,11 +180,14 @@ object Engine {
             val cx = (face.exactCenterX() - l) * sx
             val cy = (face.exactCenterY() - t - face.height() * 0.15f) * sy
             val rx = face.width() * 0.85f * sx; val ry = face.height() * 1.05f * sy
+            val seeds = ArrayList<Int>()
             for (y in 0 until oh) for (x in 0 until ow) {
                 val dx = (x - cx) / rx; val dy = (y - cy) / ry
-                if (dx * dx + dy * dy <= 1f) alpha[y * ow + x] = 1f
+                if (dx * dx + dy * dy <= 1f) { alpha[y * ow + x] = 1f; seeds.add(y * ow + x) }
             }
-            // 3) каме васеъ ва нарм кардани канорҳо
+            // 3) танҳо қисми бо сар пайваст (бадани худи ҳамин зан), на чизҳои дигар
+            keepConnected(alpha, ow, oh, seeds)
+            // 4) каме васеъ ва нарм кардани канорҳо
             var a = dilate(alpha, ow, oh); a = dilate(a, ow, oh); a = boxBlur(a, ow, oh)
 
             val px = IntArray(ow * oh)
@@ -192,9 +195,9 @@ object Engine {
             for (i in px.indices) {
                 val c = px[i]
                 val al = (min(1f, a[i] * 1.6f) * 255).toInt()
-                val r = ((c shr 16) and 0xFF) * 45 / 100
-                val g = ((c shr 8) and 0xFF) * 45 / 100
-                val b = (c and 0xFF) * 45 / 100
+                val r = ((c shr 16) and 0xFF) * 40 / 100
+                val g = ((c shr 8) and 0xFF) * 40 / 100
+                val b = (c and 0xFF) * 40 / 100
                 px[i] = (al shl 24) or (r shl 16) or (g shl 8) or b
             }
             val out = Bitmap.createBitmap(ow, oh, Bitmap.Config.ARGB_8888)
@@ -203,6 +206,25 @@ object Engine {
         } catch (e: Exception) {
             Log.e(TAG, "cover", e); null
         }
+    }
+
+    private fun keepConnected(a: FloatArray, w: Int, h: Int, seeds: List<Int>) {
+        val seen = BooleanArray(a.size)
+        val stack = ArrayDeque<Int>()
+        for (i in seeds) if (!seen[i]) { seen[i] = true; stack.addLast(i) }
+        while (stack.isNotEmpty()) {
+            val i = stack.removeLast()
+            val x = i % w; val y = i / w
+            if (x > 0) push(a, seen, stack, i - 1)
+            if (x < w - 1) push(a, seen, stack, i + 1)
+            if (y > 0) push(a, seen, stack, i - w)
+            if (y < h - 1) push(a, seen, stack, i + w)
+        }
+        for (i in a.indices) if (!seen[i]) a[i] = 0f
+    }
+
+    private fun push(a: FloatArray, seen: BooleanArray, st: ArrayDeque<Int>, j: Int) {
+        if (!seen[j] && a[j] > 0f) { seen[j] = true; st.addLast(j) }
     }
 
     private fun dilate(a: FloatArray, w: Int, h: Int): FloatArray {
