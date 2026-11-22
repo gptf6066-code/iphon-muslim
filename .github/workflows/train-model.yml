@@ -6,6 +6,10 @@ on:
         default: "large"
       epochs:
         default: "10"
+      init_branch:
+        default: ""
+      lr:
+        default: "1e-3"
 permissions:
   contents: write
 jobs:
@@ -22,13 +26,18 @@ jobs:
           pip install -q torch torchvision --index-url https://download.pytorch.org/whl/cpu
           pip install -q datasets onnx onnxruntime pillow numpy
           nproc; free -g
+      - name: Previous weights
+        if: inputs.init_branch != ''
+        run: |
+          git fetch -q --depth 1 origin ${{ inputs.init_branch }}
+          git show FETCH_HEAD:gender_ff.onnx.pt > init.pt && ls -la init.pt
       - name: Train
-        run: python training/train_gender.py --out gender_ff.onnx --arch ${{ inputs.arch }} --epochs ${{ inputs.epochs }} --lr 1e-3 --hours 5.1
+        run: python training/train_gender.py --out gender_ff.onnx --arch ${{ inputs.arch }} --epochs ${{ inputs.epochs }} --lr ${{ inputs.lr }} --hours 5.1 --init init.pt
       - name: Publish model
         if: always()
         run: |
           mkdir -p out && cp gender_ff.onnx* out/ 2>/dev/null || true
           ls -la out
-          cd out && git init -q && git checkout -q -b gender-model-${{ inputs.arch }} && git add . && \
+          cd out && git init -q && git checkout -q -b gender-model-${{ inputs.arch }}${{ inputs.init_branch != '' && '-ft' || '' }} && git add . && \
           git -c user.name=ci -c user.email=ci@example.com commit -qm "FairFace gender model" && \
-          git push -f https://x-access-token:${{ github.token }}@github.com/${{ github.repository }} gender-model-${{ inputs.arch }}
+          git push -f https://x-access-token:${{ github.token }}@github.com/${{ github.repository }} gender-model-${{ inputs.arch }}${{ inputs.init_branch != '' && '-ft' || '' }}

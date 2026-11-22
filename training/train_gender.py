@@ -126,6 +126,7 @@ def main():
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--arch", default="small", choices=["small", "large"])
     ap.add_argument("--lr", type=float, default=1.5e-3)
+    ap.add_argument("--init", default="", help="идома аз вазнҳои пешина (.pt)")
     a = ap.parse_args()
     t0 = time.time()
     torch.set_num_threads(max(1, os.cpu_count() or 1))
@@ -142,6 +143,9 @@ def main():
         fl = names.index("Female") if names else 1
         tr, va = HFData(ds["train"], True, fl), HFData(ds["validation"], False, fl)
         model = Wrapped(build(pretrained=True, arch=a.arch))
+    if a.init and os.path.exists(a.init):
+        model.load_state_dict(torch.load(a.init, map_location="cpu"))
+        print("init from", a.init, flush=True)
     print(f"train={len(tr)} val={len(va)}", flush=True)
 
     dl = torch.utils.data.DataLoader(tr, batch_size=a.batch, shuffle=True, num_workers=4, drop_last=True,
@@ -149,7 +153,7 @@ def main():
     dv = torch.utils.data.DataLoader(va, batch_size=256, shuffle=False, num_workers=4)
     opt = torch.optim.AdamW(model.parameters(), lr=a.lr, weight_decay=0.03)
     steps = a.epochs * len(dl)
-    sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=a.lr, total_steps=max(1, steps), pct_start=0.1)
+    sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=a.lr, total_steps=max(1, steps), pct_start=0.1 if not a.init else 0.05)
     best = 0.0
     model.train()
     for ep in range(a.epochs):
