@@ -183,7 +183,7 @@ class ScreenFilterService : Service() {
         } finally {
             image.close()
         }) ?: return
-        val covers = Engine.process(bmp, screenW.toFloat() / bmp.width) { FilterAccessibilityService.instance?.showCovers(it) }
+        val covers = Engine.process(bmp, screenW.toFloat() / bmp.width)
         FilterAccessibilityService.instance?.showCovers(covers)
     }
 

@@ -14,6 +14,8 @@ import android.view.Display
 import android.view.Gravity
 import android.view.WindowManager
 import android.view.accessibility.AccessibilityEvent
+import android.view.accessibility.AccessibilityWindowInfo
+import android.graphics.Rect
 import androidx.annotation.RequiresApi
 import java.util.concurrent.Executors
 
@@ -89,6 +91,11 @@ class FilterAccessibilityService : AccessibilityService() {
 
     /** Ҳангоми скролл ё ивазшавии экран — фавран кадри нав */
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
+        if (event?.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED &&
+            event.packageName?.toString() != packageName) {
+            Engine.onScreenChanged()
+            if (Build.VERSION.SDK_INT < 30 && !ScreenFilterService.running) showCovers(emptyList())
+        }
         if (Build.VERSION.SDK_INT >= 30 && looping && !inFlight) {
             schedule(MIN_INTERVAL - (SystemClock.uptimeMillis() - lastShot))
         }
@@ -110,6 +117,7 @@ class FilterAccessibilityService : AccessibilityService() {
         if (since < MIN_INTERVAL) { schedule(MIN_INTERVAL - since); return }
         inFlight = true
         lastShot = SystemClock.uptimeMillis()
+        if (Build.VERSION.SDK_INT >= 34 && windowShotFails < 3 && shootWindow()) return
         try {
             takeScreenshot(Display.DEFAULT_DISPLAY, exec, object : TakeScreenshotCallback {
                 override fun onSuccess(result: ScreenshotResult) {
@@ -120,7 +128,7 @@ class FilterAccessibilityService : AccessibilityService() {
                         if (hw != null) {
                             val sw = hw.copy(Bitmap.Config.ARGB_8888, false)
                             hw.recycle()
-                            if (!ScreenFilterService.running) showCovers(Engine.process(sw, 1f) { showCovers(it) })
+                            if (!ScreenFilterService.running) showCovers(Engine.process(sw, 1f))
                         }
                     } catch (e: Throwable) { Log.e(TAG, "shot", e) }
                     inFlight = false
@@ -136,6 +144,56 @@ class FilterAccessibilityService : AccessibilityService() {
             Log.e(TAG, "takeScreenshot", e)
             inFlight = false
             schedule(1000)
+        }
+    }
+
+    private var windowShotFails = 0
+
+    /**
+     * Android 14+: акси танҳо равзанаи апп (бе пардаҳои мо) — ҳар кадр аз нав
+     * ва дақиқ таҳлил мешавад, видео «зинда» хира менамояд.
+     */
+    @RequiresApi(34)
+    private fun shootWindow(): Boolean {
+        val target = try {
+            val ws = windows
+            ws.firstOrNull { it.type == AccessibilityWindowInfo.TYPE_APPLICATION && (it.isActive || it.isFocused) }
+                ?: ws.firstOrNull { it.type == AccessibilityWindowInfo.TYPE_APPLICATION }
+        } catch (e: Throwable) { null } ?: return false
+        val b = Rect()
+        target.getBoundsInScreen(b)
+        return try {
+            takeScreenshotOfWindow(target.id, exec, object : TakeScreenshotCallback {
+                override fun onSuccess(result: ScreenshotResult) {
+                    try {
+                        val hb = result.hardwareBuffer
+                        val hw = Bitmap.wrapHardwareBuffer(hb, result.colorSpace)
+                        hb.close()
+                        if (hw != null) {
+                            val sw = hw.copy(Bitmap.Config.ARGB_8888, false)
+                            hw.recycle()
+                            windowShotFails = 0
+                            if (!ScreenFilterService.running) {
+                                showCovers(Engine.process(sw, 1f, b.left, b.top, clean = true))
+                            }
+                        }
+                    } catch (e: Throwable) { Log.e(TAG, "winshot", e) }
+                    inFlight = false
+                    schedule(0)
+                }
+
+                override fun onFailure(errorCode: Int) {
+                    Log.w(TAG, "window screenshot failed $errorCode")
+                    windowShotFails++
+                    inFlight = false
+                    schedule(MIN_INTERVAL)
+                }
+            })
+            true
+        } catch (e: Throwable) {
+            Log.e(TAG, "takeScreenshotOfWindow", e)
+            windowShotFails++
+            false
         }
     }
 

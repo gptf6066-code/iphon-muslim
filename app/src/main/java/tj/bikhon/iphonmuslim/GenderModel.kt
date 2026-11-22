@@ -38,14 +38,27 @@ class GenderModel(ctx: Context) {
         inputName = session.inputNames.first()
     }
 
-    /** Эҳтимоли зан будан (0..1). face — дар координатаҳои bmp */
+    /**
+     * Эҳтимоли зан будан (0..1). face — дар координатаҳои bmp.
+     * Барои дақиқӣ: 3 андозаи буриш × оддӣ/оинавӣ = 6 натиҷа, миёнаашон.
+     */
     fun femaleProb(bmp: Bitmap, face: Rect): Float {
-        val size = max(face.width(), face.height()) * 1.5f
-        if (size < 8f) return 0.5f
+        val side = max(face.width(), face.height()).toFloat()
+        if (side < 6f) return 0.5f
+        var sum = 0f; var n = 0
+        for (k in floatArrayOf(1.3f, 1.5f, 1.7f)) {
+            for (mirror in booleanArrayOf(false, true)) {
+                sum += once(bmp, face.exactCenterX(), face.exactCenterY(), side * k, mirror); n++
+            }
+        }
+        return sum / n
+    }
+
+    private fun once(bmp: Bitmap, cx: Float, cy: Float, size: Float, mirror: Boolean): Float {
         val k = n / size
         matrix.reset()
-        matrix.postTranslate(-face.exactCenterX(), -face.exactCenterY())
-        matrix.postScale(k, k)
+        matrix.postTranslate(-cx, -cy)
+        matrix.postScale(if (mirror) -k else k, k)
         matrix.postTranslate(n / 2f, n / 2f)
         canvas.drawColor(Color.BLACK)
         canvas.drawBitmap(bmp, matrix, paint)

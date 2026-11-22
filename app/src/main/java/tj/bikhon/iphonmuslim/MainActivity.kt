@@ -21,7 +21,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContextCompat
 
 class MainActivity : AppCompatActivity() {
@@ -68,7 +67,7 @@ class MainActivity : AppCompatActivity() {
             gravity = Gravity.CENTER
         })
         root.addView(TextView(this).apply {
-            text = "Дар ҳама ҷо — YouTube, Instagram, Google, Галерея — танҳо ҷои занҳоро тира мекунад."
+            text = "Дар ҳама ҷо — YouTube, Instagram, Google, Галерея — сурат ва видеоеро, ки дар он зан ҳаст, хира мекунад."
             textSize = 15f
             gravity = Gravity.CENTER
             setPadding(0, pad / 2, 0, pad)
@@ -101,17 +100,6 @@ class MainActivity : AppCompatActivity() {
             setOnClickListener { onFast() }
         }
         root.addView(fastBtn)
-        root.addView(SwitchCompat(this).apply {
-            text = "Баданро ҳам тира кунад (на танҳо сар)"
-            textSize = 16f
-            isChecked = prefs.getBoolean(Prefs.COVER_BODY, true)
-            setPadding(0, pad, 0, 0)
-            setOnCheckedChangeListener { _, v ->
-                prefs.edit().putBoolean(Prefs.COVER_BODY, v).apply()
-                Engine.coverBody = v
-                Engine.reset()
-            }
-        })
         root.addView(TextView(this).apply {
             textSize = 13f
             setTextColor(Color.GRAY)
