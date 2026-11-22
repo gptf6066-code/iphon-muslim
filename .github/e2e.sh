@@ -72,7 +72,7 @@ view man1.jpg jpeg; sleep 6; shot 12_women_user_man1
 view woman1.jpg jpeg; sleep 6; shot 13_women_user_woman1
 adb shell am start -n $P/$C.MainActivity; sleep 2
 tap_text "مرد هستم" mm; sleep 1
-tap_text "🌐" lg; sleep 2; shot 14_lang_dialog
+tap_text "&#127760;" lg; sleep 2; shot 14_lang_dialog
 tap_text "Тоҷикӣ" t; sleep 4; shot 11_app_tg
 adb logcat -d -s IphonMuslim:* > results/applog.txt
 adb logcat -d -b crash > results/crash.txt
