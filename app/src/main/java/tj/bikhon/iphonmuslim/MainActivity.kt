@@ -137,7 +137,25 @@ class MainActivity : AppCompatActivity() {
             statusText.postDelayed({ refresh() }, 400)
             return
         }
-        if (Build.VERSION.SDK_INT >= 23 && !Settings.canDrawOverlays(this)) {
+        if (!FilterAccessibilityService.isEnabled(this)) {
+            android.app.AlertDialog.Builder(this)
+                .setTitle("Қадами 1: Специальные возможности")
+                .setMessage(
+                    "Барои он ки пардаҳо пурра торик бошанд, «iPhon Muslim»-ро дар " +
+                    "«Специальные возможности» фаъол кунед:\n\n" +
+                    "Настройки → Расширенные настройки → Специальные возможности → " +
+                    "Скачанные службы (Установленные службы) → iPhon Muslim → Вкл.\n\n" +
+                    "Агар навишта шавад «Ограниченная настройка»: Настройки → Приложения → " +
+                    "iPhon Muslim → ⋮ (боло) → «Разрешить ограниченные настройки», баъд дубора кӯшиш кунед."
+                )
+                .setPositiveButton("Кушодан") { _, _ ->
+                    startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
+                }
+                .setNegativeButton("Бекор", null)
+                .show()
+            return
+        }
+        if (false) {
             Toast.makeText(this, "Иҷозати «Нишон додан болои дигар аппҳо»-ро диҳед", Toast.LENGTH_LONG).show()
             startActivity(
                 Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName"))

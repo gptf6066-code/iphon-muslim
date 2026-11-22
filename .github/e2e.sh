@@ -21,7 +21,7 @@ PY
 }
 adb install -r iphon-muslim.apk
 adb shell pm grant $P android.permission.POST_NOTIFICATIONS
-adb shell appops set $P SYSTEM_ALERT_WINDOW allow
+adb shell settings put secure enabled_accessibility_services $P/$P.FilterAccessibilityService; adb shell settings put secure accessibility_enabled 1; sleep 3
 adb shell appops set $P PROJECT_MEDIA allow
 adb push face1.jpg /sdcard/Pictures/face1.jpg
 adb push face2.jpg /sdcard/Pictures/face2.jpg

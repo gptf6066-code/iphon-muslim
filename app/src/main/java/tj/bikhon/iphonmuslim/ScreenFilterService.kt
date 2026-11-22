@@ -57,7 +57,9 @@ class ScreenFilterService : Service() {
     private var projection: MediaProjection? = null
     private var virtualDisplay: VirtualDisplay? = null
     private var reader: ImageReader? = null
-    private var overlay: OverlayView? = null
+    private var ownOverlay: OverlayView? = null
+    private val overlay: OverlayView?
+        get() = FilterAccessibilityService.instance?.overlay ?: ownOverlay
     private var detector: FaceDetector? = null
 
     private val main = Handler(Looper.getMainLooper())
@@ -154,7 +156,7 @@ class ScreenFilterService : Service() {
         workThread = HandlerThread("capture").also { it.start() }
         work = Handler(workThread!!.looper)
 
-        addOverlay()
+        if (FilterAccessibilityService.instance?.overlay == null) addOverlay()
         setupCapture()
         main.postDelayed(tick, INTERVAL_MS)
     }
@@ -219,8 +221,7 @@ class ScreenFilterService : Service() {
             lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
         }
         val v = OverlayView(this)
-        wm.addView(v, lp)
-        overlay = v
+        try { wm.addView(v, lp); ownOverlay = v } catch (_: Exception) {}
     }
 
     private val tick = object : Runnable {
@@ -367,8 +368,9 @@ class ScreenFilterService : Service() {
         reader = null
         try { projection?.stop() } catch (_: Exception) {}
         projection = null
-        overlay?.let { try { wm.removeView(it) } catch (_: Exception) {} }
-        overlay = null
+        FilterAccessibilityService.instance?.overlay?.setBoxes(emptyList(), 1f)
+        ownOverlay?.let { try { wm.removeView(it) } catch (_: Exception) {} }
+        ownOverlay = null
         detector?.close()
         detector = null
         workThread?.quitSafely()
