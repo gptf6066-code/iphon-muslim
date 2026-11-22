@@ -40,7 +40,7 @@ class ScreenFilterService : Service() {
         const val EXTRA_DATA = "data"
         private const val CHANNEL = "filter"
         private const val NOTIF_ID = 7
-        private const val SCALE = 0.5f
+        private const val SCALE = 0.75f
         @Volatile var running = false
     }
 

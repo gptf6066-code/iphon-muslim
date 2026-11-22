@@ -25,7 +25,8 @@ import kotlin.math.min
  */
 object Engine {
     private const val TAG = "IphonMuslim"
-    private const val FEMALE_THRESHOLD = 0.40f   // каме сахтгир: дар шубҳа мепӯшонад
+    private const val FEMALE_THRESHOLD = 0.45f   // каме сахтгир: дар шубҳа мепӯшонад
+    private const val DETECT_WIDTH = 540
     private const val MALE_RECHECK_MS = 1200L
 
     private var faces: FaceDetector? = null
@@ -74,7 +75,13 @@ object Engine {
      * @return пардаҳо барои кашидан (бо координатаҳои экран)
      */
     @Synchronized
-    fun process(bmp: Bitmap, toScreen: Float): List<Cover> {
+    fun process(full: Bitmap, fullToScreen: Float): List<Cover> {
+        // ёфтани рӯй дар тасвири хурд (тез), муайян кардани зан/мард аз тасвири пурра (дақиқ)
+        val bmp = if (full.width > DETECT_WIDTH * 1.15f) Bitmap.createScaledBitmap(
+            full, DETECT_WIDTH, max(1, full.height * DETECT_WIDTH / full.width), true
+        ) else full
+        val up = full.width.toFloat() / bmp.width
+        val toScreen = fullToScreen * up
         if (toScreen != lastScale || bmp.width != lastW || bmp.height != lastH) {
             boxes.clear(); lastScale = toScreen; lastW = bmp.width; lastH = bmp.height
         }
@@ -96,8 +103,11 @@ object Engine {
         for (f in found) {
             val fb = RectF(f.boundingBox)
             if (boxes.any { overlap(it.face, fb) > 0.3f }) continue
-            val p = try { gender?.femaleProb(bmp, f.boundingBox) ?: 1f } catch (e: Exception) { 1f }
+            val fb2 = f.boundingBox
+            val fullBox = Rect((fb2.left * up).toInt(), (fb2.top * up).toInt(), (fb2.right * up).toInt(), (fb2.bottom * up).toInt())
+            val p = try { gender?.femaleProb(full, fullBox) ?: 1f } catch (e: Throwable) { Log.e(TAG, "gender", e); 1f }
             val region = coverRegion(f.boundingBox, bmp)
+            Log.i(TAG, "face ${fb2.width()}px female=${"%.2f".format(p)}")
             if (p < FEMALE_THRESHOLD) {
                 men++
                 boxes.add(Box(fb, region, ringSignature(bmp, region), null, now))

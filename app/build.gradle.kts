@@ -24,7 +24,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions { jvmTarget = "17" }
-    androidResources { noCompress += "tflite" }
+    androidResources { noCompress += "onnx" }
 }
 
 dependencies {
@@ -35,6 +35,6 @@ dependencies {
     implementation("com.google.mlkit:face-detection:16.1.7")
     // шакли бадан (сегментатсия) — дар худи апп
     implementation("com.google.mlkit:segmentation-selfie:16.0.0-beta6")
-    // модели муайян кардани зан/мард
-    implementation("org.tensorflow:tensorflow-lite:2.14.0")
+    // модели муайян кардани зан/мард (InsightFace genderage, ONNX)
+    implementation("com.microsoft.onnxruntime:onnxruntime-android:1.19.2")
 }

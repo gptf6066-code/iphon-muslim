@@ -1,0 +1,2 @@
+genderage.onnx — InsightFace (https://github.com/deepinsight/insightface), buffalo_l model pack.
+InsightFace pretrained models are provided for non-commercial research purposes only.

@@ -27,7 +27,6 @@ class FilterAccessibilityService : AccessibilityService() {
 
     companion object {
         private const val TAG = "IphonMuslim"
-        private const val SCALE = 0.5f
         private const val MIN_INTERVAL = 340L   // маҳдудияти Android барои скриншот
         @Volatile var instance: FilterAccessibilityService? = null
 
@@ -121,12 +120,7 @@ class FilterAccessibilityService : AccessibilityService() {
                         if (hw != null) {
                             val sw = hw.copy(Bitmap.Config.ARGB_8888, false)
                             hw.recycle()
-                            val small = Bitmap.createScaledBitmap(
-                                sw, (sw.width * SCALE).toInt(), (sw.height * SCALE).toInt(), true
-                            )
-                            if (!ScreenFilterService.running) {
-                                showCovers(Engine.process(small, sw.width.toFloat() / small.width))
-                            }
+                            if (!ScreenFilterService.running) showCovers(Engine.process(sw, 1f))
                         }
                     } catch (e: Throwable) { Log.e(TAG, "shot", e) }
                     inFlight = false

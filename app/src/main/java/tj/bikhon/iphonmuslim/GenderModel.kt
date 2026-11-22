@@ -1,55 +1,69 @@
 package tj.bikhon.iphonmuslim
 
+import ai.onnxruntime.OnnxTensor
+import ai.onnxruntime.OrtEnvironment
+import ai.onnxruntime.OrtSession
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Matrix
+import android.graphics.Paint
 import android.graphics.Rect
-import org.tensorflow.lite.Interpreter
-import java.io.FileInputStream
-import java.nio.ByteBuffer
-import java.nio.ByteOrder
-import java.nio.channels.FileChannel
+import java.nio.FloatBuffer
+import kotlin.math.exp
 import kotlin.math.max
-import kotlin.math.min
 
 /**
- * Модели хурди муайян кардани зан/мард аз рӯй (128×128, баромад: [мард, зан]).
- * Модел: shubham0204/Age-Gender_Estimation_TF-Android (MIT).
+ * Муайян кардани зан/мард аз рӯй — модели genderage-и InsightFace.
+ * Вуруд: 96×96 RGB (0..255), NCHW. Баромад: [зан, мард, синну сол].
  */
 class GenderModel(ctx: Context) {
 
-    private val size = 128
-    private val interpreter: Interpreter
-    private val input = ByteBuffer.allocateDirect(size * size * 3 * 4).order(ByteOrder.nativeOrder())
-    private val output = Array(1) { FloatArray(2) }
-    private val px = IntArray(size * size)
+    private val n = 96
+    private val env = OrtEnvironment.getEnvironment()
+    private val session: OrtSession
+    private val inputName: String
+    private val crop = Bitmap.createBitmap(n, n, Bitmap.Config.ARGB_8888)
+    private val canvas = Canvas(crop)
+    private val paint = Paint(Paint.FILTER_BITMAP_FLAG)
+    private val matrix = Matrix()
+    private val px = IntArray(n * n)
+    private val data = FloatBuffer.allocate(3 * n * n)
 
     init {
-        val fd = ctx.assets.openFd("gender.tflite")
-        val buf = FileInputStream(fd.fileDescriptor).channel
-            .map(FileChannel.MapMode.READ_ONLY, fd.startOffset, fd.declaredLength)
-        interpreter = Interpreter(buf, Interpreter.Options().setNumThreads(2))
+        val bytes = ctx.assets.open("genderage.onnx").use { it.readBytes() }
+        val opts = OrtSession.SessionOptions().apply { setIntraOpNumThreads(2) }
+        session = env.createSession(bytes, opts)
+        inputName = session.inputNames.first()
     }
 
-    /** Эҳтимоли он ки рӯй аз они зан бошад (0..1) */
+    /** Эҳтимоли зан будан (0..1). face — дар координатаҳои bmp */
     fun femaleProb(bmp: Bitmap, face: Rect): Float {
-        val s = max(face.width(), face.height()) * 1.1f
-        val cx = face.exactCenterX(); val cy = face.exactCenterY()
-        val l = max(0, (cx - s / 2).toInt())
-        val t = max(0, (cy - s / 2).toInt())
-        val r = min(bmp.width, (cx + s / 2).toInt())
-        val b = min(bmp.height, (cy + s / 2).toInt())
-        if (r - l < 6 || b - t < 6) return 1f
-        val crop = Bitmap.createBitmap(bmp, l, t, r - l, b - t)
-        val sc = Bitmap.createScaledBitmap(crop, size, size, true)
-        sc.getPixels(px, 0, size, 0, 0, size, size)
-        input.rewind()
-        for (c in px) {
-            input.putFloat(((c shr 16) and 0xFF) / 255f)
-            input.putFloat(((c shr 8) and 0xFF) / 255f)
-            input.putFloat((c and 0xFF) / 255f)
+        val size = max(face.width(), face.height()) * 1.5f
+        if (size < 8f) return 0.5f
+        val k = n / size
+        matrix.reset()
+        matrix.postTranslate(-face.exactCenterX(), -face.exactCenterY())
+        matrix.postScale(k, k)
+        matrix.postTranslate(n / 2f, n / 2f)
+        canvas.drawColor(Color.BLACK)
+        canvas.drawBitmap(bmp, matrix, paint)
+        crop.getPixels(px, 0, n, 0, 0, n, n)
+        data.clear()
+        val plane = n * n
+        for (i in 0 until plane) data.put(i, ((px[i] shr 16) and 0xFF).toFloat())
+        for (i in 0 until plane) data.put(plane + i, ((px[i] shr 8) and 0xFF).toFloat())
+        for (i in 0 until plane) data.put(2 * plane + i, (px[i] and 0xFF).toFloat())
+        data.rewind()
+        OnnxTensor.createTensor(env, data, longArrayOf(1, 3, n.toLong(), n.toLong())).use { t ->
+            session.run(mapOf(inputName to t)).use { r ->
+                @Suppress("UNCHECKED_CAST")
+                val o = (r[0].value as Array<FloatArray>)[0]
+                val m = max(o[0], o[1])
+                val f = exp((o[0] - m).toDouble()); val mm = exp((o[1] - m).toDouble())
+                return (f / (f + mm)).toFloat()
+            }
         }
-        input.rewind()
-        interpreter.run(input, output)
-        return output[0][1]
     }
 }
