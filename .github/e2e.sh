@@ -38,13 +38,21 @@ adb shell am start -n $P/.MainActivity; sleep 4; shot 01_app_fa
 view woman1.jpg jpeg; sleep 5; shot 02_woman1
 view man1.jpg jpeg; sleep 5; shot 03_man1
 view woman2.png png; sleep 5; shot 04_woman2
-# --- галерея + скролл (зум ва кашидан) ---
-view grid.png png; sleep 6; shot 05_grid
-adb shell input tap 360 720; sleep 0.15; adb shell input tap 360 720; sleep 3; shot 06_grid_zoom
-(sleep 0.9; adb exec-out screencap -p > results/07_grid_scrolling.png) &
-adb shell input swipe 360 1100 360 500 1800
-sleep 0.4; shot 08_grid_after_scroll_0.4s
-sleep 1.5; shot 09_grid_after_scroll_2s
+# --- лента дар Chrome + скролл ---
+(cd .github/feed && python3 -m http.server 8000 >/dev/null 2>&1 &)
+adb root >/dev/null 2>&1; sleep 2
+adb shell 'echo "_ --disable-fre --no-default-browser-check --no-first-run" > /data/local/tmp/chrome-command-line'
+adb shell am set-debug-app --persistent com.android.chrome >/dev/null 2>&1
+adb shell am start -a android.intent.action.VIEW -d http://10.0.2.2:8000/index.html; sleep 8
+tap_text "(Accept|No thanks|Use without|Got it)" d; sleep 2; tap_text "(No thanks|No, thanks|Got it)" e; sleep 2
+adb shell input swipe 360 1200 360 700 600; sleep 4; shot 05_feed_a
+for i in 1 2 3 4 5 6; do
+  (sleep 0.35; adb exec-out screencap -p > results/06_scroll_${i}_mid.png) &
+  adb shell input swipe 360 1150 360 750 700
+  sleep 0.15; shot 06_scroll_${i}_end
+  sleep 1.2
+done
+shot 07_feed_settled
 # --- намуди «танҳо ҷои зан» ---
 adb shell am start -n $P/.MainActivity; sleep 3
 tap_text "فقط جای خود زن" m; sleep 1
