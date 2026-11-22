@@ -275,12 +275,12 @@ class ScreenFilterService : Service() {
         if (coverBody) {
             left = face.left - w * 1.3f
             right = face.right + w * 1.3f
-            top = face.top - h * 0.6f
+            top = face.top - h * 1.1f
             bottom = face.bottom + h * 6.5f
         } else {
             left = face.left - w * 0.35f
             right = face.right + w * 0.35f
-            top = face.top - h * 0.6f
+            top = face.top - h * 1.1f
             bottom = face.bottom + h * 0.4f
         }
         return RectF(
