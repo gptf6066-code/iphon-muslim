@@ -142,7 +142,7 @@ class FilterAccessibilityService : AccessibilityService() {
                         if (hw != null) {
                             val sw = hw.copy(Bitmap.Config.ARGB_8888, false)
                             hw.recycle()
-                            if (!ScreenFilterService.running) { Engine.process(sw, 1f); afterProcess() }
+                            if (!ScreenFilterService.running) { Engine.process(sw, 1f); afterProcess(lastShot) }
                         }
                     } catch (e: Throwable) { Log.e(TAG, "shot", e) }
                     inFlight = false
@@ -190,7 +190,7 @@ class FilterAccessibilityService : AccessibilityService() {
                             hw.recycle()
                             if (!ScreenFilterService.running) {
                                 Engine.process(sw, 1f, b.left, b.top, clean = true)
-                                afterProcess()
+                                afterProcess(lastShot)
                             }
                         }
                     } catch (e: Throwable) { Log.e(TAG, "winshot", e) }
@@ -240,11 +240,15 @@ class FilterAccessibilityService : AccessibilityService() {
     private fun checkGuard() {
         val left = guardUntil - SystemClock.uptimeMillis()
         if (left > 0) { main.postDelayed(guardOff, left + 10); return }
-        // скролл қатъ шуд: аввал кадри навро таҳлил мекунем, баъд лентаро мекушоем
+        // скролл қатъ шуд: кадри навро зуд мегирем; тирагӣ баъд аз таҳлили ҳамон кадр гум мешавад
         if (Build.VERSION.SDK_INT >= 30 && !ScreenFilterService.running) schedule(0)
-        main.postDelayed({
-            if (SystemClock.uptimeMillis() >= guardUntil) { guardRect = null; overlay?.setGuard(null, null, null) }
-        }, if (ScreenFilterService.running) 220 else 420)
+        main.postDelayed({ if (SystemClock.uptimeMillis() >= guardUntil + 2400) hideGuard() }, 2500)
+    }
+
+    private fun hideGuard() {
+        if (guardRect == null) return
+        guardRect = null
+        overlay?.setGuard(null, null, null)
     }
 
     // ---------- пардаҳо бо суратҳо якҷоя ҳаракат мекунанд ----------
@@ -252,13 +256,20 @@ class FilterAccessibilityService : AccessibilityService() {
     @Volatile private var followPending = false
 
     /** Баъд аз таҳлили кадр: гиреҳҳоро пайваст, ҷойҳоро нав ва пардаҳоро нишон медиҳем */
-    fun afterProcess() {
+    /** @param frameTime вақти гирифтани кадр (uptime) */
+    fun afterProcess(frameTime: Long) {
         followExec.execute {
             try {
                 Engine.bindAnchors { findAnchor(it) }
                 Engine.follow { refreshNode(it) }
             } catch (e: Throwable) { Log.e(TAG, "anchors", e) }
-            showCovers(Engine.covers())
+            val covers = Engine.covers()
+            main.post {
+                overlay?.setCovers(covers)
+                // кадри баъд аз қатъи скролл таҳлил шуд → лентаро мекушоем (пардаҳои зан аллакай ҳастанд)
+                if (guardRect != null && frameTime >= guardUntil + 20) hideGuard()
+                else if (guardRect != null) overlay?.setGuard(guardRect, Engine.frameBlur, Engine.frameRect)
+            }
         }
     }
 

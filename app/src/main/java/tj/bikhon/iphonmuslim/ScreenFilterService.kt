@@ -169,6 +169,7 @@ class ScreenFilterService : Service() {
     private fun onFrame(r: ImageReader) {
         if (!running) return
         val image = try { r.acquireLatestImage() } catch (e: Exception) { null } ?: return
+        val frameTime = android.os.SystemClock.uptimeMillis()
         val bmp: Bitmap = (try {
             val plane = image.planes[0]
             val pixelStride = plane.pixelStride
@@ -185,7 +186,7 @@ class ScreenFilterService : Service() {
             image.close()
         }) ?: return
         Engine.process(bmp, screenW.toFloat() / bmp.width)
-        FilterAccessibilityService.instance?.afterProcess()
+        FilterAccessibilityService.instance?.afterProcess(frameTime)
     }
 
     private fun stopEverything() {
