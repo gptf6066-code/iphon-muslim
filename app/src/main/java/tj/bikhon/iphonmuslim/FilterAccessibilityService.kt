@@ -17,6 +17,7 @@ import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityWindowInfo
 import android.view.accessibility.AccessibilityNodeInfo
 import android.graphics.Rect
+import android.graphics.RectF
 import androidx.annotation.RequiresApi
 import java.util.concurrent.Executors
 
@@ -185,7 +186,8 @@ class FilterAccessibilityService : AccessibilityService() {
                             val sw = hw.copy(Bitmap.Config.ARGB_8888, false)
                             hw.recycle()
                             if (!ScreenFilterService.running) {
-                                { Engine.process(sw, 1f, b.left, b.top, clean = true); afterProcess() }
+                                Engine.process(sw, 1f, b.left, b.top, clean = true)
+                                afterProcess()
                             }
                         }
                     } catch (e: Throwable) { Log.e(TAG, "winshot", e) }
