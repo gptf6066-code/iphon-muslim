@@ -146,7 +146,8 @@ object Engine {
 
         // --- 3) барои ҳар зан — тамоми сурат/видео ё танҳо ҷои худи зан ---
         for (fb in womenFaces) {
-            val region = if (wholePhoto) photoRegion(full, fb, up, bmp) else bodyRegion(bmp, fb)
+            val photo = photoRegion(full, fb, up, bmp)
+            val region = if (wholePhoto) photo else bodyRegion(bmp, fb).also { it.intersect(photo) }
             val existing = tracks.firstOrNull { overlap(it.region, region) > 0.6f }
             if (existing != null) {
                 existing.seen = now
@@ -234,7 +235,7 @@ object Engine {
 
     /** Намуди «танҳо ҷои зан»: хираи шишагӣ бо шакли бадан (сегментатсия), сар ҳамеша */
     private fun makePersonCover(bmp: Bitmap, region: RectF, face: Rect, toScreen: Float, offX: Int, offY: Int): Cover? {
-        val base = makeCover(bmp, region, toScreen, offX, offY) ?: return null
+        val base = makeCover(bmp, region, toScreen, offX, offY, div = 4) ?: return null
         val out = base.bitmap ?: return base
         val ow = out.width; val oh = out.height
         val l = region.left.toInt().coerceIn(0, bmp.width - 1)
@@ -268,11 +269,12 @@ object Engine {
             if (dx * dx + dy * dy <= 1f) { alpha[y * ow + x] = 1f; seeds.add(y * ow + x) }
         }
         if (segOk) keepConnected(alpha, ow, oh, seeds)
-        val a = dilate(alpha, ow, oh)
+        var a = dilate(alpha, ow, oh)
+        repeat(2) { a = soften(a, ow, oh) }
         val p = IntArray(ow * oh)
         out.getPixels(p, 0, ow, 0, 0, ow, oh)
         for (i in p.indices) {
-            val al = (a[i] * 255).toInt()
+            val al = (min(1f, a[i] * 1.4f) * 255).toInt()
             p[i] = (al shl 24) or (p[i] and 0xFFFFFF)
         }
         val res = Bitmap.createBitmap(ow, oh, Bitmap.Config.ARGB_8888)
@@ -293,6 +295,19 @@ object Engine {
         for (i in a.indices) if (!seen[i]) a[i] = 0f
     }
 
+    private fun soften(a: FloatArray, w: Int, h: Int): FloatArray {
+        val o = FloatArray(a.size)
+        for (y in 0 until h) for (x in 0 until w) {
+            var s = 0f; var n = 0
+            for (dy in -1..1) for (dx in -1..1) {
+                val xx = x + dx; val yy = y + dy
+                if (xx in 0 until w && yy in 0 until h) { s += a[yy * w + xx]; n++ }
+            }
+            o[y * w + x] = s / n
+        }
+        return o
+    }
+
     private fun dilate(a: FloatArray, w: Int, h: Int): FloatArray {
         val o = FloatArray(a.size)
         for (y in 0 until h) for (x in 0 until w) {
@@ -307,7 +322,7 @@ object Engine {
     }
 
     /** Хираи «шишаи обдор»: шакл ва ранг маълум, вале кӣ будан не */
-    private fun makeCover(bmp: Bitmap, region: RectF, toScreen: Float, offX: Int, offY: Int): Cover? {
+    private fun makeCover(bmp: Bitmap, region: RectF, toScreen: Float, offX: Int, offY: Int, div: Int = 10): Cover? {
         val l = region.left.toInt().coerceIn(0, bmp.width - 1)
         val t = region.top.toInt().coerceIn(0, bmp.height - 1)
         val w = region.width().toInt().coerceIn(1, bmp.width - l)
@@ -316,11 +331,11 @@ object Engine {
         return try {
             val crop = Bitmap.createBitmap(bmp, l, t, w, h)
             // хурд кардан → хираи сахт (3 гузар) → бо филтр калон мешавад, нарм ва бе катакча
-            val sw = max(3, w / 10); val sh = max(3, h / 10)
+            val sw = max(3, w / div); val sh = max(3, h / div)
             val small = Bitmap.createScaledBitmap(crop, sw, sh, true)
             val p = IntArray(sw * sh)
             small.getPixels(p, 0, sw, 0, 0, sw, sh)
-            val rad = max(2, min(sw, sh) / 6)
+            val rad = max(2, min(sw, sh) / (if (div < 10) 10 else 6))
             repeat(3) { boxBlur(p, sw, sh, rad) }
             for (i in p.indices) {              // каме сафед/хокистарӣ — мисли шишаи обдор
                 val c = p[i]
