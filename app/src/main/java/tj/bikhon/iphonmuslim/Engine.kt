@@ -51,6 +51,9 @@ object Engine {
         var anchorSig: String? = null
         var anchorTried = false
         var movedAt = 0L
+        var toScreen = 1f
+        var offX = 0
+        var offY = 0
     }
 
     /** Ҷойи сурат дар экран, ки парда ба он баста мешавад */
@@ -169,28 +172,33 @@ object Engine {
         for (fb in womenFaces) {
             val photo = photoRegion(full, fb, up, bmp)
             val region = if (wholePhoto) photo else bodyRegion(bmp, fb).also { it.intersect(photo) }
-            val existing = tracks.firstOrNull { overlap(it.region, region) > 0.5f } ?: tracks.firstOrNull {
-                it.region.contains(fb.exactCenterX(), fb.exactCenterY())
-            }
-            if (existing != null) {
-                existing.seen = now
-                if (!clean && now - existing.movedAt > 600) existing.ring = ringSignature(lum, W, H, existing.region, emptyList())
-                if (clean) {   // кадр тоза аст → ҷой ва тасвирро нав мекунем (видео «зинда» менамояд)
+            if (!clean) {
+                // кадр пардаҳои моро дар бар мегирад: агар зан намоён бошад — ӯ пӯшида НЕСТ.
+                // Пардаҳои кӯҳнаи нодурусти ҳамин ҷо хориҷ ва нав кашида мешавад.
+                tracks.removeAll { overlap(it.region, region) > 0.3f }
+            } else {
+                val existing = tracks.firstOrNull { overlap(it.region, region) > 0.5f }
+                if (existing != null) {
+                    existing.seen = now
                     val moved = abs(existing.region.top - region.top) + abs(existing.region.left - region.left) +
                         abs(existing.region.bottom - region.bottom) + abs(existing.region.right - region.right)
                     if (wholePhoto) {
                         existing.region = region
                         makeCover(bmp, region, toScreen, offX, offY)?.let { existing.cover = it }
+                        existing.anchorTried = false; existing.anchor = null
                     } else if (moved > 6f) {
                         existing.region = region
                         makePersonCover(bmp, region, fb, toScreen, offX, offY)?.let { existing.cover = it }
+                        existing.anchorTried = false; existing.anchor = null
                     }
+                    continue
                 }
-                continue
             }
             val cover = (if (wholePhoto) makeCover(bmp, region, toScreen, offX, offY)
                          else makePersonCover(bmp, region, fb, toScreen, offX, offY)) ?: continue
-            tracks.add(Track(region, cover, now, if (clean) null else ringSignature(lum, W, H, region, emptyList())))
+            val tr = Track(region, cover, now, if (clean) null else ringSignature(lum, W, H, region, emptyList()))
+            tr.toScreen = toScreen; tr.offX = offX; tr.offY = offY
+            tracks.add(tr)
         }
         Log.i(TAG, "frame ${bmp.width}x${bmp.height} faces=${found.size} women=${womenFaces.size} " +
             "covers=${tracks.size} clean=$clean ${SystemClock.uptimeMillis() - t0}ms")
@@ -209,6 +217,17 @@ object Engine {
             t.anchorTried = true
             val a = try { find(t.cover.rect) } catch (e: Throwable) { null } ?: continue
             t.anchor = a.node; t.anchorRect = Rect(a.rect); t.anchorSig = a.sig
+            val c = t.cover.rect
+            val sw = a.rect.width() / c.width(); val sh = a.rect.height() / c.height()
+            if (wholePhoto && sw in 0.7f..1.4f && sh in 0.7f..1.4f) {
+                // сурат дар байни гирифтани кадр ва ҳозир ҳаракат кардааст — пардаро рост ба ҷои ҳозираи сурат мегузорем
+                val nr = RectF(a.rect)
+                t.cover = Cover(nr, t.cover.bitmap)
+                t.region = RectF((nr.left - t.offX) / t.toScreen, (nr.top - t.offY) / t.toScreen,
+                    (nr.right - t.offX) / t.toScreen, (nr.bottom - t.offY) / t.toScreen)
+                t.movedAt = SystemClock.uptimeMillis()
+            }
+            Log.i(TAG, "anchor ${a.rect} for ${t.cover.rect}")
         }
     }
 
@@ -232,7 +251,7 @@ object Engine {
             if (dx == 0 && dy == 0) continue
             if (abs(dy) > 1600 || abs(dx) > 1600) { it.remove(); changed = true; continue }   // гиреҳ дубора истифода шуд
             t.cover = Cover(RectF(t.cover.rect).apply { offset(dx.toFloat(), dy.toFloat()) }, t.cover.bitmap)
-            t.region.offset(dx / lastToScreen, dy / lastToScreen)
+            t.region.offset(dx / t.toScreen, dy / t.toScreen)
             t.anchorRect = Rect(nr)
             t.movedAt = now
             changed = true
