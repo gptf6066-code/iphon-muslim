@@ -63,3 +63,4 @@ tap_text "Тоҷикӣ" t; sleep 4; shot 11_app_tg
 adb logcat -d -s IphonMuslim:* > results/applog.txt
 adb logcat -d -b crash > results/crash.txt
 true
+pkill -f "http.server" || true
