@@ -40,8 +40,8 @@ class MainActivity : AppCompatActivity() {
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        L10n.ensureDefault()
         super.onCreate(savedInstanceState)
+        L10n.ensureDefault()
         val pad = (20 * resources.displayMetrics.density).toInt()
         val green = Color.parseColor("#0E7A4F")
 

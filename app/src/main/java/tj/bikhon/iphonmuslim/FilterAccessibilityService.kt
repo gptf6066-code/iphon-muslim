@@ -15,6 +15,7 @@ import android.view.Gravity
 import android.view.WindowManager
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityWindowInfo
+import android.view.accessibility.AccessibilityNodeInfo
 import android.graphics.Rect
 import androidx.annotation.RequiresApi
 import java.util.concurrent.Executors
@@ -96,6 +97,10 @@ class FilterAccessibilityService : AccessibilityService() {
 
     /** Ҳангоми скролл ё ивазшавии экран — фавран кадри нав */
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
+        val et = event?.eventType ?: 0
+        if (et == AccessibilityEvent.TYPE_VIEW_SCROLLED || et == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) {
+            requestFollow()
+        }
         if (event?.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED &&
             event.packageName?.toString() != packageName) {
             Engine.onScreenChanged()
@@ -133,7 +138,7 @@ class FilterAccessibilityService : AccessibilityService() {
                         if (hw != null) {
                             val sw = hw.copy(Bitmap.Config.ARGB_8888, false)
                             hw.recycle()
-                            if (!ScreenFilterService.running) showCovers(Engine.process(sw, 1f))
+                            if (!ScreenFilterService.running) { Engine.process(sw, 1f); afterProcess() }
                         }
                     } catch (e: Throwable) { Log.e(TAG, "shot", e) }
                     inFlight = false
@@ -180,7 +185,7 @@ class FilterAccessibilityService : AccessibilityService() {
                             val sw = hw.copy(Bitmap.Config.ARGB_8888, false)
                             hw.recycle()
                             if (!ScreenFilterService.running) {
-                                showCovers(Engine.process(sw, 1f, b.left, b.top, clean = true))
+                                { Engine.process(sw, 1f, b.left, b.top, clean = true); afterProcess() }
                             }
                         }
                     } catch (e: Throwable) { Log.e(TAG, "winshot", e) }
@@ -202,6 +207,75 @@ class FilterAccessibilityService : AccessibilityService() {
             badWindows.add(target.id)
             false
         }
+    }
+
+    // ---------- пардаҳо бо суратҳо якҷоя ҳаракат мекунанд ----------
+    private val followExec = Executors.newSingleThreadExecutor()
+    @Volatile private var followPending = false
+
+    /** Баъд аз таҳлили кадр: гиреҳҳоро пайваст, ҷойҳоро нав ва пардаҳоро нишон медиҳем */
+    fun afterProcess() {
+        followExec.execute {
+            try {
+                Engine.bindAnchors { findAnchor(it) }
+                Engine.follow { refreshNode(it) }
+            } catch (e: Throwable) { Log.e(TAG, "anchors", e) }
+            showCovers(Engine.covers())
+        }
+    }
+
+    private fun requestFollow() {
+        if (followPending) return
+        followPending = true
+        followExec.execute {
+            followPending = false
+            try { if (Engine.follow { refreshNode(it) }) showCovers(Engine.covers()) } catch (e: Throwable) { Log.e(TAG, "follow", e) }
+        }
+    }
+
+    private fun screenArea(): Float {
+        val dm = resources.displayMetrics
+        return dm.widthPixels.toFloat() * dm.heightPixels
+    }
+
+    /** Хурдтарин гиреҳе, ки маркази пардаро дар бар мегирад ва аз парда хеле хурд нест */
+    private fun findAnchor(r: RectF): Engine.Anchor? {
+        val cx = r.centerX().toInt(); val cy = r.centerY().toInt()
+        val area = r.width() * r.height()
+        val ws = try { windows } catch (e: Throwable) { emptyList<AccessibilityWindowInfo>() }
+        for (w in ws) {
+            if (w.type != AccessibilityWindowInfo.TYPE_APPLICATION) continue
+            val root = w.root ?: continue
+            val n = deepest(root, cx, cy, area, 0) ?: continue
+            val b = Rect(); n.getBoundsInScreen(b)
+            if (b.width().toFloat() * b.height() > screenArea() * 0.85f) return null   // тамоми экран — ҳаракат намекунад
+            return Engine.Anchor(n, b, sig(n))
+        }
+        return null
+    }
+
+    private fun deepest(n: AccessibilityNodeInfo, cx: Int, cy: Int, area: Float, depth: Int): AccessibilityNodeInfo? {
+        if (depth > 45) return null
+        val b = Rect(); n.getBoundsInScreen(b)
+        if (!b.contains(cx, cy)) return null
+        if (b.width().toFloat() * b.height() < area * 0.35f) return null
+        for (i in 0 until n.childCount) {
+            val c = try { n.getChild(i) } catch (e: Throwable) { null } ?: continue
+            val d = deepest(c, cx, cy, area, depth + 1)
+            if (d != null) return d
+        }
+        return n
+    }
+
+    private fun sig(n: AccessibilityNodeInfo) =
+        "${n.className}|${n.contentDescription}|${n.text}|${n.viewIdResourceName}"
+
+    private fun refreshNode(o: Any): Pair<Rect, String>? {
+        val n = o as AccessibilityNodeInfo
+        if (!n.refresh() || !n.isVisibleToUser) return null
+        val b = Rect(); n.getBoundsInScreen(b)
+        if (b.isEmpty) return null
+        return b to sig(n)
     }
 
     override fun onInterrupt() {}

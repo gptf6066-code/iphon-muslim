@@ -45,7 +45,18 @@ object Engine {
     private val memos = mutableListOf<FaceMemo>()
 
     /** Пардаи фаъол (координатаҳои кадри хурд) */
-    private class Track(var region: RectF, var cover: Cover, var seen: Long, var ring: IntArray?)
+    private class Track(var region: RectF, var cover: Cover, var seen: Long, var ring: IntArray?) {
+        var anchor: Any? = null          // гиреҳи сурат дар дарахти экран (AccessibilityNodeInfo)
+        var anchorRect: Rect? = null
+        var anchorSig: String? = null
+        var anchorTried = false
+        var movedAt = 0L
+    }
+
+    /** Ҷойи сурат дар экран, ки парда ба он баста мешавад */
+    class Anchor(val node: Any, val rect: Rect, val sig: String)
+
+    private var lastToScreen = 1f
     private val tracks = mutableListOf<Track>()
 
     private var lastKey = ""
@@ -135,29 +146,22 @@ object Engine {
             if (p >= FEMALE_THRESHOLD) womenFaces.add(f.boundingBox)
         }
 
-        // --- 2) пардаҳои кӯҳна: ҳаракати лентаро пайгирӣ мекунем ---
+        // --- 2) пардаҳои кӯҳна ---
         val W = bmp.width; val H = bmp.height
         val lum = lumOf(bmp)
-        val drawn = tracks.map { RectF(it.region) }      // ҷое, ки пардаҳо ҳоло кашида шудаанд
-        val pl = prevLum
-        if (pl != null && prevW == W && prevH == H) {
-            for (tr in tracks) {
-                val dy = estimateDy(pl, lum, W, H, tr.region, if (clean) emptyList() else drawn)
-                if (dy != 0) {
-                    tr.region.offset(0f, -dy.toFloat())
-                    tr.cover = Cover(RectF(tr.cover.rect).apply { offset(0f, -dy * toScreen) }, tr.cover.bitmap)
-                }
-            }
-        }
-        prevLum = lum; prevW = W; prevH = H
+        lastToScreen = toScreen
+        val drawn = tracks.map { RectF(it.region) }
         tracks.removeAll { it.region.bottom <= 2f || it.region.top >= H - 2f }
         if (clean) {
-            tracks.removeAll { now - it.seen > HOLD_MS }
+            tracks.removeAll { now - it.seen > HOLD_MS && it.anchor == null }
+            tracks.removeAll { now - it.seen > HOLD_MS * 3 }
         } else {
-            // мундариҷаи атроф тамоман иваз шуд (саҳифаи нав) → парда хориҷ
+            // мундариҷаи атроф иваз шуд → парда хориҷ (агар ба сурат баста бошад ва ҳамин ҳоло
+            // ҳаракат карда бошад, ба гиреҳ бовар мекунем)
             tracks.removeAll {
                 val r = it.ring
-                r != null && ringChanged(r, ringSignature(lum, W, H, it.region, drawn)) == true
+                r != null && now - it.movedAt > 600 &&
+                    ringChanged(r, ringSignature(lum, W, H, it.region, drawn)) == true
             }
         }
 
@@ -170,6 +174,7 @@ object Engine {
             }
             if (existing != null) {
                 existing.seen = now
+                if (!clean && now - existing.movedAt > 600) existing.ring = ringSignature(lum, W, H, existing.region, emptyList())
                 if (clean) {   // кадр тоза аст → ҷой ва тасвирро нав мекунем (видео «зинда» менамояд)
                     val moved = abs(existing.region.top - region.top) + abs(existing.region.left - region.left) +
                         abs(existing.region.bottom - region.bottom) + abs(existing.region.right - region.right)
@@ -193,6 +198,47 @@ object Engine {
     }
 
     private fun current(): List<Cover> = tracks.map { it.cover }
+
+    @Synchronized
+    fun covers(): List<Cover> = current()
+
+    /** Барои пардаҳои нав гиреҳи суратро меёбем (як бор) */
+    @Synchronized
+    fun bindAnchors(find: (RectF) -> Anchor?) {
+        for (t in tracks) if (t.anchor == null && !t.anchorTried) {
+            t.anchorTried = true
+            val a = try { find(t.cover.rect) } catch (e: Throwable) { null } ?: continue
+            t.anchor = a.node; t.anchorRect = Rect(a.rect); t.anchorSig = a.sig
+        }
+    }
+
+    /**
+     * Пардаҳоро бо суратҳояшон якҷоя мекӯчонем (скролл). refresh: ҷойи нав ва имзои гиреҳ ё null агар гиреҳ рафт.
+     * @return true агар чизе иваз шуд
+     */
+    @Synchronized
+    fun follow(refresh: (Any) -> Pair<Rect, String>?): Boolean {
+        var changed = false
+        val now = SystemClock.uptimeMillis()
+        val it = tracks.iterator()
+        while (it.hasNext()) {
+            val t = it.next()
+            val node = t.anchor ?: continue
+            val old = t.anchorRect ?: continue
+            val res = try { refresh(node) } catch (e: Throwable) { null }
+            if (res == null || res.second != t.anchorSig) { it.remove(); changed = true; continue }
+            val nr = res.first
+            val dx = nr.left - old.left; val dy = nr.top - old.top
+            if (dx == 0 && dy == 0) continue
+            if (abs(dy) > 1600 || abs(dx) > 1600) { it.remove(); changed = true; continue }   // гиреҳ дубора истифода шуд
+            t.cover = Cover(RectF(t.cover.rect).apply { offset(dx.toFloat(), dy.toFloat()) }, t.cover.bitmap)
+            t.region.offset(dx / lastToScreen, dy / lastToScreen)
+            t.anchorRect = Rect(nr)
+            t.movedAt = now
+            changed = true
+        }
+        return changed
+    }
 
     /** Намуди «танҳо ҷои зан»: сар + бадан */
     private fun bodyRegion(bmp: Bitmap, face: Rect): RectF {
