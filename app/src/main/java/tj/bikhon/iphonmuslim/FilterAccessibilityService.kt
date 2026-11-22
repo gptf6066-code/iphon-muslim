@@ -43,8 +43,11 @@ class FilterAccessibilityService : AccessibilityService() {
                 list.contains("FilterAccessibilityService", ignoreCase = true)
         }
 
-        fun isPaused(ctx: Context) =
-            ctx.getSharedPreferences(Prefs.NAME, Context.MODE_PRIVATE).getBoolean(Prefs.PAUSED, false)
+        /** Бе розигии корбар (огоҳии Google Play) ҳеҷ кор намекунем */
+        fun isPaused(ctx: Context): Boolean {
+            val p = ctx.getSharedPreferences(Prefs.NAME, Context.MODE_PRIVATE)
+            return p.getBoolean(Prefs.PAUSED, false) || !p.getBoolean(Prefs.CONSENT, false)
+        }
     }
 
     var overlay: OverlayView? = null

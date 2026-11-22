@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="tagline">Везде — YouTube, Instagram, Google, Галерея — размывает фото и видео, на которых есть женщина.</string>
+    <string name="tagline">Везде — YouTube, Instagram, Google, Галерея — размывает изображения не-махрам.</string>
     <string name="status_off">⛔ Выключено</string>
     <string name="btn_enable">Включить</string>
-    <string name="help_enable">Один раз: на открывшейся странице найдите «iPhon Muslim» и включите (Специальные возможности → Скачанные службы → iPhon Muslim → Вкл).</string>
+    <string name="help_enable">Один раз: на открывшейся странице найдите «Muslim Shield» и включите (Специальные возможности → Скачанные службы → Muslim Shield → Вкл).</string>
     <string name="help_restricted">Если не включается и написано «Ограниченная настройка»: нажмите кнопку ниже → ⋮ (вверху) → «Разрешить ограниченные настройки», затем снова.</string>
     <string name="btn_restricted">Открыть настройки приложения</string>
     <string name="status_paused">⏸ Пауза</string>
@@ -17,14 +17,27 @@
     <string name="btn_stop">Выключить</string>
     <string name="btn_start">Старт</string>
     <string name="mode_title">Тип размытия:</string>
-    <string name="mode_photo">Всё фото или видео, где есть женщина</string>
-    <string name="mode_person">Только сама женщина (голова и тело)</string>
-    <string name="note">Всё работает на телефоне, интернет не нужен и ничего не отправляется. Приложение распознаёт женщину по лицу и иногда может ошибаться.</string>
-    <string name="toast_enable">Включите «iPhon Muslim»</string>
-    <string name="lang_title">Язык:</string>
-    <string name="notif_title">iPhon Muslim — быстрый режим</string>
+    <string name="mode_photo">Всё фото или видео</string>
+    <string name="mode_person">Только сам человек (голова и тело)</string>
+    <string name="note">Всё работает на телефоне, интернет не нужен и ничего не отправляется. Приложение определяет мужчину и женщину по лицу и иногда может ошибаться.</string>
+    <string name="toast_enable">Включите «Muslim Shield»</string>
+    <string name="lang_title">Язык</string>
+    <string name="notif_title">Muslim Shield — быстрый режим</string>
     <string name="notif_text">Экран защищён</string>
-    <string name="a11y_desc">iPhon Muslim: размывает фото и видео, на которых есть женщина. Никакие данные не собираются и не отправляются.</string>
-    <string name="fast_hint">Быстрый режим нужен для прокрутки и видео. После каждого включения телефона один раз нажмите «Начать».</string>
-    <string name="scroll_guard">Размывать всю ленту во время прокрутки (надёжнее всего: в движении ни одно фото не видно)</string>
+    <string name="a11y_desc">Muslim Shield проверяет изображение экрана только на телефоне и размывает фото и видео не-махрам. Изображения не сохраняются и не отправляются.</string>
+    <string name="fast_hint">Быстрый режим лучше для прокрутки и видео. После каждого включения телефона один раз нажмите «Начать».</string>
+    <string name="scroll_guard">Размывать ленту во время прокрутки (надёжнее всего)</string>
+    <string name="i_am">Я:</string>
+    <string name="i_am_man">Мужчина — размывать женщин</string>
+    <string name="i_am_woman">Женщина — размывать мужчин</string>
+    <string name="about_title">О приложении</string>
+    <string name="about_purpose">Muslim Shield создан, чтобы оберегать взгляд мусульманина от не-махрам.\n\nПриложение находит лица на фото и видео в телефоне — YouTube, Instagram, Google, Галерея и любые другие приложения — и размывает не-махрам: для мужчин — женщин, для женщин — мужчин.</string>
+    <string name="about_made_by">Разработано учебным центром «БИХОН»</string>
+    <string name="about_private">Всё происходит только на телефоне. Изображения не сохраняются и не отправляются в интернет.</string>
+    <string name="btn_continue">Продолжить</string>
+    <string name="disclosure_title">Использование службы специальных возможностей</string>
+    <string name="disclosure_text">Muslim Shield использует API службы специальных возможностей Android (AccessibilityService). Это приложение не является инструментом для людей с ограниченными возможностями; API используется только для того, чтобы:\n\n• получать изображение экрана и находить лица на фото и видео;\n• рисовать размытие поверх изображений не-махрам;\n• узнавать расположение фото на экране, чтобы размытие двигалось вместе с ними при прокрутке.\n\nЭти данные обрабатываются только в моменте и только на телефоне. Они не сохраняются, не отправляются в интернет и никому не передаются. Приложение не собирает сообщения, пароли или личные данные и не выполняет действий от вашего имени в других приложениях.\n\n«Быстрый режим» (по желанию) делает то же самое быстрее с разрешением на запись экрана; эти изображения тоже не сохраняются и не отправляются.</string>
+    <string name="btn_agree">Согласен</string>
+    <string name="btn_decline">Нет, спасибо</string>
+    <string name="privacy_link">Политика конфиденциальности</string>
 </resources>

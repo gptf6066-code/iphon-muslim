@@ -18,18 +18,39 @@ jobs:
           java-version: "17"
       - uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: "8.9"
-      - name: Build
-        run: gradle assembleDebug --no-daemon --stacktrace
-      - name: Rename APK
-        run: cp app/build/outputs/apk/debug/app-debug.apk iphon-muslim.apk
+          gradle-version: "8.11.1"
+      - name: Signing key from secrets (if set)
+        env:
+          KS: ${{ secrets.UPLOAD_KEYSTORE_BASE64 }}
+        run: |
+          if [ -n "$KS" ]; then
+            echo "$KS" | base64 -d > "$RUNNER_TEMP/upload.jks"
+            echo "UPLOAD_KEYSTORE_PATH=$RUNNER_TEMP/upload.jks" >> "$GITHUB_ENV"
+            echo "SIGNED_FOR_PLAY=1" >> "$GITHUB_ENV"
+          fi
+      - name: Build APK and AAB
+        env:
+          UPLOAD_KEYSTORE_PASSWORD: ${{ secrets.UPLOAD_KEYSTORE_PASSWORD }}
+          UPLOAD_KEY_ALIAS: ${{ secrets.UPLOAD_KEY_ALIAS }}
+          UPLOAD_KEY_PASSWORD: ${{ secrets.UPLOAD_KEY_PASSWORD }}
+        run: gradle assembleRelease bundleRelease --no-daemon --stacktrace
+      - name: Collect files
+        run: |
+          cp app/build/outputs/apk/release/app-release.apk muslim-shield.apk
+          cp app/build/outputs/bundle/release/app-release.aab muslim-shield.aab
+          # барои санҷиши эмулятор (номи кӯҳна)
+          cp muslim-shield.apk iphon-muslim.apk
       - uses: actions/upload-artifact@v4
         with:
-          name: iphon-muslim-apk
-          path: iphon-muslim.apk
+          name: muslim-shield
+          path: |
+            muslim-shield.apk
+            muslim-shield.aab
       - name: Publish release (direct download link)
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          FILES="muslim-shield.apk iphon-muslim.apk"
+          if [ "$SIGNED_FOR_PLAY" = "1" ]; then FILES="$FILES muslim-shield.aab"; fi
           gh release delete latest --yes --cleanup-tag || true
-          gh release create latest iphon-muslim.apk --title "iPhon Muslim" --notes "APK барои Android"
+          gh release create latest $FILES --title "Muslim Shield" --notes "APK барои насб; AAB барои Google Play (агар калиди махфӣ гузошта шуда бошад)"

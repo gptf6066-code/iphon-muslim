@@ -68,6 +68,9 @@ class ScreenFilterService : Service() {
             }
             ACTION_START -> {
                 if (running) return START_NOT_STICKY
+                if (!getSharedPreferences(Prefs.NAME, Context.MODE_PRIVATE).getBoolean(Prefs.CONSENT, false)) {
+                    stopSelf(); return START_NOT_STICKY
+                }
                 startAsForeground()
                 val code = intent.getIntExtra(EXTRA_CODE, 0)
                 val data: Intent? = if (Build.VERSION.SDK_INT >= 33)

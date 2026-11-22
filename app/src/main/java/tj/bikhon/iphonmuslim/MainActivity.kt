@@ -14,15 +14,17 @@ import android.provider.Settings
 import android.view.Gravity
 import android.view.View
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.widget.SwitchCompat
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContextCompat
 
 class MainActivity : AppCompatActivity() {
@@ -40,44 +42,63 @@ class MainActivity : AppCompatActivity() {
     private val notifLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
 
+    /** Баъд аз «Розӣ ҳастам» — ба танзимоти Специальные возможности */
+    private val consentLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { r ->
+            if (r.resultCode == RESULT_OK) openAccessibility()
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         L10n.ensureDefault()
-        val pad = (20 * resources.displayMetrics.density).toInt()
+        val d = resources.displayMetrics.density
+        val pad = (20 * d).toInt()
         val green = Color.parseColor("#0E7A4F")
 
         val root = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(pad, pad * 2, pad, pad)
+            setPadding(pad, pad / 2, pad, pad)
         }
+
+        // --- сатри боло: ⓘ  номи барнома  🌐 ---
+        val bar = FrameLayout(this)
+        bar.addView(TextView(this).apply {
+            text = getString(R.string.app_name); textSize = 26f
+            setTypeface(typeface, Typeface.BOLD); setTextColor(green); gravity = Gravity.CENTER
+        }, FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.CENTER))
+        bar.addView(iconButton("ⓘ") { startActivity(Intent(this, AboutActivity::class.java)) },
+            FrameLayout.LayoutParams((48 * d).toInt(), (48 * d).toInt(), Gravity.START or Gravity.CENTER_VERTICAL))
+        bar.addView(iconButton("🌐") { chooseLanguage() },
+            FrameLayout.LayoutParams((48 * d).toInt(), (48 * d).toInt(), Gravity.END or Gravity.CENTER_VERTICAL))
+        root.addView(bar)
+
         root.addView(TextView(this).apply {
-            text = getString(R.string.app_name)
-            textSize = 30f
-            setTypeface(typeface, Typeface.BOLD)
-            setTextColor(green)
-            gravity = Gravity.CENTER
+            text = getString(R.string.tagline); textSize = 15f; gravity = Gravity.CENTER
+            setPadding(0, pad / 3, 0, pad)
         })
-        root.addView(TextView(this).apply {
-            text = getString(R.string.tagline)
-            textSize = 15f
-            gravity = Gravity.CENTER
-            setPadding(0, pad / 2, 0, pad)
-        })
-        status = TextView(this).apply {
-            textSize = 19f
-            gravity = Gravity.CENTER
+
+        // --- ман мард/зан ---
+        root.addView(title(getString(R.string.i_am), pad))
+        val target = prefs.getString(Prefs.TARGET, Prefs.TARGET_WOMEN)
+        val rMan = radio(getString(R.string.i_am_man))
+        val rWoman = radio(getString(R.string.i_am_woman))
+        root.addView(RadioGroup(this).apply {
+            addView(rMan); addView(rWoman)
+            check(if (target == Prefs.TARGET_MEN) rWoman.id else rMan.id)
+            setOnCheckedChangeListener { _, id ->
+                val t = if (id == rWoman.id) Prefs.TARGET_MEN else Prefs.TARGET_WOMEN
+                prefs.edit().putString(Prefs.TARGET, t).apply()
+                Engine.hideWomen = t != Prefs.TARGET_MEN
+                Engine.reset()
+            }
             setPadding(0, 0, 0, pad / 2)
-        }
+        })
+
+        status = TextView(this).apply { textSize = 19f; gravity = Gravity.CENTER; setPadding(0, pad / 2, 0, pad / 2) }
         root.addView(status)
-        mainBtn = Button(this).apply {
-            textSize = 20f
-            setOnClickListener { onMain() }
-        }
+        mainBtn = Button(this).apply { textSize = 20f; setOnClickListener { onMain() } }
         root.addView(mainBtn)
-        help = TextView(this).apply {
-            textSize = 15f
-            setPadding(0, pad / 2, 0, 0)
-        }
+        help = TextView(this).apply { textSize = 15f; setPadding(0, pad / 2, 0, 0) }
         root.addView(help)
         helpBtn = Button(this).apply {
             text = getString(R.string.btn_restricted)
@@ -86,32 +107,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
         root.addView(helpBtn)
-        fastBtn = Button(this).apply {
-            textSize = 16f
-            setOnClickListener { onFast() }
-        }
+        fastBtn = Button(this).apply { textSize = 16f; setOnClickListener { onFast() } }
         root.addView(fastBtn)
-        fastHint = TextView(this).apply {
-            text = getString(R.string.fast_hint)
-            textSize = 13f
-            setTextColor(Color.GRAY)
-        }
+        fastHint = TextView(this).apply { text = getString(R.string.fast_hint); textSize = 13f; setTextColor(Color.GRAY) }
         root.addView(fastHint)
 
         // --- намуди хира кардан ---
-        root.addView(TextView(this).apply {
-            text = getString(R.string.mode_title)
-            textSize = 17f
-            setTypeface(typeface, Typeface.BOLD)
-            setPadding(0, pad, 0, pad / 4)
-        })
+        root.addView(title(getString(R.string.mode_title), pad))
         val modeNow = prefs.getString(Prefs.MODE, Prefs.MODE_PHOTO)
-        val rPhoto = RadioButton(this).apply {
-            id = View.generateViewId(); textSize = 16f; text = getString(R.string.mode_photo)
-        }
-        val rPerson = RadioButton(this).apply {
-            id = View.generateViewId(); textSize = 16f; text = getString(R.string.mode_person)
-        }
+        val rPhoto = radio(getString(R.string.mode_photo))
+        val rPerson = radio(getString(R.string.mode_person))
         root.addView(RadioGroup(this).apply {
             addView(rPhoto); addView(rPerson)
             check(if (modeNow == Prefs.MODE_PERSON) rPerson.id else rPhoto.id)
@@ -122,48 +127,55 @@ class MainActivity : AppCompatActivity() {
                 Engine.reset()
             }
         })
-
         root.addView(SwitchCompat(this).apply {
-            text = getString(R.string.scroll_guard)
-            textSize = 16f
+            text = getString(R.string.scroll_guard); textSize = 16f
             isChecked = prefs.getBoolean(Prefs.SCROLL_GUARD, true)
             setPadding(0, pad / 2, 0, 0)
             setOnCheckedChangeListener { _, v -> prefs.edit().putBoolean(Prefs.SCROLL_GUARD, v).apply() }
         })
 
-        // --- забон ---
         root.addView(TextView(this).apply {
-            text = getString(R.string.lang_title)
-            textSize = 17f
-            setTypeface(typeface, Typeface.BOLD)
-            setPadding(0, pad, 0, pad / 4)
+            text = getString(R.string.note); textSize = 13f; setTextColor(Color.GRAY)
+            setPadding(0, pad, 0, pad / 2)
         })
-        val cur = L10n.current()
-        root.addView(RadioGroup(this).apply {
-            orientation = RadioGroup.VERTICAL
-            for ((tag, name) in L10n.LANGS) {
-                val rb = RadioButton(this@MainActivity).apply {
-                    id = View.generateViewId(); text = name; textSize = 15f
-                    setPadding(0, 0, pad / 2, 0)
-                }
-                addView(rb)
-                if (tag == cur) check(rb.id)
-                rb.setOnClickListener { if (tag != L10n.current()) L10n.set(tag) }
-            }
+        root.addView(TextView(this).apply {
+            text = getString(R.string.privacy_link); textSize = 14f; setTextColor(Color.parseColor("#1565C0"))
+            paintFlags = paintFlags or android.graphics.Paint.UNDERLINE_TEXT_FLAG
+            setOnClickListener { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(AboutActivity.PRIVACY_URL))) }
         })
+        setContentView(ScrollView(this).apply { addView(root); Insets.pad(this) })
 
-        root.addView(TextView(this).apply {
-            textSize = 13f
-            setTextColor(Color.GRAY)
-            setPadding(0, pad, 0, 0)
-            text = getString(R.string.note)
-        })
-        setContentView(ScrollView(this).apply { addView(root) })
+        if (!prefs.getBoolean(Prefs.ABOUT_SEEN, false)) startActivity(Intent(this, AboutActivity::class.java))
 
         if (Build.VERSION.SDK_INT >= 33 &&
             ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
             != PackageManager.PERMISSION_GRANTED
         ) notifLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+    }
+
+    private fun iconButton(t: String, click: () -> Unit) = TextView(this).apply {
+        text = t; textSize = 24f; gravity = Gravity.CENTER
+        setTextColor(Color.parseColor("#0E7A4F"))
+        setOnClickListener { click() }
+    }
+
+    private fun title(t: String, pad: Int) = TextView(this).apply {
+        text = t; textSize = 17f; setTypeface(typeface, Typeface.BOLD); setPadding(0, pad / 2, 0, pad / 4)
+    }
+
+    private fun radio(t: String) = RadioButton(this).apply { id = View.generateViewId(); textSize = 16f; text = t }
+
+    private fun chooseLanguage() {
+        val names = L10n.LANGS.map { it.second }.toTypedArray()
+        val cur = L10n.LANGS.indexOfFirst { it.first == L10n.current() }.coerceAtLeast(0)
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.lang_title))
+            .setSingleChoiceItems(names, cur) { dlg, which ->
+                dlg.dismiss()
+                val tag = L10n.LANGS[which].first
+                if (tag != L10n.current()) L10n.set(tag)
+            }
+            .show()
     }
 
     override fun onResume() {
@@ -173,7 +185,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun refresh() {
-        val enabled = FilterAccessibilityService.isEnabled(this)
+        val enabled = FilterAccessibilityService.isEnabled(this) && prefs.getBoolean(Prefs.CONSENT, false)
         val paused = prefs.getBoolean(Prefs.PAUSED, false)
         val modern = Build.VERSION.SDK_INT >= 30
         help.visibility = View.GONE
@@ -204,13 +216,17 @@ class MainActivity : AppCompatActivity() {
             fastBtn.text = getString(if (ScreenFilterService.running) R.string.btn_fast_off else R.string.btn_fast_on)
             if (!ScreenFilterService.running) fastHint.visibility = View.VISIBLE
         } else {
-            // Android 10 ва пасттар: экран танҳо тавассути сабти экран дида мешавад
             status.text = getString(if (ScreenFilterService.running) R.string.status_on else R.string.status_last_step)
             mainBtn.text = getString(if (ScreenFilterService.running) R.string.btn_stop else R.string.btn_start)
         }
     }
 
     private fun onMain() {
+        if (!prefs.getBoolean(Prefs.CONSENT, false)) {
+            triedEnable = true
+            consentLauncher.launch(Intent(this, DisclosureActivity::class.java))
+            return
+        }
         if (!FilterAccessibilityService.isEnabled(this)) {
             triedEnable = true
             openAccessibility()
@@ -242,7 +258,7 @@ class MainActivity : AppCompatActivity() {
         status.postDelayed({ refresh() }, 400)
     }
 
-    /** Кӯшиш мекунем саҳифаи худи апп дар Специальные возможности-ро кушоем */
+    /** Кӯшиш мекунем саҳифаи худи барнома дар Специальные возможности-ро кушоем */
     private fun openAccessibility() {
         val comp = ComponentName(this, FilterAccessibilityService::class.java).flattenToString()
         val direct = Intent("android.settings.ACCESSIBILITY_DETAILS_SETTINGS")
@@ -265,4 +281,9 @@ object Prefs {
     const val MODE = "mode"
     const val MODE_PHOTO = "photo"
     const val MODE_PERSON = "person"
+    const val TARGET = "target"
+    const val TARGET_WOMEN = "women"
+    const val TARGET_MEN = "men"
+    const val CONSENT = "consent"
+    const val ABOUT_SEEN = "about_seen"
 }

@@ -37,8 +37,14 @@ object Engine {
     private var gender: GenderModel? = null
     private var segmenter: Segmenter? = null
 
-    /** true — тамоми сурат/видео; false — танҳо ҷои худи зан (сар ва бадан) */
+    /** true — тамоми сурат/видео; false — танҳо ҷои худи шахс (сар ва бадан) */
     @Volatile var wholePhoto = true
+
+    /** true — занҳо хира мешаванд (корбар мард); false — мардҳо (корбар зан) */
+    @Volatile var hideWomen = true
+
+    private fun isTarget(femaleProb: Float) =
+        if (hideWomen) femaleProb >= FEMALE_THRESHOLD else femaleProb < FEMALE_THRESHOLD
 
     /** Хотираи рӯйҳо: эҳтимоли зан будан аз чанд кадр ҷамъ мешавад */
     private class FaceMemo(var rect: RectF, var prob: Float, var n: Int, var seen: Long, val born: Long)
@@ -73,8 +79,9 @@ object Engine {
 
     @Synchronized
     fun init(ctx: Context) {
-        wholePhoto = ctx.getSharedPreferences(Prefs.NAME, Context.MODE_PRIVATE)
-            .getString(Prefs.MODE, Prefs.MODE_PHOTO) != Prefs.MODE_PERSON
+        val pr = ctx.getSharedPreferences(Prefs.NAME, Context.MODE_PRIVATE)
+        wholePhoto = pr.getString(Prefs.MODE, Prefs.MODE_PHOTO) != Prefs.MODE_PERSON
+        hideWomen = pr.getString(Prefs.TARGET, Prefs.TARGET_WOMEN) != Prefs.TARGET_MEN
         if (faces != null) return
         segmenter = try {
             Segmentation.getClient(
@@ -119,7 +126,7 @@ object Engine {
         ) else full
         val up = full.width.toFloat() / bmp.width
         val toScreen = fullToScreen * up
-        val key = "${bmp.width}x${bmp.height}@$toScreen+$offX,$offY/$wholePhoto/$clean"
+        val key = "${bmp.width}x${bmp.height}@$toScreen+$offX,$offY/$wholePhoto/$hideWomen/$clean"
         if (key != lastKey) { tracks.clear(); memos.clear(); lastKey = key }
 
         val det = faces ?: return emptyList()
@@ -135,7 +142,7 @@ object Engine {
         for (f in found) {
             val fr = RectF(f.boundingBox)
             val memo = memos.maxByOrNull { iou(it.rect, fr) }?.takeIf { iou(it.rect, fr) > 0.35f }
-            val needNew = memo == null || memo.n < 3 || (memo.prob < FEMALE_THRESHOLD && now - memo.born > MALE_RECHECK_MS)
+            val needNew = memo == null || memo.n < 3 || (!isTarget(memo.prob) && now - memo.born > MALE_RECHECK_MS)
             var p = memo?.prob ?: 0.5f
             if (needNew) {
                 val b = f.boundingBox
@@ -150,7 +157,7 @@ object Engine {
             }
             memo?.let { it.rect = fr; it.seen = now }
             Log.i(TAG, "face ${f.boundingBox.width()}px female=${"%.2f".format(p)}")
-            if (p >= FEMALE_THRESHOLD) womenFaces.add(f.boundingBox)
+            if (isTarget(p)) womenFaces.add(f.boundingBox)   // «womenFaces» = рӯйҳое, ки бояд хира шаванд
         }
 
         // --- 2) пардаҳои кӯҳна ---

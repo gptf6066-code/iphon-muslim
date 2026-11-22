@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="tagline">Дар ҳама ҷо — YouTube, Instagram, Google, Галерея — сурат ва видеоеро, ки дар он зан ҳаст, хира мекунад.</string>
+    <string name="tagline">Дар ҳама ҷо — YouTube, Instagram, Google, Галерея — тасвири номаҳрамро хира мекунад.</string>
     <string name="status_off">⛔ Хомӯш аст</string>
     <string name="btn_enable">Фаъол кардан</string>
-    <string name="help_enable">Як бор: дар саҳифае, ки кушода мешавад, «iPhon Muslim»-ро ёбед ва фаъол кунед (Специальные возможности → Скачанные службы → iPhon Muslim → Вкл).</string>
+    <string name="help_enable">Як бор: дар саҳифае, ки кушода мешавад, «Muslim Shield»-ро ёбед ва фаъол кунед (Специальные возможности → Скачанные службы → Muslim Shield → Вкл).</string>
     <string name="help_restricted">Агар фаъол нашуд ва навишт «Ограниченная настройка»: тугмаи поёнро пахш кунед → ⋮ (дар боло) → «Разрешить ограниченные настройки», баъд аз нав.</string>
-    <string name="btn_restricted">Кушодани танзимоти апп</string>
+    <string name="btn_restricted">Кушодани танзимоти барнома</string>
     <string name="status_paused">⏸ Таваққуф</string>
     <string name="btn_resume">Идома додан</string>
     <string name="status_on">✅ Фаъол аст</string>
@@ -17,14 +17,27 @@
     <string name="btn_stop">Хомӯш кардан</string>
     <string name="btn_start">Оғоз</string>
     <string name="mode_title">Намуди хира кардан:</string>
-    <string name="mode_photo">Тамоми сурат ё видео, ки дар он зан ҳаст</string>
-    <string name="mode_person">Танҳо ҷои худи зан (сар ва бадан)</string>
-    <string name="note">Ҳамааш дар худи телефон кор мекунад, интернет лозим нест ва ҳеҷ чиз фиристода намешавад. Апп занро аз рӯяш мешиносад; гоҳе хато шуданаш мумкин аст.</string>
-    <string name="toast_enable">«iPhon Muslim»-ро фаъол кунед</string>
-    <string name="lang_title">Забон:</string>
-    <string name="notif_title">iPhon Muslim — ҳолати тез</string>
+    <string name="mode_photo">Тамоми сурат ё видео</string>
+    <string name="mode_person">Танҳо ҷои худи шахс (сар ва бадан)</string>
+    <string name="note">Ҳамааш дар худи телефон кор мекунад, интернет лозим нест ва ҳеҷ чиз фиристода намешавад. Барнома зан ва мардро аз рӯй мешиносад; гоҳе хато шуданаш мумкин аст.</string>
+    <string name="toast_enable">«Muslim Shield»-ро фаъол кунед</string>
+    <string name="lang_title">Забон</string>
+    <string name="notif_title">Muslim Shield — ҳолати тез</string>
     <string name="notif_text">Экран муҳофизат мешавад</string>
-    <string name="a11y_desc">iPhon Muslim: болои сурат ва видеоҳое, ки дар онҳо зан ҳаст, пардаи хира мекашад. Ҳеҷ маълумот ҷамъ ё фиристода намешавад.</string>
-    <string name="fast_hint">Ҳолати тез барои скролл ва видео лозим аст. Баъд аз ҳар фурӯзон кардани телефон як бор «Начать»-ро пахш кунед.</string>
-    <string name="scroll_guard">Ҳангоми скролл тамоми лента хира шавад (бехатартарин: ҳангоми ҳаракат ягон сурат намоён намешавад)</string>
+    <string name="a11y_desc">Muslim Shield тасвири экранро танҳо дар дохили телефон месанҷад ва болои сурат ва видеои номаҳрам пардаи хира мекашад. Ҳеҷ тасвир нигоҳ дошта ё фиристода намешавад.</string>
+    <string name="fast_hint">Ҳолати тез барои скролл ва видео беҳтар аст. Баъд аз ҳар фурӯзон кардани телефон як бор «Начать»-ро пахш кунед.</string>
+    <string name="scroll_guard">Ҳангоми скролл тамоми лента хира шавад (бехатартарин)</string>
+    <string name="i_am">Ман:</string>
+    <string name="i_am_man">Мард ҳастам — занҳо хира шаванд</string>
+    <string name="i_am_woman">Зан ҳастам — мардҳо хира шаванд</string>
+    <string name="about_title">Дар бораи барнома</string>
+    <string name="about_purpose">Muslim Shield барои ҳифзи чашми мусулмон аз нигоҳ ба номаҳрам сохта шудааст.\n\nБарнома дар сурат ва видеоҳои телефон — YouTube, Instagram, Google, Галерея ва ҳар барномаи дигар — рӯйҳоро мешиносад ва тасвири номаҳрамро хира мекунад: барои мардон — занҳоро, барои занон — мардҳоро.</string>
+    <string name="about_made_by">Аз ҷониби маркази таълимии «БИХОН» сохта шудааст</string>
+    <string name="about_private">Ҳамааш танҳо дар дохили телефон анҷом мешавад. Ҳеҷ тасвир нигоҳ дошта ё ба интернет фиристода намешавад.</string>
+    <string name="btn_continue">Идома</string>
+    <string name="disclosure_title">Истифодаи хидмати «Специальные возможности»</string>
+    <string name="disclosure_text">Muslim Shield API-и хидмати «Специальные возможности»-и Android (AccessibilityService)-ро истифода мебарад. Ин барнома абзори ёрирасон барои маъюбон нест; API танҳо барои ин корҳо истифода мешавад:\n\n• гирифтани тасвири экран барои ёфтани рӯйҳо дар сурат ва видео;\n• кашидани пардаи хира болои тасвири номаҳрам;\n• хондани ҷойи суратҳо дар экран, то парда ҳангоми скролл бо сурат якҷоя ҳаракат кунад.\n\nИн маълумот танҳо дар ҳамон лаҳза ва танҳо дар дохили телефон коркард мешавад. Нигоҳ дошта намешавад, ба интернет фиристода намешавад ва ба ҳеҷ кас дода намешавад. Барнома паём, парол ё маълумоти шахсии шуморо ҷамъ намекунад ва аз номи шумо дар барномаҳои дигар коре намекунад.\n\n«Ҳолати тез» (ихтиёрӣ) бо иҷозати сабти экран ҳамин корро тезтар мекунад; тасвирҳои он ҳам нигоҳ дошта ё фиристода намешаванд.</string>
+    <string name="btn_agree">Розӣ ҳастам</string>
+    <string name="btn_decline">Не, ташаккур</string>
+    <string name="privacy_link">Сиёсати махфият</string>
 </resources>

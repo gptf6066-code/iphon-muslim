@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="tagline">Everywhere — YouTube, Instagram, Google, Gallery — blurs photos and videos that show a woman.</string>
+    <string name="tagline">Everywhere — YouTube, Instagram, Google, Gallery — blurs images of non-mahram people.</string>
     <string name="status_off">⛔ Off</string>
     <string name="btn_enable">Turn on</string>
-    <string name="help_enable">Once: on the page that opens, find “iPhon Muslim” and turn it on (Accessibility → Installed services → iPhon Muslim → On).</string>
+    <string name="help_enable">Once: on the page that opens, find “Muslim Shield” and turn it on (Accessibility → Installed services → Muslim Shield → On).</string>
     <string name="help_restricted">If it won\'t turn on and says “Restricted setting”: tap the button below → ⋮ (top) → “Allow restricted settings”, then try again.</string>
     <string name="btn_restricted">Open app settings</string>
     <string name="status_paused">⏸ Paused</string>
@@ -17,14 +17,27 @@
     <string name="btn_stop">Turn off</string>
     <string name="btn_start">Start</string>
     <string name="mode_title">Blur style:</string>
-    <string name="mode_photo">The whole photo or video that shows a woman</string>
-    <string name="mode_person">Only the woman herself (head and body)</string>
-    <string name="note">Everything runs on the phone; no internet is needed and nothing is sent. The app recognizes a woman by her face and can sometimes be wrong.</string>
-    <string name="toast_enable">Turn on “iPhon Muslim”</string>
-    <string name="lang_title">Language:</string>
-    <string name="notif_title">iPhon Muslim — fast mode</string>
+    <string name="mode_photo">The whole photo or video</string>
+    <string name="mode_person">Only the person (head and body)</string>
+    <string name="note">Everything runs on the phone; no internet is needed and nothing is sent. The app tells men and women apart by the face and can sometimes be wrong.</string>
+    <string name="toast_enable">Turn on “Muslim Shield”</string>
+    <string name="lang_title">Language</string>
+    <string name="notif_title">Muslim Shield — fast mode</string>
     <string name="notif_text">Screen is protected</string>
-    <string name="a11y_desc">iPhon Muslim: blurs photos and videos that show a woman. No data is collected or sent.</string>
-    <string name="fast_hint">Fast mode is needed for scrolling and video. After each phone restart, tap “Start now” once.</string>
-    <string name="scroll_guard">Blur the whole feed while scrolling (safest: no photo is visible while it moves)</string>
+    <string name="a11y_desc">Muslim Shield checks the screen image only on the phone and blurs photos and videos of non-mahram people. No image is stored or sent.</string>
+    <string name="fast_hint">Fast mode is better for scrolling and video. After each restart, tap “Start now” once.</string>
+    <string name="scroll_guard">Blur the feed while scrolling (safest)</string>
+    <string name="i_am">I am:</string>
+    <string name="i_am_man">A man — blur women</string>
+    <string name="i_am_woman">A woman — blur men</string>
+    <string name="about_title">About the app</string>
+    <string name="about_purpose">Muslim Shield was made to protect a Muslim\'s eyes from looking at non-mahram people.\n\nThe app finds faces in photos and videos on the phone — YouTube, Instagram, Google, Gallery and any other app — and blurs non-mahram people: women for men, and men for women.</string>
+    <string name="about_made_by">Made by the «БИХОН» learning center</string>
+    <string name="about_private">Everything happens only on the phone. No image is stored or sent to the internet.</string>
+    <string name="btn_continue">Continue</string>
+    <string name="disclosure_title">Use of the Accessibility service</string>
+    <string name="disclosure_text">Muslim Shield uses the Android AccessibilityService API. This app is not an accessibility tool for people with disabilities; the API is used only to:\n\n• capture the screen image to find faces in photos and videos;\n• draw a blur over images of non-mahram people;\n• read where photos are on the screen, so the blur moves with them while scrolling.\n\nThis data is processed only in the moment and only on the phone. It is not stored, not sent to the internet and not shared with anyone. The app does not collect messages, passwords or personal data, and it does not perform actions for you in other apps.\n\nOptional “fast mode” does the same faster with screen-recording permission; those images are also not stored or sent.</string>
+    <string name="btn_agree">I agree</string>
+    <string name="btn_decline">No thanks</string>
+    <string name="privacy_link">Privacy policy</string>
 </resources>

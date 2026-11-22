@@ -5,29 +5,41 @@ plugins {
 
 android {
     namespace = "tj.bikhon.iphonmuslim"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
-        applicationId = "tj.bikhon.iphonmuslim"
+        applicationId = "tj.bikhon.muslimshield"
         minSdk = 21
-        targetSdk = 34
-        versionCode = 11
-        versionName = "3.5"
+        targetSdk = 36
+        versionCode = 12
+        versionName = "4.0"
         ndk { abiFilters += listOf("armeabi-v7a", "arm64-v8a", "x86_64") }
     }
 
-    // Калиди доимӣ — навсозиҳо бе нест кардани версияи кӯҳна насб мешаванд
+    // Имзо: калиди махфӣ аз GitHub Secrets (барои Google Play ва APK).
+    // Агар он ҳанӯз гузошта нашуда бошад — калиди озмоишии дохили репозиторий.
+    val ksB64File = System.getenv("UPLOAD_KEYSTORE_PATH")
     signingConfigs {
         create("shared") {
-            storeFile = file("iphon.keystore")
-            storePassword = "iphonmuslim"
-            keyAlias = "iphon"
-            keyPassword = "iphonmuslim"
+            if (ksB64File != null && file(ksB64File).exists()) {
+                storeFile = file(ksB64File)
+                storePassword = System.getenv("UPLOAD_KEYSTORE_PASSWORD")
+                keyAlias = System.getenv("UPLOAD_KEY_ALIAS")
+                keyPassword = System.getenv("UPLOAD_KEY_PASSWORD")
+            } else {
+                storeFile = file("iphon.keystore")
+                storePassword = "iphonmuslim"
+                keyAlias = "iphon"
+                keyPassword = "iphonmuslim"
+            }
         }
     }
     buildTypes {
         debug { signingConfig = signingConfigs.getByName("shared") }
-        release { isMinifyEnabled = false; signingConfig = signingConfigs.getByName("shared") }
+        release {
+            isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("shared")
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

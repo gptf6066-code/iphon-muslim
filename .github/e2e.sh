@@ -1,6 +1,7 @@
 #!/bin/bash
 set -x
-P=tj.bikhon.iphonmuslim
+P=tj.bikhon.muslimshield
+C=tj.bikhon.iphonmuslim
 mkdir -p results
 shot() { adb exec-out screencap -p > results/$1.png; }
 tap_text() {  # tap a UI element whose text/desc matches regex $1
@@ -28,13 +29,19 @@ adb push face2.jpg /sdcard/Pictures/man1.jpg
 adb push .github/grid.png /sdcard/Pictures/grid.png
 adb logcat -c
 view() { adb shell am start -a android.intent.action.VIEW -d file:///sdcard/Pictures/$1 -t image/$2; }
+# Экрани «Дар бораи барнома» → Идома → Фаъол кардан → огоҳӣ → Розӣ ҳастам
+adb shell am start -n $P/$C.MainActivity; sleep 5; shot 00_about
+tap_text "^ ?ادامه" ab; sleep 3; shot 00b_main
+tap_text "فعال کردن" en; sleep 3; shot 00c_disclosure
+tap_text "موافقم" ag; sleep 3
+adb shell input keyevent KEYCODE_BACK; sleep 1
 # Ҳолати тез асосӣ аст: бо фаъол шудани Специальные возможности худкор оғоз мешавад
 adb shell appops set $P PROJECT_MEDIA allow
-adb shell settings put secure enabled_accessibility_services $P/$P.FilterAccessibilityService
+adb shell settings put secure enabled_accessibility_services $P/$C.FilterAccessibilityService
 adb shell settings put secure accessibility_enabled 1
 sleep 5
 tap_text "^ ?(Start|Start now|Начать)" a; sleep 3
-adb shell am start -n $P/.MainActivity; sleep 4; shot 01_app_fa
+adb shell am start -n $P/$C.MainActivity; sleep 4; shot 01_app_fa
 view woman1.jpg jpeg; sleep 5; shot 02_woman1
 view man1.jpg jpeg; sleep 5; shot 03_man1
 view woman2.png png; sleep 5; shot 04_woman2
@@ -54,11 +61,18 @@ for i in 1 2 3 4 5 6; do
 done
 shot 07_feed_settled
 # --- намуди «танҳо ҷои зан» ---
-adb shell am start -n $P/.MainActivity; sleep 3
-tap_text "فقط جای خود زن" m; sleep 1
+adb shell am start -n $P/$C.MainActivity; sleep 3
+tap_text "فقط جای خود شخص" m; sleep 1
 view woman2.png png; sleep 6; shot 10_person_woman2
-adb shell am start -n $P/.MainActivity; sleep 2
-tap_text "کل عکس" n; sleep 1
+adb shell am start -n $P/$C.MainActivity; sleep 2
+tap_text "کل عکس یا ویدیو" n; sleep 1
+# корбари зан: мардҳо хира шаванд
+tap_text "زن هستم" w; sleep 1
+view man1.jpg jpeg; sleep 6; shot 12_women_user_man1
+view woman1.jpg jpeg; sleep 6; shot 13_women_user_woman1
+adb shell am start -n $P/$C.MainActivity; sleep 2
+tap_text "مرد هستم" mm; sleep 1
+tap_text "🌐" lg; sleep 2; shot 14_lang_dialog
 tap_text "Тоҷикӣ" t; sleep 4; shot 11_app_tg
 adb logcat -d -s IphonMuslim:* > results/applog.txt
 adb logcat -d -b crash > results/crash.txt

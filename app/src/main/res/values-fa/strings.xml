@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="tagline">در همه‌جا — یوتیوب، اینستاگرام، گوگل، گالری — عکس و ویدیویی را که در آن زن هست، تار می‌کند.</string>
+    <string name="tagline">در همه‌جا — یوتیوب، اینستاگرام، گوگل، گالری — تصویر نامحرم را تار می‌کند.</string>
     <string name="status_off">⛔ خاموش است</string>
     <string name="btn_enable">فعال کردن</string>
-    <string name="help_enable">فقط یک بار: در صفحه‌ای که باز می‌شود «iPhon Muslim» را پیدا و روشن کنید (دسترس‌پذیری ← سرویس‌های نصب‌شده ← iPhon Muslim ← روشن).</string>
+    <string name="help_enable">فقط یک بار: در صفحه‌ای که باز می‌شود «Muslim Shield» را پیدا و روشن کنید (دسترس‌پذیری ← سرویس‌های نصب‌شده ← Muslim Shield ← روشن).</string>
     <string name="help_restricted">اگر روشن نشد و نوشت «تنظیم محدود»: دکمهٔ پایین را بزنید ← ⋮ (بالا) ← «اجازهٔ تنظیمات محدود»، سپس دوباره امتحان کنید.</string>
     <string name="btn_restricted">باز کردن تنظیمات برنامه</string>
     <string name="status_paused">⏸ متوقف است</string>
@@ -17,14 +17,27 @@
     <string name="btn_stop">خاموش کردن</string>
     <string name="btn_start">شروع</string>
     <string name="mode_title">نوع تار کردن:</string>
-    <string name="mode_photo">کل عکس یا ویدیویی که در آن زن هست</string>
-    <string name="mode_person">فقط جای خود زن (سر و بدن)</string>
-    <string name="note">همه‌چیز در خود گوشی انجام می‌شود؛ اینترنت لازم نیست و چیزی فرستاده نمی‌شود. برنامه زن را از چهره‌اش تشخیص می‌دهد و گاهی ممکن است اشتباه کند.</string>
-    <string name="toast_enable">«iPhon Muslim» را روشن کنید</string>
-    <string name="lang_title">زبان:</string>
-    <string name="notif_title">iPhon Muslim — حالت سریع</string>
+    <string name="mode_photo">کل عکس یا ویدیو</string>
+    <string name="mode_person">فقط جای خود شخص (سر و بدن)</string>
+    <string name="note">همه‌چیز در خود گوشی انجام می‌شود؛ اینترنت لازم نیست و چیزی فرستاده نمی‌شود. برنامه زن و مرد را از چهره تشخیص می‌دهد و گاهی ممکن است اشتباه کند.</string>
+    <string name="toast_enable">«Muslim Shield» را روشن کنید</string>
+    <string name="lang_title">زبان</string>
+    <string name="notif_title">Muslim Shield — حالت سریع</string>
     <string name="notif_text">صفحه محافظت می‌شود</string>
-    <string name="a11y_desc">iPhon Muslim: روی عکس‌ها و ویدیوهایی که در آن زن هست، پوششی تار می‌کشد. هیچ اطلاعاتی جمع‌آوری یا فرستاده نمی‌شود.</string>
-    <string name="fast_hint">حالت سریع برای اسکرول و ویدیو لازم است. بعد از هر بار روشن شدن گوشی یک بار «شروع» را بزنید.</string>
-    <string name="scroll_guard">هنگام اسکرول، کل صفحه تار شود (مطمئن‌ترین؛ هیچ عکسی حین حرکت دیده نمی‌شود)</string>
+    <string name="a11y_desc">Muslim Shield تصویر صفحه را فقط داخل گوشی بررسی می‌کند و روی عکس و ویدیوی نامحرم پوشش تار می‌کشد. هیچ تصویری ذخیره یا فرستاده نمی‌شود.</string>
+    <string name="fast_hint">حالت سریع برای اسکرول و ویدیو بهتر است. بعد از هر بار روشن شدن گوشی یک بار «شروع» را بزنید.</string>
+    <string name="scroll_guard">هنگام اسکرول، کل صفحه تار شود (مطمئن‌ترین)</string>
+    <string name="i_am">من:</string>
+    <string name="i_am_man">مرد هستم — زنان تار شوند</string>
+    <string name="i_am_woman">زن هستم — مردان تار شوند</string>
+    <string name="about_title">دربارهٔ برنامه</string>
+    <string name="about_purpose">Muslim Shield برای حفاظت از چشم مسلمان از نگاه به نامحرم ساخته شده است.\n\nبرنامه در عکس‌ها و ویدیوهای گوشی — یوتیوب، اینستاگرام، گوگل، گالری و هر برنامهٔ دیگر — چهره‌ها را تشخیص می‌دهد و تصویر نامحرم را تار می‌کند: برای مردان، زنان را و برای زنان، مردان را.</string>
+    <string name="about_made_by">ساخته‌شده توسط مرکز آموزشی «БИХОН»</string>
+    <string name="about_private">همه‌چیز فقط داخل خود گوشی انجام می‌شود. هیچ تصویری ذخیره یا به اینترنت فرستاده نمی‌شود.</string>
+    <string name="btn_continue">ادامه</string>
+    <string name="disclosure_title">استفاده از سرویس دسترس‌پذیری</string>
+    <string name="disclosure_text">Muslim Shield از API سرویس دسترس‌پذیری اندروید (AccessibilityService) استفاده می‌کند. این برنامه ابزار کمکی برای معلولیت نیست؛ از این API فقط برای این کارها استفاده می‌شود:\n\n• گرفتن تصویر صفحه برای پیدا کردن چهره‌ها در عکس و ویدیو؛\n• کشیدن پوشش تار روی تصویر نامحرم؛\n• خواندن جای عکس‌ها در صفحه، تا پوشش هنگام اسکرول همراه عکس حرکت کند.\n\nاین اطلاعات فقط در لحظه و فقط داخل گوشی پردازش می‌شوند. ذخیره نمی‌شوند، به اینترنت فرستاده نمی‌شوند و با هیچ‌کس به اشتراک گذاشته نمی‌شوند. برنامه پیام‌ها، رمزها یا اطلاعات شخصی شما را جمع نمی‌کند و از طرف شما در برنامه‌های دیگر کاری انجام نمی‌دهد.\n\n«حالت سریع» (اختیاری) با اجازهٔ ضبط صفحه همین کار را سریع‌تر انجام می‌دهد؛ تصاویر آن هم ذخیره یا فرستاده نمی‌شوند.</string>
+    <string name="btn_agree">موافقم</string>
+    <string name="btn_decline">نه، ممنون</string>
+    <string name="privacy_link">سیاست حریم خصوصی</string>
 </resources>
