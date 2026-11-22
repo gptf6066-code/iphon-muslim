@@ -64,6 +64,16 @@ object Engine {
             )
         } catch (e: Throwable) { Log.e(TAG, "segmenter", e); null }
         gender = try { GenderModel(ctx.applicationContext) } catch (e: Throwable) { Log.e(TAG, "gender", e); null }
+        // моделҳоро пешакӣ «гарм» мекунем, то кадри аввал дер нашавад
+        Thread {
+            try {
+                val dummy = Bitmap.createBitmap(64, 64, Bitmap.Config.ARGB_8888)
+                segmenter?.let { Tasks.await(it.process(InputImage.fromBitmap(dummy, 0)), 15, TimeUnit.SECONDS) }
+                faces?.let { Tasks.await(it.process(InputImage.fromBitmap(dummy, 0)), 15, TimeUnit.SECONDS) }
+                gender?.femaleProb(dummy, Rect(8, 8, 56, 56))
+                Log.i(TAG, "models ready")
+            } catch (e: Throwable) { Log.e(TAG, "warmup", e) }
+        }.start()
     }
 
     @Synchronized
@@ -158,23 +168,26 @@ object Engine {
             val alpha = FloatArray(ow * oh)
             // 1) шакли бадан аз сегментатсия
             val seg = segmenter
+            var segOk = false
             if (coverBody && seg != null) {
-                val k = min(1f, 256f / max(w, h))
-                val small = if (k < 1f) Bitmap.createScaledBitmap(crop, max(8, (w * k).toInt()), max(8, (h * k).toInt()), true) else crop
-                val m = Tasks.await(seg.process(InputImage.fromBitmap(small, 0)), 2, TimeUnit.SECONDS)
-                val mw = m.width; val mh = m.height
-                val buf = m.buffer; buf.rewind()
-                val mask = FloatArray(mw * mh) { buf.float }
-                for (y in 0 until oh) {
-                    val my = min(mh - 1, y * mh / oh)
-                    for (x in 0 until ow) {
-                        val mx = min(mw - 1, x * mw / ow)
-                        if (mask[my * mw + mx] > 0.35f) alpha[y * ow + x] = 1f
+                try {
+                    val k = min(1f, 256f / max(w, h))
+                    val small = if (k < 1f) Bitmap.createScaledBitmap(crop, max(8, (w * k).toInt()), max(8, (h * k).toInt()), true) else crop
+                    val m = Tasks.await(seg.process(InputImage.fromBitmap(small, 0)), 4, TimeUnit.SECONDS)
+                    val mw = m.width; val mh = m.height
+                    val buf = m.buffer; buf.rewind()
+                    val mask = FloatArray(mw * mh) { buf.float }
+                    for (y in 0 until oh) {
+                        val my = min(mh - 1, y * mh / oh)
+                        for (x in 0 until ow) {
+                            val mx = min(mw - 1, x * mw / ow)
+                            if (mask[my * mw + mx] > 0.35f) alpha[y * ow + x] = 1f
+                        }
                     }
-                }
-            } else if (coverBody) {
-                java.util.Arrays.fill(alpha, 1f)   // агар сегментатсия набошад — тамоми минтақа
+                    segOk = true
+                } catch (e: Exception) { Log.e(TAG, "segmentation", e) }
             }
+            if (coverBody && !segOk) java.util.Arrays.fill(alpha, 1f)   // эҳтиёт: тамоми минтақа
             // 2) сар ва мӯй ҳамеша (байзӣ атрофи рӯй)
             val sx = ow.toFloat() / w; val sy = oh.toFloat() / h
             val cx = (face.exactCenterX() - l) * sx
@@ -186,7 +199,7 @@ object Engine {
                 if (dx * dx + dy * dy <= 1f) { alpha[y * ow + x] = 1f; seeds.add(y * ow + x) }
             }
             // 3) танҳо қисми бо сар пайваст (бадани худи ҳамин зан), на чизҳои дигар
-            keepConnected(alpha, ow, oh, seeds)
+            if (segOk) keepConnected(alpha, ow, oh, seeds)
             // 4) каме васеъ ва нарм кардани канорҳо
             var a = dilate(alpha, ow, oh); a = dilate(a, ow, oh); a = boxBlur(a, ow, oh)
 
