@@ -75,7 +75,7 @@ class ScreenFilterService : Service() {
     /** Пардаҳои фаъол (дар координатаҳои тасвири гирифташуда) */
     private val boxes = mutableListOf<Box>()
 
-    private class Box(var rect: RectF, var ring: IntArray)
+    private class Box(var rect: RectF, var ring: IntArray, var blurred: Bitmap?)
 
     override fun onBind(intent: Intent?): IBinder? = null
 
@@ -192,7 +192,7 @@ class ScreenFilterService : Service() {
         reader?.close()
         reader = newReader
         synchronized(boxes) { boxes.clear() }
-        main.post { overlay?.setBoxes(emptyList(), 1f / SCALE) }
+        main.post { overlay?.setCovers(emptyList(), 1f / SCALE) }
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -295,7 +295,7 @@ class ScreenFilterService : Service() {
      * парда хориҷ мешавад ва рӯй дар ҷои нав дубора ёфта мешавад.
      */
     private fun updateBoxes(bmp: Bitmap, found: List<RectF>) {
-        val list: List<RectF>
+        val list: List<Cover>
         synchronized(boxes) {
             val iter = boxes.iterator()
             while (iter.hasNext()) {
@@ -305,15 +305,33 @@ class ScreenFilterService : Service() {
             for (f in found) {
                 val existing = boxes.firstOrNull { overlap(it.rect, f) > 0.25f }
                 if (existing != null) {
+                    val before = RectF(existing.rect)
                     existing.rect.union(f)
                     existing.ring = ringSignature(bmp, existing.rect)
+                    if (before != existing.rect) existing.blurred = blurRegion(bmp, existing.rect)
                 } else {
-                    boxes.add(Box(RectF(f), ringSignature(bmp, f)))
+                    boxes.add(Box(RectF(f), ringSignature(bmp, f), blurRegion(bmp, f)))
                 }
             }
-            list = boxes.map { RectF(it.rect) }
+            list = boxes.map { Cover(RectF(it.rect), it.blurred) }
         }
-        main.post { overlay?.setBoxes(list, 1f / SCALE) }
+        main.post { overlay?.setCovers(list, 1f / SCALE) }
+    }
+
+    /** Ҷойро аз тасвир бурида, хеле хурд ва баъд калон мекунад — натиҷа сахт хира мешавад */
+    private fun blurRegion(bmp: Bitmap, r: RectF): Bitmap? {
+        return try {
+            val l = r.left.toInt().coerceIn(0, bmp.width - 1)
+            val t = r.top.toInt().coerceIn(0, bmp.height - 1)
+            val w = r.width().toInt().coerceIn(1, bmp.width - l)
+            val h = r.height().toInt().coerceIn(1, bmp.height - t)
+            val crop = Bitmap.createBitmap(bmp, l, t, w, h)
+            val tw = max(2, w / 22); val th = max(2, h / 22)
+            val tiny = Bitmap.createScaledBitmap(crop, tw, th, true)
+            val mid = Bitmap.createScaledBitmap(tiny, max(4, w / 4), max(4, h / 4), true)
+            val tiny2 = Bitmap.createScaledBitmap(mid, tw, th, true)
+            Bitmap.createScaledBitmap(tiny2, max(4, w / 3), max(4, h / 3), true)
+        } catch (e: Exception) { null }
     }
 
     private fun overlap(a: RectF, b: RectF): Float {
@@ -368,7 +386,7 @@ class ScreenFilterService : Service() {
         reader = null
         try { projection?.stop() } catch (_: Exception) {}
         projection = null
-        FilterAccessibilityService.instance?.overlay?.setBoxes(emptyList(), 1f)
+        FilterAccessibilityService.instance?.overlay?.setCovers(emptyList(), 1f)
         ownOverlay?.let { try { wm.removeView(it) } catch (_: Exception) {} }
         ownOverlay = null
         detector?.close()

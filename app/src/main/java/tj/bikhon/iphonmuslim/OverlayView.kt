@@ -1,54 +1,54 @@
 package tj.bikhon.iphonmuslim
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Path
 import android.graphics.RectF
 import android.view.View
 
-/** Қабати шаффоф болои ҳамаи аппҳо, ки пардаҳоро мекашад */
+/** Як минтақаи пӯшонидашуда: ҷой ва тасвири сахт хирашуда */
+class Cover(val rect: RectF, val blurred: Bitmap?)
+
+/** Қабати шаффоф болои ҳамаи аппҳо, ки ҷойҳоро хира ва тира мекунад */
 class OverlayView(context: Context) : View(context) {
 
-    private var boxes: List<RectF> = emptyList()
+    private var covers: List<Cover> = emptyList()
     private var scale = 1f
     private val loc = IntArray(2)
 
-    private val fill = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.parseColor("#0B5D3B") }
-    private val stripe = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.parseColor("#14804F"); strokeWidth = 6f
-    }
-    private val text = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.WHITE; textAlign = Paint.Align.CENTER
-    }
+    private val bmpPaint = Paint(Paint.FILTER_BITMAP_FLAG or Paint.ANTI_ALIAS_FLAG)
+    private val shade = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.argb(110, 0, 0, 0) }
+    private val fallback = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.rgb(40, 40, 40) }
+    private val path = Path()
 
-    fun setBoxes(list: List<RectF>, scale: Float) {
-        boxes = list
+    fun setCovers(list: List<Cover>, scale: Float) {
+        covers = list
         this.scale = scale
         invalidate()
     }
 
     override fun onDraw(canvas: Canvas) {
-        if (boxes.isEmpty()) return
-        // агар қабат аз кунҷи экран сар нашавад (масалан зери статус-бар), ислоҳ мекунем
+        if (covers.isEmpty()) return
         getLocationOnScreen(loc)
-        val corner = 18f * resources.displayMetrics.density
-        for (b in boxes) {
+        val corner = 14f * resources.displayMetrics.density
+        for (c in covers) {
+            val b = c.rect
             val r = RectF(
                 b.left * scale - loc[0], b.top * scale - loc[1],
                 b.right * scale - loc[0], b.bottom * scale - loc[1]
             )
-            canvas.drawRoundRect(r, corner, corner, fill)
             canvas.save()
-            canvas.clipRect(r)
-            var x = r.left - r.height()
-            while (x < r.right) {
-                canvas.drawLine(x, r.bottom, x + r.height(), r.top, stripe)
-                x += 28f
-            }
+            path.reset()
+            path.addRoundRect(r, corner, corner, Path.Direction.CW)
+            canvas.clipPath(path)
+            val bmp = c.blurred
+            if (bmp != null && !bmp.isRecycled) canvas.drawBitmap(bmp, null, r, bmpPaint)
+            else canvas.drawRect(r, fallback)
+            canvas.drawRect(r, shade)
             canvas.restore()
-            text.textSize = (r.width() / 9f).coerceIn(14f, 48f)
-            canvas.drawText("☪", r.centerX(), r.centerY() + text.textSize / 3f, text)
         }
     }
 }
