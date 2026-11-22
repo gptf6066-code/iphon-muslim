@@ -1,0 +1,23 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <path android:fillColor="#0E7A4F" android:pathData="M0,0h108v108h-108z"/>
+    <path android:fillColor="#13955F" android:pathData="M0,0h108v54h-108z"/>
+    <!-- телефон -->
+    <path android:fillColor="#FFFFFF" android:pathData="M43,24 h22 a6,6 0 0 1 6,6 v48 a6,6 0 0 1 -6,6 h-22 a6,6 0 0 1 -6,-6 v-48 a6,6 0 0 1 6,-6 z"/>
+    <path android:fillColor="#06281B" android:pathData="M40.5,31 h27 v45 h-27 z"/>
+    <path android:fillColor="#FFFFFF" android:pathData="M52.5,80 a1.5,1.5 0 1,0 3.0,0 a1.5,1.5 0 1,0 -3.0,0 Z"/>
+    <path android:fillColor="#9FB8AC" android:pathData="M50,26.8 h8 a0.9,0.9 0 0 1 0,1.8 h-8 a0.9,0.9 0 0 1 0,-1.8 z"/>
+    <group>
+        <clip-path android:pathData="M40.5,31 h27 v45 h-27 z"/>
+        <!-- нури моҳ -->
+        <path android:fillColor="#14FFFFFF" android:pathData="M35,52 a19,19 0 1,0 38,0 a19,19 0 1,0 -38,0 Z"/>
+        <path android:fillColor="#1FFFFFFF" android:pathData="M39,52 a15,15 0 1,0 30,0 a15,15 0 1,0 -30,0 Z"/>
+        <path android:fillColor="#2EFFFFFF" android:pathData="M42,52 a12,12 0 1,0 24,0 a12,12 0 1,0 -24,0 Z"/>
+        <!-- моҳи нав -->
+        <path android:fillColor="#FFFFFF" android:pathData="M54.07,43.20 A8.8,8.8 0 1,0 62.26,55.03 A7.2,7.2 0 1,1 54.07,43.20 Z"/>
+        <!-- ситораҳо -->
+        <path android:fillColor="#FFFFFF" android:pathData="M60.5,42 l0.6,1.4 1.4,0.6 -1.4,0.6 -0.6,1.4 -0.6,-1.4 -1.4,-0.6 1.4,-0.6 z"/>
+        <path android:fillColor="#CCFFFFFF" android:pathData="M46.5,63 l0.45,1 1,0.45 -1,0.45 -0.45,1 -0.45,-1 -1,-0.45 1,-0.45 z"/>
+    </group>
+</vector>
