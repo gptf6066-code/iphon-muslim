@@ -11,8 +11,8 @@ android {
         applicationId = "tj.bikhon.iphonmuslim"
         minSdk = 21
         targetSdk = 34
-        versionCode = 10
-        versionName = "3.4"
+        versionCode = 11
+        versionName = "3.5"
         ndk { abiFilters += listOf("armeabi-v7a", "arm64-v8a", "x86_64") }
     }
 

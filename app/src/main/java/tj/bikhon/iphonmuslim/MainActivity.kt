@@ -140,7 +140,7 @@ class MainActivity : AppCompatActivity() {
         })
         val cur = L10n.current()
         root.addView(RadioGroup(this).apply {
-            orientation = RadioGroup.HORIZONTAL
+            orientation = RadioGroup.VERTICAL
             for ((tag, name) in L10n.LANGS) {
                 val rb = RadioButton(this@MainActivity).apply {
                     id = View.generateViewId(); text = name; textSize = 15f
