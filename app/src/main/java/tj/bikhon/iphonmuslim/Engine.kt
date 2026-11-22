@@ -11,6 +11,9 @@ import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.face.FaceDetection
 import com.google.mlkit.vision.face.FaceDetector
 import com.google.mlkit.vision.face.FaceDetectorOptions
+import com.google.mlkit.vision.segmentation.Segmentation
+import com.google.mlkit.vision.segmentation.Segmenter
+import com.google.mlkit.vision.segmentation.selfie.SelfieSegmenterOptions
 import java.util.concurrent.TimeUnit
 import kotlin.math.abs
 import kotlin.math.max
@@ -32,6 +35,10 @@ object Engine {
 
     private var faces: FaceDetector? = null
     private var gender: GenderModel? = null
+    private var segmenter: Segmenter? = null
+
+    /** true — тамоми сурат/видео; false — танҳо ҷои худи зан (сар ва бадан) */
+    @Volatile var wholePhoto = true
 
     /** Хотираи рӯйҳо: эҳтимоли зан будан аз чанд кадр ҷамъ мешавад */
     private class FaceMemo(var rect: RectF, var prob: Float, var n: Int, var seen: Long, val born: Long)
@@ -45,7 +52,14 @@ object Engine {
 
     @Synchronized
     fun init(ctx: Context) {
+        wholePhoto = ctx.getSharedPreferences(Prefs.NAME, Context.MODE_PRIVATE)
+            .getString(Prefs.MODE, Prefs.MODE_PHOTO) != Prefs.MODE_PERSON
         if (faces != null) return
+        segmenter = try {
+            Segmentation.getClient(
+                SelfieSegmenterOptions.Builder().setDetectorMode(SelfieSegmenterOptions.SINGLE_IMAGE_MODE).build()
+            )
+        } catch (e: Throwable) { Log.e(TAG, "segmenter", e); null }
         faces = FaceDetection.getClient(
             FaceDetectorOptions.Builder()
                 .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_FAST)
@@ -58,6 +72,7 @@ object Engine {
                 val dummy = Bitmap.createBitmap(96, 96, Bitmap.Config.ARGB_8888)
                 faces?.let { Tasks.await(it.process(InputImage.fromBitmap(dummy, 0)), 15, TimeUnit.SECONDS) }
                 gender?.femaleProb(dummy, Rect(10, 10, 80, 80))
+                segmenter?.let { Tasks.await(it.process(InputImage.fromBitmap(dummy, 0)), 15, TimeUnit.SECONDS) }
                 Log.i(TAG, "models ready")
             } catch (e: Throwable) { Log.e(TAG, "warmup", e) }
         }.start()
@@ -83,7 +98,7 @@ object Engine {
         ) else full
         val up = full.width.toFloat() / bmp.width
         val toScreen = fullToScreen * up
-        val key = "${bmp.width}x${bmp.height}@$toScreen+$offX,$offY/$clean"
+        val key = "${bmp.width}x${bmp.height}@$toScreen+$offX,$offY/$wholePhoto/$clean"
         if (key != lastKey) { tracks.clear(); memos.clear(); lastKey = key }
 
         val det = faces ?: return emptyList()
@@ -129,20 +144,21 @@ object Engine {
             }
         }
 
-        // --- 3) барои ҳар зан — тамоми сурат/видео ---
+        // --- 3) барои ҳар зан — тамоми сурат/видео ё танҳо ҷои худи зан ---
         for (fb in womenFaces) {
-            val region = growRegion(bmp, fb)
+            val region = if (wholePhoto) photoRegion(full, fb, up, bmp) else bodyRegion(bmp, fb)
             val existing = tracks.firstOrNull { overlap(it.region, region) > 0.6f }
             if (existing != null) {
                 existing.seen = now
-                if (clean) {           // кадр тоза аст → тасвири хираро нав мекунем (видео «зинда» менамояд)
+                if (clean && wholePhoto) {   // кадр тоза аст → тасвири хираро нав мекунем (видео «зинда» менамояд)
                     existing.region = region
                     makeCover(bmp, region, toScreen, offX, offY)?.let { existing.cover = it }
                 }
                 continue
             }
             if (!clean && tracks.any { it.region.contains(fb.exactCenterX(), fb.exactCenterY()) }) continue
-            val cover = makeCover(bmp, region, toScreen, offX, offY) ?: continue
+            val cover = (if (wholePhoto) makeCover(bmp, region, toScreen, offX, offY)
+                         else makePersonCover(bmp, region, fb, toScreen, offX, offY)) ?: continue
             tracks.add(Track(region, cover, now, if (clean) null else ringSignature(bmp, region)))
         }
         Log.i(TAG, "frame ${bmp.width}x${bmp.height} faces=${found.size} women=${womenFaces.size} " +
@@ -152,50 +168,142 @@ object Engine {
 
     private fun current(): List<Cover> = tracks.map { it.cover }
 
+    /** Намуди «танҳо ҷои зан»: сар + бадан */
+    private fun bodyRegion(bmp: Bitmap, face: Rect): RectF {
+        val w = face.width().toFloat(); val h = face.height().toFloat()
+        val r = RectF(face.left - w * 1.1f, face.top - h * 0.9f, face.right + w * 1.1f, face.bottom + h * 6f)
+        r.intersect(0f, 0f, bmp.width.toFloat(), bmp.height.toFloat())
+        return r
+    }
+
     /**
-     * Аз рӯй сар карда, минтақаро калон мекунем то он даме, ки ба хатти якранг
-     * (заминаи экран, ҳошия) ё канори экран бирасем — ин ҳудуди сурат/видео аст.
+     * Намуди «тамоми сурат»: аз рӯй сар карда, дар тасвири ПУРРА (дақиқ) минтақаро калон
+     * мекунем то ба (а) хатти якранг — фосилаи байни суратҳо, заминаи экран; ё
+     * (б) хатти рост ва тези ранг — канори сурат дар паҳлӯи сурати дигар — расем.
+     * Натиҷа дар координатаҳои кадри хурд.
      */
-    private fun growRegion(bmp: Bitmap, face: Rect): RectF {
-        val w = bmp.width; val h = bmp.height
+    private fun photoRegion(full: Bitmap, smallFace: Rect, up: Float, bmp: Bitmap): RectF {
+        val w = full.width; val h = full.height
         val px = IntArray(w * h)
-        bmp.getPixels(px, 0, w, 0, 0, w, h)
+        full.getPixels(px, 0, w, 0, 0, w, h)
         fun lum(x: Int, y: Int): Int {
             val c = px[y * w + x]
             return ((c shr 16 and 0xFF) * 3 + (c shr 8 and 0xFF) * 6 + (c and 0xFF)) / 10
         }
-        fun rowUniform(y: Int, x0: Int, x1: Int): Boolean {
-            var lo = 255; var hi = 0
+        // хатти уфуқӣ y (берун) нисбат ба yIn (дарун): якранг ё канори тез?
+        fun rowStop(y: Int, yIn: Int, x0: Int, x1: Int): Boolean {
+            var lo = 255; var hi = 0; var n = 0; var big = 0
             var x = x0
-            while (x <= x1) { val l = lum(x, y); if (l < lo) lo = l; if (l > hi) hi = l; x += 2 }
-            return hi - lo <= 10
+            while (x <= x1) {
+                val l = lum(x, y); if (l < lo) lo = l; if (l > hi) hi = l
+                if (abs(l - lum(x, yIn)) > 28) big++
+                n++; x += 3
+            }
+            return hi - lo <= 12 || (n >= 8 && big >= n * 0.8f)
         }
-        fun colUniform(x: Int, y0: Int, y1: Int): Boolean {
-            var lo = 255; var hi = 0
+        fun colStop(x: Int, xIn: Int, y0: Int, y1: Int): Boolean {
+            var lo = 255; var hi = 0; var n = 0; var big = 0
             var y = y0
-            while (y <= y1) { val l = lum(x, y); if (l < lo) lo = l; if (l > hi) hi = l; y += 2 }
-            return hi - lo <= 10
+            while (y <= y1) {
+                val l = lum(x, y); if (l < lo) lo = l; if (l > hi) hi = l
+                if (abs(l - lum(xIn, y)) > 28) big++
+                n++; y += 3
+            }
+            return hi - lo <= 12 || (n >= 8 && big >= n * 0.8f)
         }
-        val fw = face.width(); val fh = face.height()
-        var l = max(0, face.left - fw / 2); var r = min(w - 1, face.right + fw / 2)
-        var t = max(0, face.top - fh / 2); var b = min(h - 1, face.bottom + fh / 2)
+        val fl = (smallFace.left * up).toInt(); val ft = (smallFace.top * up).toInt()
+        val fr = (smallFace.right * up).toInt(); val fbm = (smallFace.bottom * up).toInt()
+        val fw = fr - fl; val fh = fbm - ft
+        var l = max(0, fl - fw / 4); var r = min(w - 1, fr + fw / 4)
+        var t = max(0, ft - fh / 4); var b = min(h - 1, fbm + fh / 4)
         var goL = true; var goR = true; var goT = true; var goB = true
         var guard = 0
-        while ((goL || goR || goT || goB) && guard++ < 2000) {
-            if (goT) { if (t <= 0) goT = false else if (rowUniform(t - 1, l, r) && (t < 2 || rowUniform(t - 2, l, r))) goT = false else t-- }
-            if (goB) { if (b >= h - 1) goB = false else if (rowUniform(b + 1, l, r) && (b > h - 3 || rowUniform(b + 2, l, r))) goB = false else b++ }
-            if (goL) { if (l <= 0) goL = false else if (colUniform(l - 1, t, b) && (l < 2 || colUniform(l - 2, t, b))) goL = false else l-- }
-            if (goR) { if (r >= w - 1) goR = false else if (colUniform(r + 1, t, b) && (r > w - 3 || colUniform(r + 2, t, b))) goR = false else r++ }
+        while ((goL || goR || goT || goB) && guard++ < 6000) {
+            if (goT) { if (t <= 0) goT = false else if (rowStop(t - 1, t, l, r)) goT = false else t-- }
+            if (goB) { if (b >= h - 1) goB = false else if (rowStop(b + 1, b, l, r)) goB = false else b++ }
+            if (goL) { if (l <= 0) goL = false else if (colStop(l - 1, l, t, b)) goL = false else l-- }
+            if (goR) { if (r >= w - 1) goR = false else if (colStop(r + 1, r, t, b)) goR = false else r++ }
         }
-        // ҳадди ақал: сар ва бадан
-        val minR = RectF(
-            face.left - fw * 1.0f, face.top - fh * 0.9f, face.right + fw * 1.0f, face.bottom + fh * 5f
-        )
-        minR.intersect(0f, 0f, w.toFloat(), h.toFloat())
-        val out = RectF(l.toFloat(), t.toFloat(), (r + 1).toFloat(), (b + 1).toFloat())
-        // агар ҳудуди сурат хеле наздик ба рӯй ёфт шавад (минтақаи якранг дар худи сурат) — ҳадди ақал
-        if (out.height() < fh * 1.8f || out.width() < fw * 1.8f) out.union(minR)
+        val out = RectF(l / up, t / up, (r + 1) / up, (b + 1) / up)
+        // агар ҳудуди сурат ёфт нашавад (хеле наздик ба рӯй) — ҳадди ақал сар ва бадан
+        if (out.height() < smallFace.height() * 1.8f || out.width() < smallFace.width() * 1.8f) {
+            out.union(bodyRegion(bmp, smallFace))
+        }
         return out
+    }
+
+    /** Намуди «танҳо ҷои зан»: хираи шишагӣ бо шакли бадан (сегментатсия), сар ҳамеша */
+    private fun makePersonCover(bmp: Bitmap, region: RectF, face: Rect, toScreen: Float, offX: Int, offY: Int): Cover? {
+        val base = makeCover(bmp, region, toScreen, offX, offY) ?: return null
+        val out = base.bitmap ?: return base
+        val ow = out.width; val oh = out.height
+        val l = region.left.toInt().coerceIn(0, bmp.width - 1)
+        val t = region.top.toInt().coerceIn(0, bmp.height - 1)
+        val w = region.width().toInt().coerceIn(1, bmp.width - l)
+        val h = region.height().toInt().coerceIn(1, bmp.height - t)
+        val alpha = FloatArray(ow * oh)
+        var segOk = false
+        val seg = segmenter
+        if (seg != null) try {
+            val crop = Bitmap.createBitmap(bmp, l, t, w, h)
+            val m = Tasks.await(seg.process(InputImage.fromBitmap(crop, 0)), 3, TimeUnit.SECONDS)
+            val mw = m.width; val mh = m.height
+            val buf = m.buffer; buf.rewind()
+            val mask = FloatArray(mw * mh) { buf.float }
+            for (y in 0 until oh) {
+                val my = min(mh - 1, y * mh / oh)
+                for (x in 0 until ow) if (mask[my * mw + min(mw - 1, x * mw / ow)] > 0.35f) alpha[y * ow + x] = 1f
+            }
+            segOk = true
+        } catch (e: Exception) { Log.e(TAG, "segmentation", e) }
+        if (!segOk) java.util.Arrays.fill(alpha, 1f)
+        // сар ва мӯй ҳамеша
+        val sx = ow.toFloat() / w; val sy = oh.toFloat() / h
+        val cx = (face.exactCenterX() - l) * sx
+        val cy = (face.exactCenterY() - t - face.height() * 0.15f) * sy
+        val rx = face.width() * 0.9f * sx; val ry = face.height() * 1.1f * sy
+        val seeds = ArrayList<Int>()
+        for (y in 0 until oh) for (x in 0 until ow) {
+            val dx = (x - cx) / rx; val dy = (y - cy) / ry
+            if (dx * dx + dy * dy <= 1f) { alpha[y * ow + x] = 1f; seeds.add(y * ow + x) }
+        }
+        if (segOk) keepConnected(alpha, ow, oh, seeds)
+        val a = dilate(alpha, ow, oh)
+        val p = IntArray(ow * oh)
+        out.getPixels(p, 0, ow, 0, 0, ow, oh)
+        for (i in p.indices) {
+            val al = (a[i] * 255).toInt()
+            p[i] = (al shl 24) or (p[i] and 0xFFFFFF)
+        }
+        val res = Bitmap.createBitmap(ow, oh, Bitmap.Config.ARGB_8888)
+        res.setPixels(p, 0, ow, 0, 0, ow, oh)
+        return Cover(base.rect, res)
+    }
+
+    private fun keepConnected(a: FloatArray, w: Int, h: Int, seeds: List<Int>) {
+        val seen = BooleanArray(a.size)
+        val st = ArrayDeque<Int>()
+        for (i in seeds) if (!seen[i]) { seen[i] = true; st.addLast(i) }
+        while (st.isNotEmpty()) {
+            val i = st.removeLast(); val x = i % w; val y = i / w
+            fun push(j: Int) { if (!seen[j] && a[j] > 0f) { seen[j] = true; st.addLast(j) } }
+            if (x > 0) push(i - 1); if (x < w - 1) push(i + 1)
+            if (y > 0) push(i - w); if (y < h - 1) push(i + w)
+        }
+        for (i in a.indices) if (!seen[i]) a[i] = 0f
+    }
+
+    private fun dilate(a: FloatArray, w: Int, h: Int): FloatArray {
+        val o = FloatArray(a.size)
+        for (y in 0 until h) for (x in 0 until w) {
+            var m = 0f
+            for (dy in -1..1) for (dx in -1..1) {
+                val xx = x + dx; val yy = y + dy
+                if (xx in 0 until w && yy in 0 until h) m = max(m, a[yy * w + xx])
+            }
+            o[y * w + x] = m
+        }
+        return o
     }
 
     /** Хираи «шишаи обдор»: шакл ва ранг маълум, вале кӣ будан не */

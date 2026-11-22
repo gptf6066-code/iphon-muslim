@@ -25,6 +25,7 @@ adb shell pm grant $P android.permission.POST_NOTIFICATIONS
 adb push face1.jpg /sdcard/Pictures/woman1.jpg
 adb push .github/astronaut.png /sdcard/Pictures/woman2.png
 adb push face2.jpg /sdcard/Pictures/man1.jpg
+adb push .github/grid.png /sdcard/Pictures/grid.png
 adb logcat -c
 # --- A: танҳо Специальные возможности (бе сабти экран) ---
 adb shell settings put secure enabled_accessibility_services $P/$P.FilterAccessibilityService
@@ -35,6 +36,14 @@ view() { adb shell am start -a android.intent.action.VIEW -d file:///sdcard/Pict
 sleep 6; view woman1.jpg jpeg; sleep 3; shot 02a_woman1_quick; sleep 5; shot 02_woman1
 view man1.jpg jpeg; sleep 5; shot 03_man1
 view woman2.png png; sleep 5; shot 04_woman2
+# --- C: галерея бо суратҳои майда ---
+adb shell am start -a android.intent.action.VIEW -d file:///sdcard/Pictures/grid.png -t image/png; sleep 6; shot 04b_grid
+# --- D: намуди «танҳо ҷои зан» ---
+adb shell am start -n $P/.MainActivity; sleep 3
+tap_text "Танҳо ҷои худи зан" m; sleep 1
+view woman2.png png; sleep 6; shot 04c_person_woman2
+adb shell am start -n $P/.MainActivity; sleep 2
+tap_text "Тамоми сурат" n; sleep 1
 # --- B: ҳолати тез ---
 adb shell appops set $P PROJECT_MEDIA allow
 adb shell am start -n $P/.MainActivity; sleep 3

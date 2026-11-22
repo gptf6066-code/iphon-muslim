@@ -16,6 +16,8 @@ import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
@@ -100,6 +102,31 @@ class MainActivity : AppCompatActivity() {
             setOnClickListener { onFast() }
         }
         root.addView(fastBtn)
+        root.addView(TextView(this).apply {
+            text = "Намуди хира кардан:"
+            textSize = 17f
+            setTypeface(typeface, Typeface.BOLD)
+            setPadding(0, pad, 0, pad / 4)
+        })
+        val modeNow = prefs.getString(Prefs.MODE, Prefs.MODE_PHOTO)
+        val rPhoto = RadioButton(this).apply {
+            id = View.generateViewId(); textSize = 16f
+            text = "Тамоми сурат ё видео, ки дар он зан ҳаст"
+        }
+        val rPerson = RadioButton(this).apply {
+            id = View.generateViewId(); textSize = 16f
+            text = "Танҳо ҷои худи зан (сар ва бадан)"
+        }
+        root.addView(RadioGroup(this).apply {
+            addView(rPhoto); addView(rPerson)
+            check(if (modeNow == Prefs.MODE_PERSON) rPerson.id else rPhoto.id)
+            setOnCheckedChangeListener { _, id ->
+                val m = if (id == rPerson.id) Prefs.MODE_PERSON else Prefs.MODE_PHOTO
+                prefs.edit().putString(Prefs.MODE, m).apply()
+                Engine.wholePhoto = m != Prefs.MODE_PERSON
+                Engine.reset()
+            }
+        })
         root.addView(TextView(this).apply {
             textSize = 13f
             setTextColor(Color.GRAY)
@@ -216,5 +243,8 @@ class MainActivity : AppCompatActivity() {
 object Prefs {
     const val NAME = "settings"
     const val COVER_BODY = "cover_body"
+    const val MODE = "mode"
+    const val MODE_PHOTO = "photo"
+    const val MODE_PERSON = "person"
     const val PAUSED = "paused"
 }
