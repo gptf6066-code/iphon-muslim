@@ -1,0 +1,17 @@
+name: Fetch model
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          curl -sL -o b.zip https://github.com/deepinsight/insightface/releases/download/v0.7/buffalo_l.zip
+          ls -la b.zip
+          unzip -o b.zip genderage.onnx || unzip -o b.zip '*/genderage.onnx'
+          mkdir out; find . -name genderage.onnx -exec cp {} out/ \;
+          ls -la out
+          cd out && git init -q && git checkout -q -b models && git add . && \
+          git -c user.name=ci -c user.email=ci@example.com commit -qm model && \
+          git push -f https://x-access-token:${{ github.token }}@github.com/${{ github.repository }} models
