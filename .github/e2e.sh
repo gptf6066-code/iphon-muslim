@@ -40,7 +40,7 @@ view man1.jpg jpeg; sleep 5; shot 03_man1
 view woman2.png png; sleep 5; shot 04_woman2
 # --- лента дар Chrome + скролл ---
 (cd .github/feed && python3 -m http.server 8000 >/dev/null 2>&1 &)
-adb root >/dev/null 2>&1; sleep 2
+adb shell true
 adb shell 'echo "_ --disable-fre --no-default-browser-check --no-first-run" > /data/local/tmp/chrome-command-line'
 adb shell am set-debug-app --persistent com.android.chrome >/dev/null 2>&1
 adb shell am start -a android.intent.action.VIEW -d http://10.0.2.2:8000/index.html; sleep 8
