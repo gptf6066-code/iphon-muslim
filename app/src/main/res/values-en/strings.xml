@@ -26,4 +26,5 @@
     <string name="notif_text">Screen is protected</string>
     <string name="a11y_desc">iPhon Muslim: blurs photos and videos that show a woman. No data is collected or sent.</string>
     <string name="fast_hint">Fast mode is needed for scrolling and video. After each phone restart, tap “Start now” once.</string>
+    <string name="scroll_guard">Blur the whole feed while scrolling (safest: no photo is visible while it moves)</string>
 </resources>

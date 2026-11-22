@@ -102,6 +102,9 @@ class FilterAccessibilityService : AccessibilityService() {
         if (et == AccessibilityEvent.TYPE_VIEW_SCROLLED || et == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) {
             requestFollow()
         }
+        if (et == AccessibilityEvent.TYPE_VIEW_SCROLLED && event?.packageName?.toString() != packageName) {
+            onScrolling(event)
+        }
         if (event?.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED &&
             event.packageName?.toString() != packageName) {
             Engine.onScreenChanged()
@@ -209,6 +212,39 @@ class FilterAccessibilityService : AccessibilityService() {
             badWindows.add(target.id)
             false
         }
+    }
+
+    // ---------- ҳангоми скролл: лента хира ----------
+    private var guardUntil = 0L
+    private var guardRect: Rect? = null
+    private val guardOff = Runnable { checkGuard() }
+
+    private fun onScrolling(e: AccessibilityEvent) {
+        val prefs = getSharedPreferences(Prefs.NAME, Context.MODE_PRIVATE)
+        if (!prefs.getBoolean(Prefs.SCROLL_GUARD, true) || isPaused(this)) return
+        if (!ScreenFilterService.running && Build.VERSION.SDK_INT < 30) return
+        val r = Rect()
+        val src = try { e.source } catch (t: Throwable) { null }
+        if (src != null) src.getBoundsInScreen(r)
+        val dm = resources.displayMetrics
+        if (r.isEmpty || r.width() < dm.widthPixels / 3) r.set(0, 0, dm.widthPixels, dm.heightPixels)
+        guardUntil = SystemClock.uptimeMillis() + 350
+        if (guardRect != r) {
+            guardRect = Rect(r)
+            overlay?.setGuard(guardRect, Engine.frameBlur, Engine.frameRect)
+        }
+        main.removeCallbacks(guardOff)
+        main.postDelayed(guardOff, 360)
+    }
+
+    private fun checkGuard() {
+        val left = guardUntil - SystemClock.uptimeMillis()
+        if (left > 0) { main.postDelayed(guardOff, left + 10); return }
+        // скролл қатъ шуд: аввал кадри навро таҳлил мекунем, баъд лентаро мекушоем
+        if (Build.VERSION.SDK_INT >= 30 && !ScreenFilterService.running) schedule(0)
+        main.postDelayed({
+            if (SystemClock.uptimeMillis() >= guardUntil) { guardRect = null; overlay?.setGuard(null, null, null) }
+        }, if (ScreenFilterService.running) 220 else 420)
     }
 
     // ---------- пардаҳо бо суратҳо якҷоя ҳаракат мекунанд ----------

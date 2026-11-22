@@ -60,6 +60,10 @@ object Engine {
     class Anchor(val node: Any, val rect: Rect, val sig: String)
 
     private var lastToScreen = 1f
+
+    /** Нусхаи хираи охирин кадр (барои хира кардани лента ҳангоми скролл) ва ҷойи он дар экран */
+    @Volatile var frameBlur: Bitmap? = null
+    @Volatile var frameRect: RectF? = null
     private val tracks = mutableListOf<Track>()
 
     private var lastKey = ""
@@ -153,6 +157,9 @@ object Engine {
         val W = bmp.width; val H = bmp.height
         val lum = lumOf(bmp)
         lastToScreen = toScreen
+        makeCover(bmp, RectF(0f, 0f, W.toFloat(), H.toFloat()), toScreen, offX, offY, div = 14)?.let {
+            frameBlur = it.bitmap; frameRect = it.rect
+        }
         val drawn = tracks.map { RectF(it.region) }
         tracks.removeAll { it.region.bottom <= 2f || it.region.top >= H - 2f }
         if (clean) {

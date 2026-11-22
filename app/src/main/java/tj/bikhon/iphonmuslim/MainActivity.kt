@@ -20,6 +20,7 @@ import android.widget.RadioGroup
 import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.SwitchCompat
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -120,6 +121,14 @@ class MainActivity : AppCompatActivity() {
                 Engine.wholePhoto = m != Prefs.MODE_PERSON
                 Engine.reset()
             }
+        })
+
+        root.addView(SwitchCompat(this).apply {
+            text = getString(R.string.scroll_guard)
+            textSize = 16f
+            isChecked = prefs.getBoolean(Prefs.SCROLL_GUARD, true)
+            setPadding(0, pad / 2, 0, 0)
+            setOnCheckedChangeListener { _, v -> prefs.edit().putBoolean(Prefs.SCROLL_GUARD, v).apply() }
         })
 
         // --- забон ---
@@ -252,6 +261,7 @@ object Prefs {
     const val NAME = "settings"
     const val PAUSED = "paused"
     const val FAST = "fast"
+    const val SCROLL_GUARD = "scroll_guard"
     const val MODE = "mode"
     const val MODE_PHOTO = "photo"
     const val MODE_PERSON = "person"
