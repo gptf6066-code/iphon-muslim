@@ -32,7 +32,7 @@ adb shell settings put secure accessibility_enabled 1
 sleep 4
 adb shell am start -n $P/.MainActivity; sleep 3; shot 01_app
 view() { adb shell am start -a android.intent.action.VIEW -d file:///sdcard/Pictures/$1 -t image/$2; }
-sleep 6; view woman1.jpg jpeg; sleep 5; shot 02_woman1
+sleep 6; view woman1.jpg jpeg; sleep 3; shot 02a_woman1_quick; sleep 5; shot 02_woman1
 view man1.jpg jpeg; sleep 5; shot 03_man1
 view woman2.png png; sleep 5; shot 04_woman2
 # --- B: ҳолати тез ---

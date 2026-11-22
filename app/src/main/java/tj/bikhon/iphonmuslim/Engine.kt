@@ -37,7 +37,7 @@ object Engine {
     /** cover == null — мард (намепӯшонем, фақат дар хотир нигоҳ медорем) */
     private class Box(
         val face: RectF, val region: RectF, var ring: IntArray,
-        val cover: Cover?, val created: Long
+        var cover: Cover?, val created: Long, val rawFace: Rect? = null
     )
 
     private val boxes = mutableListOf<Box>()
@@ -85,7 +85,7 @@ object Engine {
      * @return пардаҳо барои кашидан (бо координатаҳои экран)
      */
     @Synchronized
-    fun process(full: Bitmap, fullToScreen: Float): List<Cover> {
+    fun process(full: Bitmap, fullToScreen: Float, publish: ((List<Cover>) -> Unit)? = null): List<Cover> {
         // ёфтани рӯй дар тасвири хурд (тез), муайян кардани зан/мард аз тасвири пурра (дақиқ)
         val bmp = if (full.width > DETECT_WIDTH * 1.15f) Bitmap.createScaledBitmap(
             full, DETECT_WIDTH, max(1, full.height * DETECT_WIDTH / full.width), true
@@ -124,8 +124,16 @@ object Engine {
                 continue
             }
             women++
-            val cover = makeCover(bmp, region, f.boundingBox, toScreen) ?: continue
-            boxes.add(Box(fb, region, ringSignature(bmp, region), cover, now))
+            // фавран: пардаи умумӣ (бе шакли бадан) — то зан як лаҳза ҳам намоён набошад
+            val quick = makeCover(bmp, region, f.boundingBox, toScreen, useSeg = false) ?: continue
+            boxes.add(Box(fb, region, ringSignature(bmp, region), quick, now, f.boundingBox))
+        }
+        if (women > 0 && coverBody && segmenter != null) {
+            publish?.invoke(current())
+            // баъд: дақиқ кардан бо шакли худи бадан
+            for (b in boxes) if (b.created == now && b.cover != null && b.rawFace != null) {
+                makeCover(bmp, b.region, b.rawFace, toScreen, useSeg = true)?.let { b.cover = it }
+            }
         }
         Log.i(TAG, "frame ${bmp.width}x${bmp.height} faces=${found.size} women=$women men=$men " +
             "covers=${boxes.count { it.cover != null }} ${SystemClock.uptimeMillis() - t0}ms")
@@ -149,7 +157,7 @@ object Engine {
     }
 
     /** Пардаи хира бо шакли бадан: танҳо ҷои зан тира мешавад */
-    private fun makeCover(bmp: Bitmap, region: RectF, face: Rect, toScreen: Float): Cover? {
+    private fun makeCover(bmp: Bitmap, region: RectF, face: Rect, toScreen: Float, useSeg: Boolean): Cover? {
         val l = region.left.toInt().coerceIn(0, bmp.width - 1)
         val t = region.top.toInt().coerceIn(0, bmp.height - 1)
         val w = region.width().toInt().coerceIn(1, bmp.width - l)
@@ -169,7 +177,7 @@ object Engine {
             // 1) шакли бадан аз сегментатсия
             val seg = segmenter
             var segOk = false
-            if (coverBody && seg != null) {
+            if (coverBody && seg != null && useSeg) {
                 try {
                     val k = min(1f, 256f / max(w, h))
                     val small = if (k < 1f) Bitmap.createScaledBitmap(crop, max(8, (w * k).toInt()), max(8, (h * k).toInt()), true) else crop

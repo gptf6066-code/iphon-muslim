@@ -120,7 +120,7 @@ class FilterAccessibilityService : AccessibilityService() {
                         if (hw != null) {
                             val sw = hw.copy(Bitmap.Config.ARGB_8888, false)
                             hw.recycle()
-                            if (!ScreenFilterService.running) showCovers(Engine.process(sw, 1f))
+                            if (!ScreenFilterService.running) showCovers(Engine.process(sw, 1f) { showCovers(it) })
                         }
                     } catch (e: Throwable) { Log.e(TAG, "shot", e) }
                     inFlight = false
