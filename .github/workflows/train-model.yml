@@ -1,0 +1,28 @@
+name: Train gender model (FairFace, CC BY 4.0)
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  train:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install
+        run: |
+          pip install -q torch torchvision --index-url https://download.pytorch.org/whl/cpu
+          pip install -q datasets onnx onnxruntime pillow numpy
+          nproc; free -g
+      - name: Train
+        run: python training/train_gender.py --out gender_ff.onnx --epochs 6 --hours 4.6
+      - name: Publish model
+        if: always()
+        run: |
+          mkdir -p out && cp gender_ff.onnx* out/ 2>/dev/null || true
+          ls -la out
+          cd out && git init -q && git checkout -q -b gender-model && git add . && \
+          git -c user.name=ci -c user.email=ci@example.com commit -qm "FairFace gender model" && \
+          git push -f https://x-access-token:${{ github.token }}@github.com/${{ github.repository }} gender-model
