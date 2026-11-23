@@ -43,8 +43,9 @@ object Engine {
     /** true — занҳо хира мешаванд (корбар мард); false — мардҳо (корбар зан) */
     @Volatile var hideWomen = true
 
+    /** Дар шубҳа — хира мекунем: барои мардон аз 33% «зан», барои занон то 67% «зан» */
     private fun isTarget(femaleProb: Float) =
-        if (hideWomen) femaleProb >= FEMALE_THRESHOLD else femaleProb < FEMALE_THRESHOLD
+        if (hideWomen) femaleProb >= 0.33f else femaleProb <= 0.67f
 
     /** Хотираи рӯйҳо: эҳтимоли зан будан аз чанд кадр ҷамъ мешавад */
     private class FaceMemo(var rect: RectF, var prob: Float, var n: Int, var seen: Long, val born: Long)
@@ -142,7 +143,7 @@ object Engine {
         for (f in found) {
             val fr = RectF(f.boundingBox)
             val memo = memos.maxByOrNull { iou(it.rect, fr) }?.takeIf { iou(it.rect, fr) > 0.35f }
-            val needNew = memo == null || memo.n < 3 || (!isTarget(memo.prob) && now - memo.born > MALE_RECHECK_MS)
+            val needNew = memo == null || memo.n < 4 || (!isTarget(memo.prob) && now - memo.born > MALE_RECHECK_MS)
             var p = memo?.prob ?: 0.5f
             if (needNew) {
                 val b = f.boundingBox
