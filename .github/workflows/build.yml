@@ -51,6 +51,6 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           FILES="muslim-shield.apk iphon-muslim.apk"
-          if [ "$SIGNED_FOR_PLAY" = "1" ]; then FILES="$FILES muslim-shield.aab"; fi
+          if [ "$SIGNED_FOR_PLAY" = "1" ]; then FILES="$FILES muslim-shield.aab"; else cp muslim-shield.aab muslim-shield-test-signed.aab; FILES="$FILES muslim-shield-test-signed.aab"; fi
           gh release delete latest --yes --cleanup-tag || true
           gh release create latest $FILES --title "Muslim Shield" --notes "APK барои насб; AAB барои Google Play (агар калиди махфӣ гузошта шуда бошад)"

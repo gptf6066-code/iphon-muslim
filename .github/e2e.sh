@@ -30,19 +30,32 @@ adb push face2.jpg /sdcard/Pictures/man1.jpg
 adb push .github/grid.png /sdcard/Pictures/grid.png
 adb logcat -c
 view() { adb shell am start -a android.intent.action.VIEW -d file:///sdcard/Pictures/$1 -t image/$2; }
-# Экрани «Дар бораи барнома» → Идома → Фаъол кардан → огоҳӣ → Розӣ ҳастам
-adb shell am start -n $P/$C.MainActivity; sleep 5; shot 00_about
+# --- видеои намоишӣ барои Google Play (эъломияи Accessibility) ---
+adb shell screenrecord --bit-rate 6000000 --time-limit 170 /sdcard/demo.mp4 &
+REC=$!
+sleep 1
+# Экрани «Дар бораи барнома» → Идома → Фаъол кардан → огоҳӣ → Розӣ ҳастам → танзимот
+adb shell am start -n $P/$C.MainActivity; sleep 6; shot 00_about
 tap_text "^ ?ادامه" ab; sleep 3; shot 00b_main
-tap_text "فعال کردن" en; sleep 3; shot 00c_disclosure
-tap_text "موافقم" ag; sleep 3
-adb shell input keyevent KEYCODE_BACK; sleep 1
-# Ҳолати тез асосӣ аст: бо фаъол шудани Специальные возможности худкор оғоз мешавад
+tap_text "فعال کردن" en; sleep 4; shot 00c_disclosure
+adb shell input swipe 360 1000 360 400 800; sleep 2
+tap_text "موافقم" ag; sleep 4; shot 00d_a11y_settings
+# дар саҳифаи Специальные возможности: калид → Allow
+tap_text "(Use Muslim Shield|Muslim Shield)" sw; sleep 3; shot 00e_a11y_dialog
+tap_text "^ ?(Allow|Разрешить|OK)" al; sleep 4
+# агар бо UI нашуд — бо фармон
+adb shell settings get secure enabled_accessibility_services | grep -q muslimshield || {
+  adb shell settings put secure enabled_accessibility_services $P/$C.FilterAccessibilityService
+  adb shell settings put secure accessibility_enabled 1; }
 adb shell appops set $P PROJECT_MEDIA allow
-adb shell settings put secure enabled_accessibility_services $P/$C.FilterAccessibilityService
-adb shell settings put secure accessibility_enabled 1
-sleep 5
+sleep 4
 tap_text "^ ?(Start|Start now|Начать)" a; sleep 3
+adb shell input keyevent KEYCODE_BACK; sleep 1
 adb shell am start -n $P/$C.MainActivity; sleep 4; shot 01_app_fa
+view woman2.png png; sleep 7; shot 02a_demo_astronaut
+adb shell am start -n $P/$C.MainActivity; sleep 4
+kill $REC 2>/dev/null; sleep 3; adb shell pkill -INT screenrecord; sleep 3
+adb pull /sdcard/demo.mp4 results/demo.mp4 || true
 view woman1.jpg jpeg; sleep 5; shot 02_woman1
 view man1.jpg jpeg; sleep 5; shot 03_man1
 view woman2.png png; sleep 5; shot 04_woman2
