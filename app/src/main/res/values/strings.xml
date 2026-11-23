@@ -41,4 +41,5 @@
     <string name="btn_agree">موافقم</string>
     <string name="btn_decline">نه، ممنون</string>
     <string name="privacy_link">سیاست حریم خصوصی</string>
+    <string name="about_credits">مدل تشخیص زن و مرد را «БИХОН» با مجموعهٔ FairFace (Kärkkäinen & Joo، مجوز CC BY 4.0) آموزش داده است.</string>
 </resources>

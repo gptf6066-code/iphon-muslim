@@ -69,6 +69,10 @@ class AboutActivity : AppCompatActivity() {
             text = getString(R.string.about_private); textSize = 14f; setTextColor(Color.GRAY); gravity = Gravity.CENTER
         })
         root.addView(TextView(this).apply {
+            text = getString(R.string.about_credits); textSize = 12f; setTextColor(Color.GRAY); gravity = Gravity.CENTER
+            setPadding(0, pad / 2, 0, 0)
+        })
+        root.addView(TextView(this).apply {
             text = getString(R.string.privacy_link); textSize = 15f; setTextColor(blue); gravity = Gravity.CENTER
             paintFlags = paintFlags or android.graphics.Paint.UNDERLINE_TEXT_FLAG
             setPadding(0, pad / 2, 0, pad)

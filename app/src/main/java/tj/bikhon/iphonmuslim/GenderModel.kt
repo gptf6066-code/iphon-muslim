@@ -15,12 +15,13 @@ import kotlin.math.exp
 import kotlin.math.max
 
 /**
- * Муайян кардани зан/мард аз рӯй — модели genderage-и InsightFace.
- * Вуруд: 96×96 RGB (0..255), NCHW. Баромад: [зан, мард, синну сол].
+ * Муайян кардани зан/мард аз рӯй — модели худи мо (MobileNetV3-Large),
+ * ки бо маҷмӯаи FairFace (CC BY 4.0) таълим дода шудааст.
+ * Вуруд: 112×112 RGB (0..255), NCHW (нормализатсия дар дохили модел). Баромад: [зан, мард].
  */
 class GenderModel(ctx: Context) {
 
-    private val n = 96
+    private val n = 112
     private val env = OrtEnvironment.getEnvironment()
     private val session: OrtSession
     private val inputName: String
@@ -32,7 +33,7 @@ class GenderModel(ctx: Context) {
     private val data = FloatBuffer.allocate(3 * n * n)
 
     init {
-        val bytes = ctx.assets.open("genderage.onnx").use { it.readBytes() }
+        val bytes = ctx.assets.open("gender_ff.onnx").use { it.readBytes() }
         val opts = OrtSession.SessionOptions().apply { setIntraOpNumThreads(2) }
         session = env.createSession(bytes, opts)
         inputName = session.inputNames.first()

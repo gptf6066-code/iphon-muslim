@@ -12,6 +12,7 @@ Muslim Shield blurs photos and videos of non-mahram people on your phone screen.
 - **Settings.** Your choices (language, blur style, "I am a man / woman") are stored only on your phone and are deleted when you uninstall the app.
 - **Your control.** You can pause the app, turn off the Accessibility service, or uninstall the app at any time.
 - **Children.** The app does not collect any data from anyone, including children.
+- **Model credits.** The man/woman recognition model was trained by «БИХОН» on the FairFace dataset (K. Kärkkäinen and J. Joo, WACV 2021, https://github.com/joojs/fairface), licensed CC BY 4.0. Face detection uses Google ML Kit, running fully offline on the device.
 - **Contact.** Questions: open an issue at https://github.com/gptf6066-code/iphon-muslim/issues
 
 **فارسی**
