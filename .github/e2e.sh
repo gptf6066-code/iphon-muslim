@@ -18,6 +18,7 @@ for m in re.finditer(r'<node [^>]*>',x):
         print((b[0]+b[2])//2,(b[1]+b[3])//2); break
 PY
 )
+  if [ -z "$B" ] && [ -z "$RETRY" ]; then sleep 3; RETRY=1 tap_text "$1" "$2"; RETRY=1 && [ -z "$B" ] && { sleep 3; RETRY=1 tap_text "$1" "$2"; }; return; fi
   echo "tap $1 -> $B"; [ -n "$B" ] && adb shell input tap $B
 }
 adb install -r iphon-muslim.apk
