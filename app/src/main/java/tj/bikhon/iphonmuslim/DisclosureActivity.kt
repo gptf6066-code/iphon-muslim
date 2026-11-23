@@ -39,17 +39,26 @@ class DisclosureActivity : AppCompatActivity() {
             setPadding(0, pad / 2, 0, pad / 2)
             setOnClickListener { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(AboutActivity.PRIVACY_URL))) }
         })
-        root.addView(Button(this).apply {
+        // тугмаҳо ҳамеша дар поён намоён
+        val bottom = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(pad, pad / 3, pad, pad / 3) }
+        bottom.addView(Button(this).apply {
             text = getString(R.string.btn_agree); textSize = 18f
             setOnClickListener {
                 getSharedPreferences(Prefs.NAME, Context.MODE_PRIVATE).edit().putBoolean(Prefs.CONSENT, true).apply()
                 setResult(RESULT_OK); finish()
             }
         })
-        root.addView(Button(this).apply {
+        bottom.addView(Button(this).apply {
             text = getString(R.string.btn_decline)
             setOnClickListener { setResult(RESULT_CANCELED); finish() }
         })
-        setContentView(ScrollView(this).apply { addView(root); Insets.pad(this) })
+        val page = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            addView(ScrollView(this@DisclosureActivity).apply { addView(root) },
+                LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1f))
+            addView(bottom)
+        }
+        Insets.pad(page)
+        setContentView(page)
     }
 }

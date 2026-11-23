@@ -78,14 +78,23 @@ class AboutActivity : AppCompatActivity() {
             setPadding(0, pad / 2, 0, pad)
             setOnClickListener { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(PRIVACY_URL))) }
         })
-        root.addView(Button(this).apply {
+        // тугмаҳо ҳамеша дар поён намоён
+        val bottom = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(pad, pad / 3, pad, pad / 3) }
+        bottom.addView(Button(this).apply {
             text = getString(R.string.btn_continue); textSize = 18f
             setOnClickListener {
                 getSharedPreferences(Prefs.NAME, Context.MODE_PRIVATE).edit().putBoolean(Prefs.ABOUT_SEEN, true).apply()
                 finish()
             }
         })
-        setContentView(ScrollView(this).apply { addView(root); Insets.pad(this) })
+        val page = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            addView(ScrollView(this@AboutActivity).apply { addView(root) },
+                LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1f))
+            addView(bottom)
+        }
+        Insets.pad(page)
+        setContentView(page)
     }
 
     companion object {
