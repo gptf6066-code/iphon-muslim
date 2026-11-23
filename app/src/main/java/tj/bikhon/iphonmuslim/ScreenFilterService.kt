@@ -94,7 +94,7 @@ class ScreenFilterService : Service() {
         val nm = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= 26) {
             nm.createNotificationChannel(
-                NotificationChannel(CHANNEL, "iPhon Muslim", NotificationManager.IMPORTANCE_LOW)
+                NotificationChannel(CHANNEL, "Muslim Shield", NotificationManager.IMPORTANCE_LOW)
             )
         }
         val stopPi = PendingIntent.getService(

@@ -41,8 +41,10 @@ tap_text "فعال کردن" en; sleep 4; shot 00c_disclosure
 adb shell input swipe 360 1000 360 400 800; sleep 2
 tap_text "موافقم" ag; sleep 4; shot 00d_a11y_settings
 # дар саҳифаи Специальные возможности: калид → Allow
-tap_text "(Use Muslim Shield|Muslim Shield)" sw; sleep 3; shot 00e_a11y_dialog
-tap_text "^ ?(Allow|Разрешить|OK)" al; sleep 4
+tap_text "^Muslim Shield" sw; sleep 3
+tap_text "(Use Muslim Shield|Use service)" us; sleep 3; shot 00e_a11y_dialog
+tap_text "^ ?(Allow|Разрешить|OK)" al; sleep 4; shot 00f_a11y_on
+adb shell input keyevent KEYCODE_BACK; sleep 1; adb shell input keyevent KEYCODE_BACK; sleep 1
 # агар бо UI нашуд — бо фармон
 adb shell settings get secure enabled_accessibility_services | grep -q muslimshield || {
   adb shell settings put secure enabled_accessibility_services $P/$C.FilterAccessibilityService

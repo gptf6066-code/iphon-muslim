@@ -11,8 +11,8 @@ android {
         applicationId = "tj.bikhon.muslimshield"
         minSdk = 21
         targetSdk = 36
-        versionCode = 13
-        versionName = "4.1"
+        versionCode = 14
+        versionName = "4.2"
         ndk { abiFilters += listOf("armeabi-v7a", "arm64-v8a", "x86_64") }
     }
 
