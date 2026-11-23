@@ -16,8 +16,10 @@ object L10n {
     }
 
     /** Бори аввал — тоҷикӣ */
-    fun ensureDefault() {
-        if (AppCompatDelegate.getApplicationLocales().isEmpty) set("tg")
+    /** @return true агар забон ҳозир гузошта шуд (экран аз нав сохта мешавад) */
+    fun ensureDefault(): Boolean {
+        if (AppCompatDelegate.getApplicationLocales().isEmpty) { set("tg"); return true }
+        return false
     }
 
     fun set(tag: String) {

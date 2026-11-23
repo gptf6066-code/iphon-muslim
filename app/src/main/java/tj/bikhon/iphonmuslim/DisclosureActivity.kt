@@ -41,14 +41,14 @@ class DisclosureActivity : AppCompatActivity() {
         })
         // тугмаҳо ҳамеша дар поён намоён
         val bottom = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(pad, pad / 3, pad, pad / 3) }
-        bottom.addView(Button(this).apply {
+        bottom.addView(Button(this).apply { isAllCaps = false;
             text = getString(R.string.btn_agree); textSize = 18f
             setOnClickListener {
                 getSharedPreferences(Prefs.NAME, Context.MODE_PRIVATE).edit().putBoolean(Prefs.CONSENT, true).apply()
                 setResult(RESULT_OK); finish()
             }
         })
-        bottom.addView(Button(this).apply {
+        bottom.addView(Button(this).apply { isAllCaps = false;
             text = getString(R.string.btn_decline)
             setOnClickListener { setResult(RESULT_CANCELED); finish() }
         })

@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        L10n.ensureDefault()
+        val localeJustSet = L10n.ensureDefault()
         val d = resources.displayMetrics.density
         val pad = (20 * d).toInt()
         val green = Color.parseColor("#0E7A4F")
@@ -96,18 +96,18 @@ class MainActivity : AppCompatActivity() {
 
         status = TextView(this).apply { textSize = 19f; gravity = Gravity.CENTER; setPadding(0, pad / 2, 0, pad / 2) }
         root.addView(status)
-        mainBtn = Button(this).apply { textSize = 20f; setOnClickListener { onMain() } }
+        mainBtn = Button(this).apply { isAllCaps = false; textSize = 20f; setOnClickListener { onMain() } }
         root.addView(mainBtn)
         help = TextView(this).apply { textSize = 15f; setPadding(0, pad / 2, 0, 0) }
         root.addView(help)
-        helpBtn = Button(this).apply {
+        helpBtn = Button(this).apply { isAllCaps = false;
             text = getString(R.string.btn_restricted)
             setOnClickListener {
                 startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:$packageName")))
             }
         }
         root.addView(helpBtn)
-        fastBtn = Button(this).apply { textSize = 16f; setOnClickListener { onFast() } }
+        fastBtn = Button(this).apply { isAllCaps = false; textSize = 16f; setOnClickListener { onFast() } }
         root.addView(fastBtn)
         fastHint = TextView(this).apply { text = getString(R.string.fast_hint); textSize = 13f; setTextColor(Color.GRAY) }
         root.addView(fastHint)
@@ -145,7 +145,8 @@ class MainActivity : AppCompatActivity() {
         })
         setContentView(ScrollView(this).apply { addView(root); Insets.pad(this) })
 
-        if (!prefs.getBoolean(Prefs.ABOUT_SEEN, false) && !aboutOpened) {
+        // агар забон ҳозир гузошта шуд, экран аз нав сохта мешавад — «Дар бораи барнома» баъд бо забони дуруст кушода мешавад
+        if (!localeJustSet && !prefs.getBoolean(Prefs.ABOUT_SEEN, false) && !aboutOpened) {
             aboutOpened = true   // ҳангоми иваз шудани забон экран аз нав сохта мешавад — як бор кифоя
             startActivity(Intent(this, AboutActivity::class.java))
         }
@@ -166,7 +167,7 @@ class MainActivity : AppCompatActivity() {
         text = t; textSize = 17f; setTypeface(typeface, Typeface.BOLD); setPadding(0, pad / 2, 0, pad / 4)
     }
 
-    private fun radio(t: String) = RadioButton(this).apply { id = View.generateViewId(); textSize = 16f; text = t }
+    private fun radio(t: String) = RadioButton(this).apply { isAllCaps = false; id = View.generateViewId(); textSize = 16f; text = t }
 
     private fun chooseLanguage() {
         val names = L10n.LANGS.map { it.second }.toTypedArray()
