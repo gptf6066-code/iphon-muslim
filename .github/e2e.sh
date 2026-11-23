@@ -36,10 +36,10 @@ REC=$!
 sleep 1
 # Экрани «Дар бораи барнома» → Идома → Фаъол кардан → огоҳӣ → Розӣ ҳастам → танзимот
 adb shell am start -n $P/$C.MainActivity; sleep 6; shot 00_about
-tap_text "^ ?ادامه" ab; sleep 3; shot 00b_main
-tap_text "فعال کردن" en; sleep 4; shot 00c_disclosure
+tap_text "^ ?Идома" ab; sleep 3; shot 00b_main
+tap_text "^ ?Фаъол кардан" en; sleep 4; shot 00c_disclosure
 adb shell input swipe 360 1000 360 400 800; sleep 2
-tap_text "موافقم" ag; sleep 4; shot 00d_a11y_settings
+tap_text "Розӣ ҳастам" ag; sleep 4; shot 00d_a11y_settings
 # дар саҳифаи Специальные возможности: калид → Allow
 tap_text "^Muslim Shield" sw; sleep 3
 tap_text "(Use Muslim Shield|Use service)" us; sleep 3; shot 00e_a11y_dialog
@@ -53,7 +53,7 @@ adb shell appops set $P PROJECT_MEDIA allow
 sleep 4
 tap_text "^ ?(Start|Start now|Начать)" a; sleep 3
 adb shell input keyevent KEYCODE_BACK; sleep 1
-adb shell am start -n $P/$C.MainActivity; sleep 4; shot 01_app_fa
+adb shell am start -n $P/$C.MainActivity; sleep 4; shot 01_app_tg
 view woman2.png png; sleep 7; shot 02a_demo_astronaut
 adb shell am start -n $P/$C.MainActivity; sleep 4
 kill $REC 2>/dev/null; sleep 3; adb shell pkill -INT screenrecord; sleep 3
@@ -78,18 +78,18 @@ done
 shot 07_feed_settled
 # --- намуди «танҳо ҷои зан» ---
 adb shell am start -n $P/$C.MainActivity; sleep 3
-tap_text "فقط جای خود شخص" m; sleep 1
+tap_text "Танҳо ҷои худи шахс" m; sleep 1
 view woman2.png png; sleep 6; shot 10_person_woman2
 adb shell am start -n $P/$C.MainActivity; sleep 2
-tap_text "کل عکس یا ویدیو" n; sleep 1
+tap_text "Тамоми сурат ё видео" n; sleep 1
 # корбари зан: мардҳо хира шаванд
-tap_text "زن هستم" w; sleep 1
+tap_text "Зан ҳастам" w; sleep 1
 view man1.jpg jpeg; sleep 6; shot 12_women_user_man1
 view woman1.jpg jpeg; sleep 6; shot 13_women_user_woman1
 adb shell am start -n $P/$C.MainActivity; sleep 2
-tap_text "مرد هستم" mm; sleep 1
+tap_text "Мард ҳастам" mm; sleep 1
 tap_text "&#127760;" lg; sleep 2; shot 14_lang_dialog
-tap_text "Тоҷикӣ" t; sleep 4; shot 11_app_tg
+tap_text "فارسی" t; sleep 4; shot 11_app_fa
 adb logcat -d -s IphonMuslim:* > results/applog.txt
 adb logcat -d -b crash > results/crash.txt
 true
