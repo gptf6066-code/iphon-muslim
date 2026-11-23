@@ -1,0 +1,616 @@
+--------- beginning of main
+11-23 03:48:00.843  3676  3676 I IphonMuslim: accessibility connected
+11-23 03:48:01.357  3676  6212 I IphonMuslim: frame 480x960 faces=0 women=0 covers=0 clean=true 365ms
+11-23 03:48:01.434  3676  6207 I IphonMuslim: models ready
+11-23 03:48:01.486  3676  6212 I IphonMuslim: frame 480x960 faces=0 women=0 covers=0 clean=true 101ms
+11-23 03:48:01.819  3676  6212 I IphonMuslim: frame 480x960 faces=0 women=0 covers=0 clean=true 96ms
+11-23 03:48:02.129  3676  6212 I IphonMuslim: frame 480x960 faces=0 women=0 covers=0 clean=true 72ms
+11-23 03:48:02.674  3676  6212 I IphonMuslim: frame 480x960 faces=0 women=0 covers=0 clean=true 183ms
+11-23 03:48:02.676  3676  3676 I IphonMuslim: fast mode started
+11-23 03:48:02.950  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 107ms
+11-23 03:48:03.077  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 125ms
+11-23 03:48:03.156  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 77ms
+11-23 03:48:03.245  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 87ms
+11-23 03:48:04.920  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 413ms
+11-23 03:48:04.978  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 55ms
+11-23 03:48:05.301  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 178ms
+11-23 03:48:05.385  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 81ms
+11-23 03:48:05.578  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 110ms
+11-23 03:48:05.654  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 72ms
+11-23 03:48:06.548  3676  3676 I IphonMuslim: accessibility connected
+11-23 03:48:06.639  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 69ms
+11-23 03:48:06.700  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 60ms
+11-23 03:48:07.411  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 308ms
+11-23 03:48:07.486  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 73ms
+11-23 03:48:08.258  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 94ms
+11-23 03:48:08.323  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 63ms
+11-23 03:48:10.130  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 330ms
+11-23 03:48:10.196  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 63ms
+11-23 03:48:10.775  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 66ms
+11-23 03:48:10.833  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 56ms
+11-23 03:48:11.722  3676  3676 I IphonMuslim: accessibility connected
+11-23 03:48:11.821  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 81ms
+11-23 03:48:11.896  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 72ms
+11-23 03:48:13.385  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 84ms
+11-23 03:48:14.412  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 92ms
+11-23 03:48:15.203  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 145ms
+11-23 03:48:15.391  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 185ms
+11-23 03:48:15.982  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 105ms
+11-23 03:48:16.065  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 81ms
+11-23 03:48:16.386  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 192ms
+11-23 03:48:16.449  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 59ms
+11-23 03:48:16.979  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 118ms
+11-23 03:48:17.380  3676  3676 I IphonMuslim: accessibility connected
+11-23 03:48:17.542  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 149ms
+11-23 03:48:17.759  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 216ms
+11-23 03:48:18.179  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 418ms
+11-23 03:48:18.593  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 397ms
+11-23 03:48:19.173  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 152ms
+11-23 03:48:19.338  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 162ms
+11-23 03:48:21.002  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 347ms
+11-23 03:48:21.194  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 189ms
+11-23 03:48:21.770  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 288ms
+11-23 03:48:22.029  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 194ms
+11-23 03:48:22.110  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 77ms
+11-23 03:48:22.635  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 117ms
+11-23 03:48:22.778  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 95ms
+11-23 03:48:23.165  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 182ms
+11-23 03:48:23.426  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 254ms
+11-23 03:48:23.497  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 69ms
+11-23 03:48:23.567  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 68ms
+11-23 03:48:24.092  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 75ms
+11-23 03:48:24.185  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 56ms
+11-23 03:48:26.990  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 198ms
+11-23 03:48:27.164  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 172ms
+11-23 03:48:27.315  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 111ms
+11-23 03:48:27.445  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 83ms
+11-23 03:48:27.513  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 61ms
+11-23 03:48:27.949  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 271ms
+11-23 03:48:28.112  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 158ms
+11-23 03:48:28.225  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 58ms
+11-23 03:48:28.474  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 165ms
+11-23 03:48:28.675  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 195ms
+11-23 03:48:28.892  3676  6264 I IphonMuslim: face 107px female=0.72
+11-23 03:48:28.914  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=1 covers=1 clean=false 233ms
+11-23 03:48:29.155  3676  6264 I IphonMuslim: face 100px female=0.52
+11-23 03:48:29.172  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=1 covers=1 clean=false 186ms
+11-23 03:48:29.262  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 85ms
+11-23 03:48:29.366  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 102ms
+11-23 03:48:29.457  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 85ms
+11-23 03:48:29.540  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 81ms
+11-23 03:48:29.657  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 114ms
+11-23 03:48:29.730  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 71ms
+11-23 03:48:29.812  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 80ms
+11-23 03:48:29.882  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 68ms
+11-23 03:48:29.971  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 87ms
+11-23 03:48:30.039  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 66ms
+11-23 03:48:30.107  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 66ms
+11-23 03:48:30.209  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 100ms
+11-23 03:48:30.289  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 79ms
+11-23 03:48:30.361  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 71ms
+11-23 03:48:30.433  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 71ms
+11-23 03:48:30.514  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 79ms
+11-23 03:48:30.589  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 68ms
+11-23 03:48:30.661  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 70ms
+11-23 03:48:30.725  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 63ms
+11-23 03:48:30.796  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 70ms
+11-23 03:48:30.861  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 63ms
+11-23 03:48:30.933  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 70ms
+11-23 03:48:31.009  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 74ms
+11-23 03:48:31.078  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 68ms
+11-23 03:48:31.149  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 69ms
+11-23 03:48:31.226  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 76ms
+11-23 03:48:31.294  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 67ms
+11-23 03:48:31.369  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 73ms
+11-23 03:48:31.447  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 76ms
+11-23 03:48:31.512  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 63ms
+11-23 03:48:31.585  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 72ms
+11-23 03:48:31.657  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 71ms
+11-23 03:48:31.726  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 67ms
+11-23 03:48:31.796  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 67ms
+11-23 03:48:31.864  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 66ms
+11-23 03:48:31.937  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 69ms
+11-23 03:48:32.004  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 65ms
+11-23 03:48:32.071  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 65ms
+11-23 03:48:32.138  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 65ms
+11-23 03:48:32.214  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 74ms
+11-23 03:48:32.293  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 71ms
+11-23 03:48:32.363  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 68ms
+11-23 03:48:32.439  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 75ms
+11-23 03:48:32.506  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 65ms
+11-23 03:48:32.572  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 65ms
+11-23 03:48:32.638  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 64ms
+11-23 03:48:32.703  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 63ms
+11-23 03:48:32.774  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 69ms
+11-23 03:48:32.844  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 69ms
+11-23 03:48:32.912  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 66ms
+11-23 03:48:32.979  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 65ms
+11-23 03:48:33.041  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 60ms
+11-23 03:48:33.111  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 69ms
+11-23 03:48:33.184  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 71ms
+11-23 03:48:33.254  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 68ms
+11-23 03:48:33.318  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 63ms
+11-23 03:48:33.388  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 68ms
+11-23 03:48:33.466  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 76ms
+11-23 03:48:33.538  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 69ms
+11-23 03:48:33.626  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 87ms
+11-23 03:48:33.699  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 72ms
+11-23 03:48:33.779  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 78ms
+11-23 03:48:33.873  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 92ms
+11-23 03:48:34.013  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 122ms
+11-23 03:48:34.365  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 313ms
+11-23 03:48:34.561  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 147ms
+11-23 03:48:34.628  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 65ms
+11-23 03:48:34.681  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 52ms
+11-23 03:48:35.688  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 56ms
+11-23 03:48:35.940  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 201ms
+11-23 03:48:36.077  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 132ms
+11-23 03:48:36.129  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 51ms
+11-23 03:48:38.167  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 69ms
+11-23 03:48:44.411  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 267ms
+11-23 03:48:44.589  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 145ms
+11-23 03:48:44.827  3676  6264 I IphonMuslim: face 174px female=0.98
+11-23 03:48:44.859  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=1 covers=1 clean=false 267ms
+11-23 03:48:44.990  3676  6264 I IphonMuslim: face 162px female=0.98
+11-23 03:48:45.002  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=1 covers=1 clean=false 136ms
+11-23 03:48:45.076  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 70ms
+11-23 03:48:45.166  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 86ms
+11-23 03:48:45.234  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 66ms
+11-23 03:48:45.296  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 60ms
+11-23 03:48:45.362  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 65ms
+11-23 03:48:45.436  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 73ms
+11-23 03:48:45.503  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 64ms
+11-23 03:48:45.567  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 62ms
+11-23 03:48:45.632  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 62ms
+11-23 03:48:45.696  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 62ms
+11-23 03:48:45.763  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 65ms
+11-23 03:48:45.830  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 63ms
+11-23 03:48:45.893  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 60ms
+11-23 03:48:45.957  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 63ms
+11-23 03:48:46.024  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 65ms
+11-23 03:48:46.086  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 60ms
+11-23 03:48:46.150  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 63ms
+11-23 03:48:46.218  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 66ms
+11-23 03:48:46.281  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 62ms
+11-23 03:48:46.353  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 69ms
+11-23 03:48:46.418  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 63ms
+11-23 03:48:46.486  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 66ms
+11-23 03:48:46.557  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 69ms
+11-23 03:48:46.617  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 58ms
+11-23 03:48:46.683  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 64ms
+11-23 03:48:46.748  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 63ms
+11-23 03:48:46.808  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 58ms
+11-23 03:48:46.873  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 63ms
+11-23 03:48:46.935  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 60ms
+11-23 03:48:47.004  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 67ms
+11-23 03:48:47.067  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 62ms
+11-23 03:48:47.128  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 60ms
+11-23 03:48:47.194  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 64ms
+11-23 03:48:47.259  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 63ms
+11-23 03:48:47.321  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 60ms
+11-23 03:48:47.384  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 61ms
+11-23 03:48:47.445  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 60ms
+11-23 03:48:47.515  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 68ms
+11-23 03:48:47.579  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 61ms
+11-23 03:48:47.644  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 64ms
+11-23 03:48:47.705  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 58ms
+11-23 03:48:47.771  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 64ms
+11-23 03:48:47.833  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 61ms
+11-23 03:48:47.898  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 63ms
+11-23 03:48:47.963  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 62ms
+11-23 03:48:48.030  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 65ms
+11-23 03:48:48.096  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 65ms
+11-23 03:48:48.161  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 63ms
+11-23 03:48:48.229  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 66ms
+11-23 03:48:48.299  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 68ms
+11-23 03:48:48.362  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 61ms
+11-23 03:48:48.435  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 70ms
+11-23 03:48:48.502  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 66ms
+11-23 03:48:48.567  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 63ms
+11-23 03:48:48.631  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 61ms
+11-23 03:48:48.695  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 60ms
+11-23 03:48:48.761  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 65ms
+11-23 03:48:48.830  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 67ms
+11-23 03:48:48.900  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 68ms
+11-23 03:48:48.966  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 64ms
+11-23 03:48:49.033  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 65ms
+11-23 03:48:49.101  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 66ms
+11-23 03:48:49.169  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 66ms
+11-23 03:48:49.245  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 75ms
+11-23 03:48:49.346  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 82ms
+11-23 03:48:49.476  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 118ms
+11-23 03:48:49.726  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 248ms
+11-23 03:48:49.907  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 167ms
+11-23 03:48:50.047  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 137ms
+11-23 03:48:50.153  3676  6264 I IphonMuslim: face 32px female=0.24
+11-23 03:48:50.163  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=0 clean=false 114ms
+11-23 03:48:50.245  3676  6264 I IphonMuslim: face 32px female=0.24
+11-23 03:48:50.250  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=0 clean=false 85ms
+11-23 03:48:50.476  3676  6264 I IphonMuslim: face 32px female=0.24
+11-23 03:48:50.483  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=0 clean=false 74ms
+11-23 03:49:00.286  3676  6264 I IphonMuslim: face 32px female=0.24
+11-23 03:49:00.292  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=0 clean=false 207ms
+11-23 03:49:00.442  3676  6264 I IphonMuslim: face 32px female=0.24
+11-23 03:49:00.459  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=0 clean=false 146ms
+11-23 03:49:00.761  3676  6264 I IphonMuslim: face 32px female=0.24
+11-23 03:49:00.775  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=0 clean=false 314ms
+11-23 03:49:00.878  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 93ms
+11-23 03:49:00.976  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 96ms
+11-23 03:49:01.078  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 95ms
+11-23 03:49:01.528  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 81ms
+11-23 03:49:01.661  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 132ms
+11-23 03:49:01.809  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 145ms
+11-23 03:49:01.935  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 113ms
+11-23 03:49:02.226  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 140ms
+11-23 03:49:02.401  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 166ms
+11-23 03:49:02.966  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 459ms
+11-23 03:49:03.091  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 112ms
+11-23 03:49:03.470  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 378ms
+11-23 03:49:03.776  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 267ms
+11-23 03:49:03.922  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 112ms
+11-23 03:49:03.978  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 54ms
+11-23 03:49:04.262  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 48ms
+11-23 03:49:06.220  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 57ms
+11-23 03:49:08.570  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 58ms
+11-23 03:49:08.623  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 51ms
+11-23 03:49:09.511  3676  3676 I IphonMuslim: accessibility connected
+11-23 03:49:09.600  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 73ms
+11-23 03:49:09.653  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 52ms
+11-23 03:49:10.633  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 105ms
+11-23 03:49:10.689  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 53ms
+11-23 03:49:12.585  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 59ms
+11-23 03:49:12.637  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 49ms
+11-23 03:49:13.535  3676  3676 I IphonMuslim: accessibility connected
+11-23 03:49:13.606  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 66ms
+11-23 03:49:13.657  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 49ms
+11-23 03:49:16.602  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 141ms
+11-23 03:49:16.843  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 239ms
+11-23 03:49:17.163  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 318ms
+11-23 03:49:17.314  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 138ms
+11-23 03:49:17.470  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 142ms
+11-23 03:49:17.544  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 69ms
+11-23 03:49:17.642  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 96ms
+11-23 03:49:17.809  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 165ms
+11-23 03:49:17.949  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 137ms
+11-23 03:49:18.024  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 73ms
+11-23 03:49:18.101  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 75ms
+11-23 03:49:18.158  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 55ms
+11-23 03:49:22.244  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 580ms
+11-23 03:49:22.585  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 309ms
+11-23 03:49:22.681  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 89ms
+11-23 03:49:22.790  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 102ms
+11-23 03:49:22.969  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 138ms
+11-23 03:49:23.105  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 134ms
+11-23 03:49:23.176  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 66ms
+11-23 03:49:23.235  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 58ms
+11-23 03:49:23.308  3676  6264 I IphonMuslim: face 162px female=0.98
+11-23 03:49:23.327  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=1 covers=1 clean=false 91ms
+11-23 03:49:23.334  3676  7525 I IphonMuslim: anchor Rect(0, 798 - 720, 1440) for RectF(0.0, 798.0, 720.0, 1440.0)
+11-23 03:49:23.433  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 54ms
+11-23 03:49:23.527  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 51ms
+11-23 03:49:23.608  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 48ms
+11-23 03:49:23.690  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 48ms
+11-23 03:49:23.777  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 52ms
+11-23 03:49:23.860  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 51ms
+11-23 03:49:23.940  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 48ms
+11-23 03:49:24.101  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 125ms
+11-23 03:49:24.538  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 417ms
+11-23 03:49:24.971  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 417ms
+11-23 03:49:25.095  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 76ms
+11-23 03:49:25.182  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 70ms
+11-23 03:49:25.249  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 62ms
+11-23 03:49:25.356  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 100ms
+11-23 03:49:25.521  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 162ms
+11-23 03:49:25.620  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 95ms
+11-23 03:49:25.687  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 65ms
+11-23 03:49:25.760  3676  6264 I IphonMuslim: face 165px female=0.98
+11-23 03:49:25.777  3676  6264 I IphonMuslim: face 30px female=0.13
+11-23 03:49:25.802  3676  6264 I IphonMuslim: frame 432x864 faces=2 women=1 covers=1 clean=false 113ms
+11-23 03:49:25.806  3676  7525 I IphonMuslim: anchor Rect(0, 372 - 720, 1094) for RectF(0.0, 372.0, 720.0, 1094.0)
+11-23 03:49:25.908  3676  6264 I IphonMuslim: face 30px female=0.13
+11-23 03:49:25.917  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=1 clean=false 74ms
+11-23 03:49:26.027  3676  6264 I IphonMuslim: face 30px female=0.13
+11-23 03:49:26.033  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=1 clean=false 73ms
+11-23 03:49:26.151  3676  6264 I IphonMuslim: face 30px female=0.13
+11-23 03:49:26.159  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=1 clean=false 84ms
+11-23 03:49:26.240  3676  6264 I IphonMuslim: face 30px female=0.13
+11-23 03:49:26.244  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=1 clean=false 50ms
+11-23 03:49:26.324  3676  6264 I IphonMuslim: face 30px female=0.13
+11-23 03:49:26.328  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=1 clean=false 51ms
+11-23 03:49:26.424  3676  6264 I IphonMuslim: face 30px female=0.13
+11-23 03:49:26.441  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=1 clean=false 83ms
+11-23 03:49:26.648  3676  6264 I IphonMuslim: face 31px female=0.13
+11-23 03:49:26.676  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=1 clean=false 207ms
+11-23 03:49:26.979  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 269ms
+11-23 03:49:27.323  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 267ms
+11-23 03:49:27.475  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 94ms
+11-23 03:49:27.577  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 96ms
+11-23 03:49:27.666  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 83ms
+11-23 03:49:27.812  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 106ms
+11-23 03:49:27.990  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 162ms
+11-23 03:49:28.055  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 60ms
+11-23 03:49:28.118  3676  6264 I IphonMuslim: face 31px female=0.21
+11-23 03:49:28.134  3676  6264 I IphonMuslim: face 177px female=0.99
+11-23 03:49:28.156  3676  6264 I IphonMuslim: frame 432x864 faces=2 women=1 covers=1 clean=false 98ms
+11-23 03:49:28.160  3676  7525 I IphonMuslim: anchor Rect(0, 48 - 720, 666) for RectF(0.0, 48.0, 720.0, 666.0)
+11-23 03:49:28.252  3676  6264 I IphonMuslim: face 31px female=0.21
+11-23 03:49:28.260  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=1 clean=false 69ms
+11-23 03:49:28.353  3676  6264 I IphonMuslim: face 31px female=0.21
+11-23 03:49:28.365  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=1 clean=false 73ms
+11-23 03:49:28.471  3676  6264 I IphonMuslim: face 31px female=0.21
+11-23 03:49:28.479  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=1 clean=false 70ms
+11-23 03:49:28.557  3676  6264 I IphonMuslim: face 31px female=0.21
+11-23 03:49:28.566  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=1 clean=false 56ms
+11-23 03:49:28.656  3676  6264 I IphonMuslim: face 31px female=0.21
+11-23 03:49:28.659  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=1 clean=false 51ms
+11-23 03:49:28.737  3676  6264 I IphonMuslim: face 31px female=0.21
+11-23 03:49:28.745  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=1 clean=false 53ms
+11-23 03:49:28.825  3676  6264 I IphonMuslim: face 31px female=0.21
+11-23 03:49:28.830  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=1 clean=false 55ms
+11-23 03:49:29.217  3676  6264 I IphonMuslim: face 31px female=0.21
+11-23 03:49:29.223  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=1 clean=false 333ms
+11-23 03:49:29.602  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 371ms
+11-23 03:49:29.859  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 225ms
+11-23 03:49:29.957  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 92ms
+11-23 03:49:30.042  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 78ms
+11-23 03:49:30.144  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 98ms
+11-23 03:49:30.289  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 116ms
+11-23 03:49:30.419  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 127ms
+11-23 03:49:30.483  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 61ms
+11-23 03:49:30.549  3676  6264 I IphonMuslim: face 32px female=0.21
+11-23 03:49:30.568  3676  6264 I IphonMuslim: face 100px female=0.48
+11-23 03:49:30.578  3676  6264 I IphonMuslim: frame 432x864 faces=2 women=1 covers=1 clean=false 93ms
+11-23 03:49:30.581  3676  7525 I IphonMuslim: anchor Rect(0, 1058 - 720, 1440) for RectF(0.0, 1058.0, 720.0, 1440.0)
+11-23 03:49:30.687  3676  6264 I IphonMuslim: face 32px female=0.21
+11-23 03:49:30.695  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=1 clean=false 85ms
+11-23 03:49:30.790  3676  6264 I IphonMuslim: face 32px female=0.21
+11-23 03:49:30.800  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=1 clean=false 73ms
+11-23 03:49:30.911  3676  6264 I IphonMuslim: face 32px female=0.21
+11-23 03:49:30.921  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=1 clean=false 78ms
+11-23 03:49:31.005  3676  6264 I IphonMuslim: face 32px female=0.21
+11-23 03:49:31.009  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=1 clean=false 51ms
+11-23 03:49:31.086  3676  6264 I IphonMuslim: face 32px female=0.21
+11-23 03:49:31.089  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=1 clean=false 48ms
+11-23 03:49:31.170  3676  6264 I IphonMuslim: face 32px female=0.21
+11-23 03:49:31.173  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=1 clean=false 48ms
+11-23 03:49:31.291  3676  6264 I IphonMuslim: face 32px female=0.21
+11-23 03:49:31.297  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=1 clean=false 88ms
+11-23 03:49:31.776  3676  6264 I IphonMuslim: face 32px female=0.21
+11-23 03:49:31.840  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=1 clean=false 493ms
+11-23 03:49:32.102  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 261ms
+11-23 03:49:32.328  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 220ms
+11-23 03:49:32.399  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 63ms
+11-23 03:49:32.469  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 65ms
+11-23 03:49:32.575  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 101ms
+11-23 03:49:32.730  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 149ms
+11-23 03:49:32.849  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 118ms
+11-23 03:49:32.912  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 61ms
+11-23 03:49:33.007  3676  6264 I IphonMuslim: face 32px female=0.23
+11-23 03:49:33.022  3676  6264 I IphonMuslim: face 100px female=0.46
+11-23 03:49:33.033  3676  6264 I IphonMuslim: frame 432x864 faces=2 women=1 covers=1 clean=false 119ms
+11-23 03:49:33.037  3676  7525 I IphonMuslim: anchor Rect(0, 632 - 720, 1354) for RectF(0.0, 632.0, 720.0, 1354.0)
+11-23 03:49:33.137  3676  6264 I IphonMuslim: face 32px female=0.23
+11-23 03:49:33.153  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=1 clean=false 77ms
+11-23 03:49:33.254  3676  6264 I IphonMuslim: face 32px female=0.23
+11-23 03:49:33.263  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=1 clean=false 70ms
+11-23 03:49:33.358  3676  6264 I IphonMuslim: face 32px female=0.23
+11-23 03:49:33.366  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=1 clean=false 74ms
+11-23 03:49:33.461  3676  6264 I IphonMuslim: face 32px female=0.23
+11-23 03:49:33.465  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=1 clean=false 57ms
+11-23 03:49:33.553  3676  6264 I IphonMuslim: face 32px female=0.23
+11-23 03:49:33.557  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=1 clean=false 48ms
+11-23 03:49:33.769  3676  6264 I IphonMuslim: face 32px female=0.23
+11-23 03:49:33.804  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=1 clean=false 211ms
+11-23 03:49:34.194  3676  6264 I IphonMuslim: face 30px female=0.18
+11-23 03:49:34.226  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=1 clean=false 349ms
+11-23 03:49:34.558  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 295ms
+11-23 03:49:34.713  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 116ms
+11-23 03:49:34.801  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 80ms
+11-23 03:49:34.902  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 90ms
+11-23 03:49:35.030  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 112ms
+11-23 03:49:35.205  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 167ms
+11-23 03:49:35.274  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 65ms
+11-23 03:49:35.344  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 68ms
+11-23 03:49:35.414  3676  6264 I IphonMuslim: face 100px female=0.42
+11-23 03:49:35.429  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=1 covers=1 clean=false 83ms
+11-23 03:49:35.434  3676  7525 I IphonMuslim: anchor Rect(0, 224 - 720, 946) for RectF(0.0, 224.0, 720.0, 946.0)
+11-23 03:49:35.523  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 48ms
+11-23 03:49:35.609  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 52ms
+11-23 03:49:35.693  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 51ms
+11-23 03:49:35.779  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 51ms
+11-23 03:49:35.857  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 48ms
+11-23 03:49:35.945  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 53ms
+11-23 03:49:36.045  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 53ms
+11-23 03:49:36.154  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 77ms
+11-23 03:49:36.273  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 75ms
+11-23 03:49:36.377  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 62ms
+11-23 03:49:36.724  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 297ms
+11-23 03:49:36.842  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 113ms
+11-23 03:49:36.924  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 80ms
+11-23 03:49:38.028  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 48ms
+11-23 03:49:38.224  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 144ms
+11-23 03:49:38.366  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 139ms
+11-23 03:49:38.431  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 62ms
+11-23 03:49:38.482  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 50ms
+11-23 03:49:39.678  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 55ms
+11-23 03:49:39.733  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 53ms
+11-23 03:49:40.629  3676  3676 I IphonMuslim: accessibility connected
+11-23 03:49:40.709  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 69ms
+11-23 03:49:40.764  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 54ms
+11-23 03:49:41.719  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 94ms
+11-23 03:49:41.786  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 66ms
+11-23 03:49:41.846  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 59ms
+11-23 03:49:42.713  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 186ms
+11-23 03:49:42.918  3676  6264 I IphonMuslim: face 32px female=0.17
+11-23 03:49:42.934  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=0 clean=false 194ms
+11-23 03:49:43.086  3676  6264 I IphonMuslim: face 32px female=0.17
+11-23 03:49:43.094  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=0 clean=false 113ms
+11-23 03:49:43.337  3676  6264 I IphonMuslim: face 32px female=0.17
+11-23 03:49:43.352  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=0 clean=false 208ms
+11-23 03:49:43.431  3676  6264 I IphonMuslim: face 32px female=0.19
+11-23 03:49:43.436  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=0 clean=false 82ms
+11-23 03:49:49.139  3676  6264 I IphonMuslim: face 32px female=0.24
+11-23 03:49:49.147  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=0 clean=false 153ms
+11-23 03:49:49.223  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 67ms
+11-23 03:49:49.284  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 55ms
+11-23 03:49:50.444  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 52ms
+11-23 03:49:50.622  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 145ms
+11-23 03:49:50.733  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 108ms
+11-23 03:49:50.845  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 105ms
+11-23 03:49:50.900  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 53ms
+11-23 03:49:51.061  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 55ms
+11-23 03:49:51.118  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 55ms
+11-23 03:49:52.009  3676  3676 I IphonMuslim: accessibility connected
+11-23 03:49:52.085  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 63ms
+11-23 03:49:52.139  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 52ms
+11-23 03:49:52.998  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 99ms
+11-23 03:49:53.061  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 62ms
+11-23 03:49:53.110  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 48ms
+11-23 03:49:54.065  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 57ms
+11-23 03:49:54.117  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 51ms
+11-23 03:49:54.353  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 47ms
+11-23 03:49:55.012  3676  3676 I IphonMuslim: accessibility connected
+11-23 03:49:55.094  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 72ms
+11-23 03:49:55.153  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 57ms
+11-23 03:49:55.984  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 85ms
+11-23 03:49:56.049  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 62ms
+11-23 03:49:56.101  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 49ms
+11-23 03:49:57.170  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 257ms
+11-23 03:49:57.305  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 100ms
+11-23 03:49:57.429  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 120ms
+11-23 03:49:57.574  3676  6264 I IphonMuslim: face 32px female=0.24
+11-23 03:49:57.584  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=1 covers=1 clean=false 153ms
+11-23 03:49:57.663  3676  6264 I IphonMuslim: face 32px female=0.24
+11-23 03:49:57.670  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=1 covers=1 clean=false 82ms
+11-23 03:49:57.737  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 63ms
+11-23 03:49:57.809  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 71ms
+11-23 03:49:57.874  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 63ms
+11-23 03:49:57.941  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 66ms
+11-23 03:49:58.003  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 61ms
+11-23 03:49:58.062  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 58ms
+11-23 03:49:58.124  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 60ms
+11-23 03:49:58.187  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 61ms
+11-23 03:49:58.250  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 62ms
+11-23 03:49:58.325  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 72ms
+11-23 03:49:58.390  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 64ms
+11-23 03:49:58.449  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 58ms
+11-23 03:49:58.516  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 65ms
+11-23 03:49:58.582  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 65ms
+11-23 03:49:58.646  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 62ms
+11-23 03:49:58.720  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 72ms
+11-23 03:49:58.807  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 85ms
+11-23 03:49:58.924  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 99ms
+11-23 03:49:59.013  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 87ms
+11-23 03:49:59.148  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 93ms
+11-23 03:49:59.235  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 80ms
+11-23 03:49:59.309  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 72ms
+11-23 03:49:59.377  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 67ms
+11-23 03:49:59.454  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 76ms
+11-23 03:49:59.515  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 58ms
+11-23 03:49:59.581  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 65ms
+11-23 03:49:59.648  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 64ms
+11-23 03:49:59.712  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 62ms
+11-23 03:49:59.772  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 58ms
+11-23 03:49:59.835  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 62ms
+11-23 03:49:59.899  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 62ms
+11-23 03:49:59.966  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 66ms
+11-23 03:50:00.029  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 62ms
+11-23 03:50:00.097  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 65ms
+11-23 03:50:00.166  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 68ms
+11-23 03:50:00.228  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 60ms
+11-23 03:50:00.291  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 62ms
+11-23 03:50:00.360  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 68ms
+11-23 03:50:00.423  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 61ms
+11-23 03:50:00.489  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 64ms
+11-23 03:50:00.559  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 69ms
+11-23 03:50:00.629  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 67ms
+11-23 03:50:00.693  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 62ms
+11-23 03:50:00.758  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 64ms
+11-23 03:50:00.820  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 60ms
+11-23 03:50:00.883  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 62ms
+11-23 03:50:00.947  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 62ms
+11-23 03:50:01.007  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 56ms
+11-23 03:50:01.075  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 66ms
+11-23 03:50:01.134  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 58ms
+11-23 03:50:01.206  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 69ms
+11-23 03:50:01.268  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 61ms
+11-23 03:50:01.329  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 58ms
+11-23 03:50:01.401  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 71ms
+11-23 03:50:01.462  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 59ms
+11-23 03:50:01.521  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 58ms
+11-23 03:50:01.585  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 63ms
+11-23 03:50:01.646  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 59ms
+11-23 03:50:01.712  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 64ms
+11-23 03:50:01.777  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 63ms
+11-23 03:50:01.840  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 60ms
+11-23 03:50:01.903  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 62ms
+11-23 03:50:01.970  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 65ms
+11-23 03:50:02.033  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 61ms
+11-23 03:50:02.094  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 60ms
+11-23 03:50:02.160  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 64ms
+11-23 03:50:02.220  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 58ms
+11-23 03:50:02.280  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 59ms
+11-23 03:50:02.345  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 61ms
+11-23 03:50:02.412  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 65ms
+11-23 03:50:02.475  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 60ms
+11-23 03:50:02.540  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 64ms
+11-23 03:50:02.609  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 67ms
+11-23 03:50:02.669  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 58ms
+11-23 03:50:02.732  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 62ms
+11-23 03:50:02.794  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 61ms
+11-23 03:50:02.860  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 65ms
+11-23 03:50:02.928  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 66ms
+11-23 03:50:03.007  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 78ms
+11-23 03:50:03.085  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 72ms
+11-23 03:50:03.302  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 208ms
+11-23 03:50:03.493  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=1 clean=false 161ms
+11-23 03:50:03.622  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 117ms
+11-23 03:50:03.826  3676  6264 I IphonMuslim: face 171px female=0.98
+11-23 03:50:03.837  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=0 clean=false 207ms
+11-23 03:50:03.904  3676  6264 I IphonMuslim: face 162px female=0.98
+11-23 03:50:03.913  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=0 clean=false 75ms
+11-23 03:50:04.130  3676  6264 I IphonMuslim: face 162px female=0.98
+11-23 03:50:04.137  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=0 clean=false 79ms
+11-23 03:50:09.892  3676  6264 I IphonMuslim: face 162px female=0.98
+11-23 03:50:09.901  3676  6264 I IphonMuslim: frame 432x864 faces=1 women=0 covers=0 clean=false 273ms
+11-23 03:50:09.987  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 75ms
+11-23 03:50:10.038  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 49ms
+11-23 03:50:11.193  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 52ms
+11-23 03:50:11.352  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 121ms
+11-23 03:50:11.494  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 136ms
+11-23 03:50:11.569  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 74ms
+11-23 03:50:11.634  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 63ms
+11-23 03:50:11.808  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 52ms
+11-23 03:50:11.858  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 49ms
+11-23 03:50:12.757  3676  3676 I IphonMuslim: accessibility connected
+11-23 03:50:12.843  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 68ms
+11-23 03:50:12.897  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 53ms
+11-23 03:50:13.758  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 103ms
+11-23 03:50:13.823  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 63ms
+11-23 03:50:13.881  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 54ms
+11-23 03:50:14.825  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 53ms
+11-23 03:50:14.879  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 52ms
+11-23 03:50:15.770  3676  3676 I IphonMuslim: accessibility connected
+11-23 03:50:15.850  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 59ms
+11-23 03:50:15.906  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 54ms
+11-23 03:50:16.889  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 210ms
+11-23 03:50:16.985  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 90ms
+11-23 03:50:17.033  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 47ms
+11-23 03:50:18.532  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 151ms
+11-23 03:50:18.686  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 151ms
+11-23 03:50:18.767  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 77ms
+11-23 03:50:18.892  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 73ms
+11-23 03:50:19.072  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 61ms
+11-23 03:50:19.134  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 57ms
+11-23 03:50:20.003  3676  3676 I IphonMuslim: accessibility connected
+11-23 03:50:20.095  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 68ms
+11-23 03:50:20.150  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 52ms
+11-23 03:50:21.191  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 145ms
+11-23 03:50:21.264  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 71ms
+11-23 03:50:21.349  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 47ms
+11-23 03:50:22.675  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 49ms
+11-23 03:50:22.863  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 153ms
+11-23 03:50:23.011  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 119ms
+11-23 03:50:23.072  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 58ms
+11-23 03:50:23.131  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 58ms
+11-23 03:50:24.355  3676  6264 I IphonMuslim: frame 432x864 faces=0 women=0 covers=0 clean=false 47ms
