@@ -40,5 +40,5 @@
     <string name="btn_agree">I agree</string>
     <string name="btn_decline">No thanks</string>
     <string name="privacy_link">Privacy policy</string>
-    <string name="about_credits">The man/woman recognition model was trained by «БИХОН» on the FairFace dataset (Kärkkäinen & Joo, CC BY 4.0).</string>
+    <string name="about_credits">The man/woman recognition model was trained by «БИХОН» on the FairFace dataset (Kärkkäinen &amp; Joo, CC BY 4.0).</string>
 </resources>

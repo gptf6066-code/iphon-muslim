@@ -1,0 +1,4 @@
+gender_ff.onnx — Muslim Shield gender classifier (MobileNetV3-Large, torchvision ImageNet weights, BSD-3-Clause).
+Trained by BIKHON on the FairFace dataset: K. Kärkkäinen and J. Joo, "FairFace: Face Attribute Dataset for
+Balanced Race, Gender, and Age", WACV 2021. https://github.com/joojs/fairface — licensed CC BY 4.0.
+FairFace validation accuracy (gender): 93.1%.

@@ -40,5 +40,5 @@
     <string name="btn_agree">Согласен</string>
     <string name="btn_decline">Нет, спасибо</string>
     <string name="privacy_link">Политика конфиденциальности</string>
-    <string name="about_credits">Модель распознавания мужчин и женщин обучена «БИХОН» на наборе FairFace (Kärkkäinen & Joo, лицензия CC BY 4.0).</string>
+    <string name="about_credits">Модель распознавания мужчин и женщин обучена «БИХОН» на наборе FairFace (Kärkkäinen &amp; Joo, лицензия CC BY 4.0).</string>
 </resources>

@@ -40,5 +40,5 @@
     <string name="btn_agree">Розӣ ҳастам</string>
     <string name="btn_decline">Не, ташаккур</string>
     <string name="privacy_link">Сиёсати махфият</string>
-    <string name="about_credits">Модели шинохтани зан ва мардро «БИХОН» бо маҷмӯаи FairFace (Kärkkäinen & Joo, литсензияи CC BY 4.0) таълим додааст.</string>
+    <string name="about_credits">Модели шинохтани зан ва мардро «БИХОН» бо маҷмӯаи FairFace (Kärkkäinen &amp; Joo, литсензияи CC BY 4.0) таълим додааст.</string>
 </resources>
